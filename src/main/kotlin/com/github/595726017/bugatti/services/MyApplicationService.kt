@@ -1,6 +1,6 @@
-package org.jetbrains.plugins.template.services
+package com.github.595726017.bugatti.services
 
-import org.jetbrains.plugins.template.MyBundle
+import com.github.595726017.bugatti.MyBundle
 
 class MyApplicationService {
 

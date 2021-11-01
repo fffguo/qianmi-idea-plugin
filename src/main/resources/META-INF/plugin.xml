@@ -1,18 +1,55 @@
 <!-- Plugin Configuration File. Read more: https://plugins.jetbrains.com/docs/intellij/plugin-configuration-file.html -->
 <idea-plugin>
-    <id>com.github.595726017.bugatti</id>
-    <name>bugatti</name>
-    <vendor>595726017</vendor>
+    <id>com.github.qianmi</id>
+    <name>Qianmi</name>
+    <vendor>OF3581-lfg</vendor>
 
     <depends>com.intellij.modules.platform</depends>
+    <depends>com.jetbrains.sh</depends>
+    <depends>org.jetbrains.plugins.terminal</depends>
+<!--    <depends>com.intellij.modules.xml</depends>-->
+<!--    <depends>com.intellij.modules.vcs</depends>-->
+<!--    <depends>com.intellij.modules.ultimate</depends>-->
+<!--    <depends>com.intellij.modules.ssh</depends>-->
+<!--    <depends optional="true">intellij.webDeployment/phpStorm</depends>-->
+
 
     <extensions defaultExtensionNs="com.intellij">
-        <applicationService serviceImplementation="com.github.595726017.bugatti.services.MyApplicationService"/>
-        <projectService serviceImplementation="com.github.595726017.bugatti.services.MyProjectService"/>
+        <applicationService serviceImplementation="com.github.qianmi.services.MyApplicationService"/>
+        <projectService serviceImplementation="com.github.qianmi.services.MyProjectService"/>
     </extensions>
 
     <applicationListeners>
-        <listener class="com.github.595726017.bugatti.listeners.MyProjectManagerListener"
+        <listener class="com.github.qianmi.listeners.MyProjectManagerListener"
                   topic="com.intellij.openapi.project.ProjectManagerListener"/>
     </applicationListeners>
+    <actions>
+        <group id="com.github.qianmi.action.QianmiActionGroup" class="com.github.qianmi.action.QianmiActionGroup"
+               text="Qianmi"
+               popup="true"
+               description="Qianmi group">
+            <add-to-group group-id="EditorPopupMenu" anchor="first"/>
+
+            <action id="com.github.qianmi.action.BugattiAction"
+                    class="com.github.qianmi.action.BugattiAction"
+                    text="Show Bugatti" description="Qianmi bugatti idea plugin">
+            </action>
+
+            <action id="com.github.qianmi.action.ShellAction" class="com.github.qianmi.action.ShellAction"
+                    text="Show Shell" description="Qianmi shell idea plugin"/>
+
+            <action id="com.github.qianmi.action.GitlabAction"
+                    class="com.github.qianmi.action.GitlabAction"
+                    text="Show Gitlab" description="Qianmi gitlab idea plugin"/>
+
+            <action id="com.github.qianmi.action.EsAction" class="com.github.qianmi.action.EsAction"
+                    text="Show ElasticSearch" description="Qianmi elasticSearch idea plugin"/>
+
+            <action id="com.github.qianmi.action.DubboAdminAction"
+                    class="com.github.qianmi.action.DubboAdminAction" text="Show Dubbo Admin"
+                    description="Qianmi dubbo admin idea plugin"/>
+        </group>
+
+
+    </actions>
 </idea-plugin>

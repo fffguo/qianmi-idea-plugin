@@ -14,6 +14,7 @@ plugins {
     id("org.jetbrains.changelog") version "1.3.0"
     // Gradle Qodana Plugin
     id("org.jetbrains.qodana") version "0.1.12"
+
 }
 
 group = properties("pluginGroup")
@@ -21,6 +22,9 @@ version = properties("pluginVersion")
 
 // Configure project's dependencies
 repositories {
+    maven {
+        setUrl("https://maven.aliyun.com/repository/central")
+    }
     mavenCentral()
 }
 

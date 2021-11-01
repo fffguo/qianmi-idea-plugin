@@ -1,6 +1,6 @@
-package com.github.595726017.bugatti.services
+package com.github.qianmi.services
 
-import com.github.595726017.bugatti.MyBundle
+import com.github.qianmi.MyBundle
 
 class MyApplicationService {
 

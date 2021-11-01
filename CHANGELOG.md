@@ -1,6 +1,6 @@
 <!-- Keep a Changelog guide -> https://keepachangelog.com -->
 
-# bugatti Changelog
+# qianmi-idea-plug Changelog
 
 ## [Unreleased]
 ### Added

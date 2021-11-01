@@ -1,9 +1,9 @@
-package com.github.595726017.bugatti.listeners
+package com.github.qianmi.listeners
 
 import com.intellij.openapi.components.service
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.project.ProjectManagerListener
-import com.github.595726017.bugatti.services.MyProjectService
+import com.github.qianmi.services.MyProjectService
 
 internal class MyProjectManagerListener : ProjectManagerListener {
 

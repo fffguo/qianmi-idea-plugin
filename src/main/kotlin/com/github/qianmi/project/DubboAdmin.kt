@@ -4,12 +4,23 @@ import com.github.qianmi.enums.DubboAdminEnum
 
 private const val formatUrl = "{domain}"
 
-interface DubboAdmin {
+class DubboAdmin {
+
+    /**
+     * 是否支持
+     */
+    var isSupport: Boolean = false
 
     /**
      * 类型：消费者/提供者
      */
-    val dubboType: DubboTypeEnum
+    var dubboType: DubboTypeEnum = DubboTypeEnum.CONSUMER
+
+    constructor()
+    constructor(isSupport: Boolean, dubboType: DubboTypeEnum) {
+        this.isSupport = isSupport
+        this.dubboType = dubboType
+    }
 
     /**
      * 获取 dubbo admin url

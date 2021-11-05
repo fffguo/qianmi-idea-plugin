@@ -1,39 +1,69 @@
 package com.github.qianmi.project
 
-private const val formatUrl = "ssh -p{port} {username}@{ip} || ofcard"
+import com.github.qianmi.config.EnvConfig
+import com.github.qianmi.config.ShellConfig
+import org.jetbrains.plugins.terminal.TerminalTabState
+import java.nio.charset.Charset
 
-interface Shell {
+//private const val formatUrl = "ssh -p{port} {username}@{ip}"
 
-    val isSupportShell: Boolean
+class Shell {
+
+    var isSupportShell: Boolean = false
 
     /**
      * ip 地址
      */
-    val shellIp: String
+    var shellIp: String = "172.21.4.55"
 
     /**
      * 用户名
      */
-    val shellUserName: String
+    var shellUserName: String = ShellConfig.username
 
     /**
      * 密码
      */
-    val shellPassword: String
+    var shellPassword: String = ShellConfig.password
 
     /**
      * 端口
      */
-    val shellPort: String
+    var shellPort: Int = ShellConfig.port
 
     /**
-     * 获取 sh 命令
+     * 工作路径
      */
-    fun getShellCommand(): String {
-        return formatUrl
-            .replace("{port}", shellPort)
-            .replace("{username}", shellUserName)
-            .replace("{ip}", shellIp)
+    var workingDirectory: String = ShellConfig.workingDirectory
+
+    constructor(isSupportShell: Boolean, shellIp: String, workingDirectory: String) {
+        this.isSupportShell = isSupportShell
+        this.shellIp = shellIp
+        this.workingDirectory = workingDirectory
+    }
+
+    constructor()
+
+
+//    /**
+//     * 获取 sh 命令
+//     */
+//    fun getShellCommand(): String {
+//        return formatUrl
+//            .replace("{port}", shellPort)
+//            .replace("{username}", shellUserName)
+//            .replace("{ip}", shellIp)
+//    }
+
+    fun buildTerminalTabState(): TerminalTabState {
+        val state = TerminalTabState()
+        state.myTabName = EnvConfig.getCurrentEnv().code + "：" + this.shellIp
+        state.myWorkingDirectory = this.workingDirectory
+        return state
+    }
+
+    fun getShellCharset(): Charset {
+        return Charset.forName("utf-8")
     }
 
 }

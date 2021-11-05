@@ -11,7 +11,10 @@ object ShellConfig {
     val password = MyBundle.getValue("shell.password")
 
     @JvmStatic
-    val port = MyBundle.getValue("shell.port")
+    val port: Int = Integer.valueOf(MyBundle.getValue("shell.port"))
+
+    @JvmStatic
+    val workingDirectory = "/home/tomcat"
 
 }
 

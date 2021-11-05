@@ -1,1 +1,1 @@
-rootProject.name = "qianmi-idea-plug"
+rootProject.name = "qianmi-idea-plugin"

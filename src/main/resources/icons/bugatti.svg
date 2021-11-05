@@ -1,4 +1,8 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="16px" height="16px" viewBox="0 0 2048 2048">
-	<circle fill-opacity="0.8" r="1024" cx="1024" cy="1024" fill="#3498db" style="stroke: rgb(41, 128, 185); stroke-width: 25.6px; stroke-opacity: 1;"></circle>
-	<g transform="scale(0.71)"><path fill-opacity="1" transform="translate(164.89, 2231.84) rotate(180) scale(-1, 1)" fill="#000000" d="M369 753v-587h239q176 0 251 61.5t75 202.5q0 186 -79 254.5t-247 68.5h-239zM369 1327v-410h235q146 0 211.5 56t65.5 141q0 113 -64.5 163t-212.5 50h-235zM166 1493h442q229 0 353 -99t124 -280q0 -97 -65.5 -176t-196.5 -99q147 -22 230.5 -125.5t83.5 -303.5 q0 -203 -133 -306.5t-396 -103.5h-442v1493z"></path><path fill-opacity="1" transform="translate(1397.8899999999999, 2231.84) rotate(180) scale(-1, 1)" fill="#000000" d="M47 1493h1139v-170h-467v-1323h-203v1323h-469v170z"></path></g>
+    <circle fill-opacity="0.8" r="896" cx="1024" cy="1024" fill="#284bd7"
+            style="stroke: rgb(248, 128, 89); stroke-width: 128px; stroke-opacity: 1;"></circle>
+    <g transform="scale(0.77)">
+        <path fill-opacity="0.8" transform="translate(696.32, 2068) rotate(180) scale(-1, 1)" fill="#0d0d0d"
+              d="M369 753v-587h239q176 0 251 61.5t75 202.5q0 186 -79 254.5t-247 68.5h-239zM369 1327v-410h235q146 0 211.5 56t65.5 141q0 113 -64.5 163t-212.5 50h-235zM166 1493h442q229 0 353 -99t124 -280q0 -97 -65.5 -176t-196.5 -99q147 -22 230.5 -125.5t83.5 -303.5 q0 -203 -133 -306.5t-396 -103.5h-442v1493z"></path>
+    </g>
 </svg>

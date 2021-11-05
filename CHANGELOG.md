@@ -1,6 +1,6 @@
 <!-- Keep a Changelog guide -> https://keepachangelog.com -->
 
-# qianmi-idea-plug Changelog
+# qianmi-idea-plugin Changelog
 
 ## [Unreleased]
 ### Added

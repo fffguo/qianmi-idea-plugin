@@ -4,17 +4,30 @@ import com.github.qianmi.config.GitlabConfig
 
 private const val formatUrl = "{domain}/{group}/{projectName}.git"
 
-interface Gitlab {
+class Gitlab {
+
+    /**
+     * 是否支持
+     */
+    var isSupport: Boolean = false
 
     /**
      * group
      */
-    val gitlabGroup: String
+    var gitlabGroup: String = "gcs"
 
     /**
      * 项目名称
      */
-    val gitlabProjectName: String
+    var gitlabProjectName: String = "purchase-wx-bff"
+
+    constructor(isSupport: Boolean, gitlabGroup: String, gitlabProjectName: String) {
+        this.isSupport = isSupport
+        this.gitlabGroup = gitlabGroup
+        this.gitlabProjectName = gitlabProjectName
+    }
+
+    constructor()
 
     /**
      * 获取bugatti url

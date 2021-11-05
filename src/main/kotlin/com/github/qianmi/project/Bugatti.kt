@@ -5,18 +5,31 @@ import com.github.qianmi.enums.BugattiEnum
 
 private const val formatUrl = "{domain}/#/list/{envCode}/info/{projectCode}?txt={projectName}"
 
-interface Bugatti {
+class Bugatti {
+
+    /**
+     * 是否支持
+     */
+    var isSupport: Boolean = false
 
     /**
      * 布加迪项目code
      */
-    val bugattiProjectCode: String
+    var bugattiProjectCode: String = "1403"
 
     /**
      * 布加迪项目名称
      */
-    val bugattiProjectName: String
+    var bugattiProjectName: String = "purchase_wx_bff"
 
+
+    constructor(isSupport: Boolean, bugattiProjectCode: String, bugattiProjectName: String) {
+        this.isSupport = isSupport
+        this.bugattiProjectCode = bugattiProjectCode
+        this.bugattiProjectName = bugattiProjectName
+    }
+
+    constructor()
 
     /**
      * 获取bugatti url

@@ -1,13 +1,13 @@
 package com.github.qianmi.listeners
 
+import com.github.qianmi.services.ShellConfigService
 import com.intellij.openapi.components.service
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.project.ProjectManagerListener
-import com.github.qianmi.services.MyProjectService
 
 internal class MyProjectManagerListener : ProjectManagerListener {
 
     override fun projectOpened(project: Project) {
-        project.service<MyProjectService>()
+        project.service<ShellConfigService>()
     }
 }

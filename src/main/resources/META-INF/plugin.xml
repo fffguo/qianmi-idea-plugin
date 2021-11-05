@@ -7,16 +7,12 @@
     <depends>com.intellij.modules.platform</depends>
     <depends>com.jetbrains.sh</depends>
     <depends>org.jetbrains.plugins.terminal</depends>
-<!--    <depends>com.intellij.modules.xml</depends>-->
-<!--    <depends>com.intellij.modules.vcs</depends>-->
-<!--    <depends>com.intellij.modules.ultimate</depends>-->
-<!--    <depends>com.intellij.modules.ssh</depends>-->
-<!--    <depends optional="true">intellij.webDeployment/phpStorm</depends>-->
-
+    <depends>com.jetbrains.plugins.webDeployment</depends>
+    <depends>org.jetbrains.plugins.remote-run</depends>
 
     <extensions defaultExtensionNs="com.intellij">
         <applicationService serviceImplementation="com.github.qianmi.services.MyApplicationService"/>
-        <projectService serviceImplementation="com.github.qianmi.services.MyProjectService"/>
+        <projectService serviceImplementation="com.github.qianmi.services.ShellConfigService"/>
     </extensions>
 
     <applicationListeners>
@@ -24,32 +20,47 @@
                   topic="com.intellij.openapi.project.ProjectManagerListener"/>
     </applicationListeners>
     <actions>
-        <group id="com.github.qianmi.action.QianmiActionGroup" class="com.github.qianmi.action.QianmiActionGroup"
-               text="Qianmi"
+        <group id="com.github.qianmi.group.QianmiActionGroup" class="com.github.qianmi.group.QianmiActionGroup"
+               icon="com.github.qianmi.util.QianmiIcons.qianmi"
                popup="true"
+               text="Qianmi"
                description="Qianmi group">
             <add-to-group group-id="EditorPopupMenu" anchor="first"/>
 
             <action id="com.github.qianmi.action.BugattiAction"
                     class="com.github.qianmi.action.BugattiAction"
+                    icon="com.github.qianmi.util.QianmiIcons.bugatti"
                     text="Show Bugatti" description="Qianmi bugatti idea plugin">
             </action>
 
-            <action id="com.github.qianmi.action.ShellAction" class="com.github.qianmi.action.ShellAction"
+            <action id="com.github.qianmi.action.ShellAction"
+                    class="com.github.qianmi.action.ShellAction"
+                    icon="com.github.qianmi.util.QianmiIcons.shell"
                     text="Show Shell" description="Qianmi shell idea plugin"/>
 
             <action id="com.github.qianmi.action.GitlabAction"
                     class="com.github.qianmi.action.GitlabAction"
+                    icon="com.github.qianmi.util.QianmiIcons.gitlab"
                     text="Show Gitlab" description="Qianmi gitlab idea plugin"/>
 
-            <action id="com.github.qianmi.action.EsAction" class="com.github.qianmi.action.EsAction"
-                    text="Show ElasticSearch" description="Qianmi elasticSearch idea plugin"/>
+            <action id="com.github.qianmi.action.EsBuilderAction"
+                    class="com.github.qianmi.action.EsBuilderAction"
+                    icon="com.github.qianmi.util.QianmiIcons.es"
+                    text="Show Es Builder"
+                    description="Qianmi Es Builder idea plugin"/>
 
             <action id="com.github.qianmi.action.DubboAdminAction"
-                    class="com.github.qianmi.action.DubboAdminAction" text="Show Dubbo Admin"
+                    class="com.github.qianmi.action.DubboAdminAction"
+                    icon="com.github.qianmi.util.QianmiIcons.es"
+                    text="Show Dubbo Admin"
                     description="Qianmi dubbo admin idea plugin"/>
         </group>
 
+
+        <action id="com.github.qianmi.action.env.EnvAction" class="com.github.qianmi.action.env.EnvAction"
+                text="Qianmi Env">
+            <add-to-group group-id="NavBarToolBar" anchor="first"/>
+        </action>
 
     </actions>
 </idea-plugin>

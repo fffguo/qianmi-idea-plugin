@@ -10,6 +10,6 @@ enum class BugattiEnum(val env: EnvEnum, val envCode: String) {
     TEST4(EnvEnum.TEST4, "24"),
     TEST5(EnvEnum.TEST5, "37"),
     DEV(EnvEnum.DEV, "12"),
-    PROD(EnvEnum.PROD, "11")
+    PROD(EnvEnum.PROD, "11");
 }
 

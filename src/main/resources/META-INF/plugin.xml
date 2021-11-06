@@ -5,14 +5,12 @@
     <vendor>OF3581-lfg</vendor>
 
     <depends>com.intellij.modules.platform</depends>
-    <depends>com.jetbrains.sh</depends>
-    <depends>org.jetbrains.plugins.terminal</depends>
-    <depends>com.jetbrains.plugins.webDeployment</depends>
     <depends>org.jetbrains.plugins.remote-run</depends>
 
     <extensions defaultExtensionNs="com.intellij">
-        <applicationService serviceImplementation="com.github.qianmi.services.MyApplicationService"/>
-        <projectService serviceImplementation="com.github.qianmi.services.ShellConfigService"/>
+        <projectService serviceImplementation="com.github.qianmi.services.ProjectInitService"/>
+        <projectService serviceImplementation="com.github.qianmi.services.DefaultConfigInitService"/>
+        <projectService serviceImplementation="com.github.qianmi.services.ShellInitService"/>
     </extensions>
 
     <applicationListeners>

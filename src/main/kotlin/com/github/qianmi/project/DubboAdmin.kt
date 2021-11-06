@@ -1,7 +1,5 @@
 package com.github.qianmi.project
 
-import com.github.qianmi.enums.DubboAdminEnum
-
 private const val formatUrl = "{domain}"
 
 class DubboAdmin {
@@ -9,27 +7,40 @@ class DubboAdmin {
     /**
      * 是否支持
      */
-    var isSupport: Boolean = false
+    var isSupport: Boolean
 
     /**
      * 类型：消费者/提供者
      */
-    var dubboType: DubboTypeEnum = DubboTypeEnum.CONSUMER
+    var dubboType: DubboTypeEnum
 
-    constructor()
-    constructor(isSupport: Boolean, dubboType: DubboTypeEnum) {
+    /**
+     * 域名
+     */
+    var domain: String
+
+    constructor(isSupport: Boolean, dubboType: DubboTypeEnum, domain: String) {
         this.isSupport = isSupport
         this.dubboType = dubboType
+        this.domain = domain
     }
+
+
+    companion object {
+        fun defaultDubboAdmin(): DubboAdmin {
+            return DubboAdmin(false, DubboTypeEnum.NONE, MyProject.env.dubboAdmin.domain)
+        }
+    }
+
 
     /**
      * 获取 dubbo admin url
      */
-    fun getDubboAdminUrl(env: DubboAdminEnum): String {
-        return formatUrl.replace("{domain}", env.domain)
+    fun getDubboAdminUrl(): String {
+        return formatUrl.replace("{domain}", domain)
     }
 
     enum class DubboTypeEnum {
-        PROVIDER, CONSUMER, ALL
+        PROVIDER, CONSUMER, ALL, NONE
     }
 }

@@ -17,6 +17,11 @@ plugins {
 
 }
 
+dependencies {
+    implementation("cn.hutool:hutool-http:5.7.15")
+    implementation("com.alibaba:fastjson:1.2.78")
+}
+
 group = properties("pluginGroup")
 version = properties("pluginVersion")
 

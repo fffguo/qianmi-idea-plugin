@@ -1,6 +1,6 @@
 package com.github.qianmi.action
 
-import com.github.qianmi.util.ProjectUtil
+import com.github.qianmi.project.MyProject
 import com.intellij.ide.BrowserUtil
 import com.intellij.openapi.actionSystem.AnAction
 import com.intellij.openapi.actionSystem.AnActionEvent
@@ -8,13 +8,11 @@ import com.intellij.openapi.actionSystem.AnActionEvent
 class GitlabAction : AnAction() {
 
     override fun actionPerformed(e: AnActionEvent) {
-        val gitlab = ProjectUtil.getProject(e).gitlab
-        BrowserUtil.open(gitlab.getGitlabUrl())
+        BrowserUtil.open(MyProject.gitlab.url)
     }
 
     override fun update(e: AnActionEvent) {
-        e.presentation.isEnabledAndVisible = ProjectUtil.getProject(e).gitlab.isSupport
-
+        e.presentation.isEnabledAndVisible = MyProject.gitlab.isSupport
     }
 
 

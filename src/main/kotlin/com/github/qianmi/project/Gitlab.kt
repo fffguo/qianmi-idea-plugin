@@ -1,7 +1,5 @@
 package com.github.qianmi.project
 
-import com.github.qianmi.config.GitlabConfig
-
 private const val formatUrl = "{domain}/{group}/{projectName}.git"
 
 class Gitlab {
@@ -9,34 +7,21 @@ class Gitlab {
     /**
      * 是否支持
      */
-    var isSupport: Boolean = false
+    var isSupport: Boolean
 
     /**
-     * group
+     * gitLab 地址
      */
-    var gitlabGroup: String = "gcs"
+    var url: String
 
-    /**
-     * 项目名称
-     */
-    var gitlabProjectName: String = "purchase-wx-bff"
-
-    constructor(isSupport: Boolean, gitlabGroup: String, gitlabProjectName: String) {
+    constructor(isSupport: Boolean, url: String) {
         this.isSupport = isSupport
-        this.gitlabGroup = gitlabGroup
-        this.gitlabProjectName = gitlabProjectName
+        this.url = url
     }
 
-    constructor()
-
-    /**
-     * 获取bugatti url
-     */
-    fun getGitlabUrl(): String {
-        return formatUrl
-            .replace("{domain}", GitlabConfig.domain)
-            .replace("{group}", gitlabGroup)
-            .replace("{projectName}", gitlabProjectName)
+    companion object {
+        fun defaultGitlab(): Gitlab {
+            return Gitlab(false, "")
+        }
     }
-
 }

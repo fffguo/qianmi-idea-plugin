@@ -1,69 +1,105 @@
 package com.github.qianmi.project
 
-import com.github.qianmi.config.EnvConfig
 import com.github.qianmi.config.ShellConfig
+import com.github.qianmi.services.vo.BugattiShellInfoResult
+import com.intellij.remote.AuthType
+import com.intellij.ssh.config.unified.SshConfig
+import com.intellij.ssh.ui.unified.SshUiData
 import org.jetbrains.plugins.terminal.TerminalTabState
 import java.nio.charset.Charset
+import java.util.*
 
 //private const val formatUrl = "ssh -p{port} {username}@{ip}"
 
 class Shell {
 
-    var isSupportShell: Boolean = false
+    var isSupportShell: Boolean
 
-    /**
-     * ip 地址
-     */
-    var shellIp: String = "172.21.4.55"
+    var eleList: List<Element>
 
-    /**
-     * 用户名
-     */
-    var shellUserName: String = ShellConfig.username
-
-    /**
-     * 密码
-     */
-    var shellPassword: String = ShellConfig.password
-
-    /**
-     * 端口
-     */
-    var shellPort: Int = ShellConfig.port
-
-    /**
-     * 工作路径
-     */
-    var workingDirectory: String = ShellConfig.workingDirectory
-
-    constructor(isSupportShell: Boolean, shellIp: String, workingDirectory: String) {
+    constructor(isSupportShell: Boolean, eleList: List<Element>) {
         this.isSupportShell = isSupportShell
-        this.shellIp = shellIp
-        this.workingDirectory = workingDirectory
+        this.eleList = eleList
     }
 
-    constructor()
 
-
-//    /**
-//     * 获取 sh 命令
-//     */
-//    fun getShellCommand(): String {
-//        return formatUrl
-//            .replace("{port}", shellPort)
-//            .replace("{username}", shellUserName)
-//            .replace("{ip}", shellIp)
-//    }
-
-    fun buildTerminalTabState(): TerminalTabState {
-        val state = TerminalTabState()
-        state.myTabName = EnvConfig.getCurrentEnv().code + "：" + this.shellIp
-        state.myWorkingDirectory = this.workingDirectory
-        return state
+    companion object {
+        fun defaultShell(): Shell {
+            return Shell(false, Collections.emptyList())
+        }
     }
+
 
     fun getShellCharset(): Charset {
         return Charset.forName("utf-8")
+    }
+
+    class Element {
+        /**
+         * ip 地址
+         */
+        var ip: String = "172.21.4.55"
+
+        /**
+         * 用户名
+         */
+        var userName: String = ShellConfig.username
+
+        /**
+         * 密码
+         */
+        var password: String = ShellConfig.password
+
+        /**
+         * 端口
+         */
+        var port: Int = ShellConfig.port
+
+        /**
+         * 工作路径
+         */
+        var workingDirectory: String = ShellConfig.workingDirectory
+
+        /**
+         * 分组名称
+         */
+        var group: String = "default"
+
+        /**
+         * 版本
+         */
+        var version: String = ""
+
+        fun buildTerminalTabState(): TerminalTabState {
+            val state = TerminalTabState()
+            state.myTabName = group + "：" + this.ip
+            state.myWorkingDirectory = this.workingDirectory
+            return state
+        }
+
+        fun createSshUiData(): SshUiData {
+            val password = SshConfig.AuthData.create(password, null, false, false)
+            val sshConfig = SshConfig.create(
+                true,
+                ip,
+                port,
+                userName,
+                AuthType.PASSWORD,
+                null
+            )
+            sshConfig.saveAuthDataToPasswordSafe(password)
+            return SshUiData(sshConfig)
+        }
+
+        companion object {
+            fun instanceOf(result: BugattiShellInfoResult): Element {
+                val element = Element()
+                element.ip = result.ip
+                element.group = result.group
+                element.version = result.version
+                return element
+            }
+        }
     }
 
 }

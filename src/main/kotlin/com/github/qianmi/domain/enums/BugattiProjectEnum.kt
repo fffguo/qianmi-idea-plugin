@@ -9,7 +9,7 @@ enum class BugattiProjectEnum(val projectName: String, val bugattiProjectCode: S
     NONE("NONE", ""),
     PLUG_DEMO("plugin-demo", "1403"),
     PURCHASE_WX_BFF("purchase-wx-bff", "1403"),
-    D2P_ADMIN_BFF("d2p-admin-bff", "598"),
+    D2P_ADMIN_BFF("d2p-admin-api", "598"),
     B2B_PURCHASE_MICRO_SERVICE("b2b-purchase-micro-service", "1497"),
     WECHAT_GATEWAY("wechat-gateway", "1483"),
     ACCT_CASHIER_NEW("acctcashier_new", "247"),

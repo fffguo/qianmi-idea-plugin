@@ -1,7 +1,7 @@
 package com.github.qianmi.services
 
-import com.github.qianmi.enums.BugattiProjectEnum
-import com.github.qianmi.project.MyProject
+import com.github.qianmi.domain.enums.BugattiProjectEnum
+import com.github.qianmi.domain.project.MyProject
 import com.intellij.openapi.project.Project
 
 

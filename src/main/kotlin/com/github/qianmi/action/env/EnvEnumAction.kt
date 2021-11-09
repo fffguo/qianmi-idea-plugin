@@ -1,7 +1,7 @@
 package com.github.qianmi.action.env
 
-import com.github.qianmi.enums.EnvEnum
-import com.github.qianmi.project.MyProject
+import com.github.qianmi.domain.enums.EnvEnum
+import com.github.qianmi.domain.project.MyProject
 import com.intellij.openapi.actionSystem.AnAction
 import com.intellij.openapi.actionSystem.AnActionEvent
 
@@ -14,6 +14,7 @@ class EnvEnumAction(var env: EnvEnum) : AnAction() {
         MyProject.env = env
         MyProject.dubboAdmin.domain = env.dubboAdmin.domain
         MyProject.bugatti.envCode = env.bugatti.envCode
+        MyProject.shell.isNeedSyncEle = true
     }
 
 }

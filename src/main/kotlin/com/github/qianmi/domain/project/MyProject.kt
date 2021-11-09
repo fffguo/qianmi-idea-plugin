@@ -1,6 +1,6 @@
-package com.github.qianmi.project
+package com.github.qianmi.domain.project
 
-import com.github.qianmi.enums.EnvEnum
+import com.github.qianmi.domain.enums.EnvEnum
 
 object MyProject {
 
@@ -33,4 +33,9 @@ object MyProject {
      * shell
      */
     var shell: Shell = Shell.defaultShell()
+
+    /**
+     * dubboInvoke
+     */
+    var dubboInvoke: DubboAdminInvoke = DubboAdminInvoke.defaultDubboAdminInvoke()
 }

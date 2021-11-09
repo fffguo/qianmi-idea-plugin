@@ -4,7 +4,7 @@ import cn.hutool.http.ContentType
 import cn.hutool.http.HttpUtil
 import com.alibaba.fastjson.JSONObject
 import com.github.qianmi.config.BugattiConfig
-import com.github.qianmi.project.MyProject
+import com.github.qianmi.domain.project.MyProject
 import com.github.qianmi.services.vo.BugattiProjectInfoResult
 import com.github.qianmi.util.StringUtil
 import com.intellij.openapi.project.Project

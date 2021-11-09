@@ -1,4 +1,4 @@
-package com.github.qianmi.enums
+package com.github.qianmi.domain.enums
 
 /**
  * 环境

@@ -1,31 +1,38 @@
-package com.github.qianmi.project
+package com.github.qianmi.domain.project
 
 import com.github.qianmi.config.ShellConfig
 import com.github.qianmi.services.vo.BugattiShellInfoResult
+import com.intellij.openapi.project.Project
 import com.intellij.remote.AuthType
 import com.intellij.ssh.config.unified.SshConfig
 import com.intellij.ssh.ui.unified.SshUiData
+import com.jetbrains.plugins.remotesdk.console.SshTerminalCachingRunner
 import org.jetbrains.plugins.terminal.TerminalTabState
+import org.jetbrains.plugins.terminal.TerminalView
 import java.nio.charset.Charset
 import java.util.*
 
-//private const val formatUrl = "ssh -p{port} {username}@{ip}"
+class Shell(
 
-class Shell {
+    /**
+     * 是否支持shell
+     */
+    var isSupportShell: Boolean,
 
-    var isSupportShell: Boolean
+    /**
+     * 是否需要同步节点
+     */
+    var isNeedSyncEle: Boolean,
 
-    var eleList: List<Element>
-
-    constructor(isSupportShell: Boolean, eleList: List<Element>) {
-        this.isSupportShell = isSupportShell
-        this.eleList = eleList
-    }
-
+    /**
+     * 节点列表
+     */
+    var eleList: List<Element>,
+) {
 
     companion object {
         fun defaultShell(): Shell {
-            return Shell(false, Collections.emptyList())
+            return Shell(isSupportShell = false, isNeedSyncEle = false, eleList = Collections.emptyList())
         }
     }
 
@@ -70,14 +77,30 @@ class Shell {
          */
         var version: String = ""
 
-        fun buildTerminalTabState(): TerminalTabState {
+        companion object {
+            fun instanceOf(result: BugattiShellInfoResult): Element {
+                val element = Element()
+                element.ip = result.ip
+                element.group = result.group
+                element.version = result.version
+                return element
+            }
+        }
+
+        fun openSshTerminal(project: Project) {
+            val runner = SshTerminalCachingRunner(project, createSshUiData(), Charset.defaultCharset())
+            //开启openssh
+            TerminalView.getInstance(project).createNewSession(runner, buildTerminalTabState())
+        }
+
+        private fun buildTerminalTabState(): TerminalTabState {
             val state = TerminalTabState()
             state.myTabName = group + "：" + this.ip
             state.myWorkingDirectory = this.workingDirectory
             return state
         }
 
-        fun createSshUiData(): SshUiData {
+        private fun createSshUiData(): SshUiData {
             val password = SshConfig.AuthData.create(password, null, false, false)
             val sshConfig = SshConfig.create(
                 true,
@@ -91,15 +114,6 @@ class Shell {
             return SshUiData(sshConfig)
         }
 
-        companion object {
-            fun instanceOf(result: BugattiShellInfoResult): Element {
-                val element = Element()
-                element.ip = result.ip
-                element.group = result.group
-                element.version = result.version
-                return element
-            }
-        }
     }
 
 }

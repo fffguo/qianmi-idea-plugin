@@ -5,6 +5,6 @@ import com.intellij.openapi.actionSystem.DefaultActionGroup
 /**
  * 千米 group，右键菜单
  */
-class QianmiActionGroup : DefaultActionGroup() {
+class QianmiToolGroup : DefaultActionGroup() {
 
 }

@@ -1,9 +1,10 @@
 <!-- Plugin Configuration File. Read more: https://plugins.jetbrains.com/docs/intellij/plugin-configuration-file.html -->
 <idea-plugin>
     <id>com.github.qianmi</id>
-    <name>Qianmi</name>
+    <name>Qianmi-Tools</name>
     <vendor>OF3581-lfg</vendor>
 
+    <depends>com.intellij.modules.java</depends>
     <depends>com.intellij.modules.platform</depends>
     <depends>org.jetbrains.plugins.remote-run</depends>
 
@@ -18,10 +19,12 @@
                   topic="com.intellij.openapi.project.ProjectManagerListener"/>
     </applicationListeners>
     <actions>
-        <group id="com.github.qianmi.group.QianmiActionGroup" class="com.github.qianmi.group.QianmiActionGroup"
+
+        <!-- 千米 超链接 -->
+        <group id="com.github.qianmi.group.QianmiLinkGroup" class="com.github.qianmi.group.QianmiLinkGroup"
                icon="com.github.qianmi.util.QianmiIcons.qianmi"
                popup="true"
-               text="Qianmi"
+               text="Qianmi Links"
                description="Qianmi group">
             <add-to-group group-id="EditorPopupMenu" anchor="first"/>
 
@@ -31,21 +34,10 @@
                     text="Show Bugatti" description="Qianmi bugatti idea plugin">
             </action>
 
-            <action id="com.github.qianmi.action.ShellAction"
-                    class="com.github.qianmi.action.ShellAction"
-                    icon="com.github.qianmi.util.QianmiIcons.shell"
-                    text="Show Shell" description="Qianmi shell idea plugin"/>
-
             <action id="com.github.qianmi.action.GitlabAction"
                     class="com.github.qianmi.action.GitlabAction"
                     icon="com.github.qianmi.util.QianmiIcons.gitlab"
                     text="Show Gitlab" description="Qianmi gitlab idea plugin"/>
-
-            <action id="com.github.qianmi.action.EsBuilderAction"
-                    class="com.github.qianmi.action.EsBuilderAction"
-                    icon="com.github.qianmi.util.QianmiIcons.es"
-                    text="Show Es Builder"
-                    description="Qianmi Es Builder idea plugin"/>
 
             <action id="com.github.qianmi.action.DubboAdminAction"
                     class="com.github.qianmi.action.DubboAdminAction"
@@ -54,7 +46,33 @@
                     description="Qianmi dubbo admin idea plugin"/>
         </group>
 
+        <!--千米 工具-->
+        <group id="com.github.qianmi.group.QianmiToolGroup" class="com.github.qianmi.group.QianmiToolGroup"
+               icon="com.github.qianmi.util.QianmiIcons.qianmi"
+               popup="true"
+               text="Qianmi Tools"
+               description="Qianmi group">
+            <add-to-group group-id="EditorPopupMenu" anchor="first"/>
 
+            <action id="com.github.qianmi.action.shell.ShellAction"
+                    class="com.github.qianmi.action.shell.ShellAction"
+                    icon="com.github.qianmi.util.QianmiIcons.shell"
+                    text="Show Shell" description="Qianmi shell idea plugin"/>
+
+            <action id="com.github.qianmi.action.EsBuilderAction"
+                    class="com.github.qianmi.action.EsBuilderAction"
+                    icon="com.github.qianmi.util.QianmiIcons.es"
+                    text="Show Es Builder"
+                    description="Qianmi Es Builder idea plugin"/>
+
+            <action id="com.github.qianmi.action.dubboinvoke.DubboInvokeAction"
+                    class="com.github.qianmi.action.dubboinvoke.DubboInvokeAction"
+                    icon="com.github.qianmi.util.QianmiIcons.es"
+                    text="Copy DubboInvoke Command"
+                    description="Qianmi Dubbo Invoke idea plugin"/>
+        </group>
+
+        <!--切换千米环境-->
         <action id="com.github.qianmi.action.env.EnvAction" class="com.github.qianmi.action.env.EnvAction"
                 text="Qianmi Env">
             <add-to-group group-id="NavBarToolBar" anchor="first"/>

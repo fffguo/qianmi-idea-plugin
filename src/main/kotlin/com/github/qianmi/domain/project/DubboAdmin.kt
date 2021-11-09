@@ -1,29 +1,21 @@
-package com.github.qianmi.project
+package com.github.qianmi.domain.project
 
 private const val formatUrl = "{domain}"
 
-class DubboAdmin {
-
+class DubboAdmin(
     /**
      * 是否支持
      */
-    var isSupport: Boolean
-
+    var isSupport: Boolean,
     /**
      * 类型：消费者/提供者
      */
-    var dubboType: DubboTypeEnum
-
+    var dubboType: DubboTypeEnum,
     /**
      * 域名
      */
-    var domain: String
-
-    constructor(isSupport: Boolean, dubboType: DubboTypeEnum, domain: String) {
-        this.isSupport = isSupport
-        this.dubboType = dubboType
-        this.domain = domain
-    }
+    var domain: String,
+) {
 
 
     companion object {

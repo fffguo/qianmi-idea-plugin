@@ -48,7 +48,7 @@ class ShellAction : AnAction() {
 
 
     override fun update(e: AnActionEvent) {
-        e.presentation.isEnabledAndVisible = MyProject.shell.isSupportShell
+        e.presentation.isEnabled = MyProject.shell.isSupportShell
     }
 
 

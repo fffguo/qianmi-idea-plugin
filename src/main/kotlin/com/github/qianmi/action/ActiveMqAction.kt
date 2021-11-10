@@ -12,7 +12,7 @@ class ActiveMqAction : AnAction() {
     }
 
     override fun update(e: AnActionEvent) {
-        e.presentation.isEnabledAndVisible = MyProject.activeMq.isSupport
+        e.presentation.isEnabled = MyProject.activeMq.isSupport
     }
 
 

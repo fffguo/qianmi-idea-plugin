@@ -8,11 +8,11 @@ import com.intellij.openapi.actionSystem.AnActionEvent
 class RocketMqAction : AnAction() {
 
     override fun actionPerformed(e: AnActionEvent) {
-        BrowserUtil.open(MyProject.rocketMq.getRocketMqUrl())
+        BrowserUtil.open(MyProject.rocketMq.url)
     }
 
     override fun update(e: AnActionEvent) {
-        e.presentation.isEnabledAndVisible = MyProject.rocketMq.isSupport
+        e.presentation.isEnabled = MyProject.rocketMq.isSupport
     }
 
 

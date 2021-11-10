@@ -12,7 +12,7 @@ class BugattiAction : AnAction() {
     }
 
     override fun update(e: AnActionEvent) {
-        e.presentation.isEnabledAndVisible = MyProject.bugatti.isSupport
+        e.presentation.isEnabled = MyProject.bugatti.isSupport
     }
 
 

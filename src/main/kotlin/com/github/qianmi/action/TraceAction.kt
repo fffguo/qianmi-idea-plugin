@@ -5,14 +5,14 @@ import com.intellij.ide.BrowserUtil
 import com.intellij.openapi.actionSystem.AnAction
 import com.intellij.openapi.actionSystem.AnActionEvent
 
-class GitlabAction : AnAction() {
+class TraceAction : AnAction() {
 
     override fun actionPerformed(e: AnActionEvent) {
-        BrowserUtil.open(MyProject.gitlab.url)
+        BrowserUtil.open(MyProject.trace.url)
     }
 
     override fun update(e: AnActionEvent) {
-        e.presentation.isEnabled = MyProject.gitlab.isSupport
+        e.presentation.isEnabled = MyProject.trace.isSupport
     }
 
 }

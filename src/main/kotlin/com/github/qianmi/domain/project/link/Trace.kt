@@ -2,7 +2,7 @@ package com.github.qianmi.domain.project.link
 
 import com.github.qianmi.domain.project.MyProject
 
-class RocketMq(
+class Trace(
     /**
      * 是否支持
      */
@@ -14,8 +14,8 @@ class RocketMq(
     var url: String,
 ) {
     companion object {
-        fun defaultRocketMq(): RocketMq {
-            return RocketMq(true, MyProject.env.rocketMq.url)
+        fun defaultTrace(): Trace {
+            return Trace(true, MyProject.env.trace.url)
         }
     }
 }

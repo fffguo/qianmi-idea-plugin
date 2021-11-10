@@ -18,6 +18,4 @@ class ActiveMq(
             return ActiveMq(true, MyProject.env.activeMq.url)
         }
     }
-
-
 }

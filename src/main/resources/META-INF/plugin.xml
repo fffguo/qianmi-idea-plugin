@@ -40,22 +40,24 @@
                     text="Gitlab">
             </action>
 
-            <action id="com.github.qianmi.action.DubboAdminAction"
-                    class="com.github.qianmi.action.DubboAdminAction"
-                    icon="com.github.qianmi.util.QianmiIcons.es"
+            <action id="com.github.qianmi.action.DubboAdminAction" class="com.github.qianmi.action.DubboAdminAction"
                     text="Dubbo Admin">
             </action>
 
-            <action id="com.github.qianmi.action.RocketMqAction"
-                    class="com.github.qianmi.action.RocketMqAction"
-                    icon="com.github.qianmi.util.QianmiIcons.es"
+            <action id="com.github.qianmi.action.RocketMqAction" class="com.github.qianmi.action.RocketMqAction"
                     text="Rocket MQ">
             </action>
 
-            <action id="com.github.qianmi.action.ActiveMqAction"
-                    class="com.github.qianmi.action.ActiveMqAction"
-                    icon="com.github.qianmi.util.QianmiIcons.es"
+            <action id="com.github.qianmi.action.ActiveMqAction" class="com.github.qianmi.action.ActiveMqAction"
                     text="Active MQ">
+            </action>
+
+            <action id="com.github.qianmi.action.GavinAction" class="com.github.qianmi.action.GavinAction"
+                    text="Gavin">
+            </action>
+
+            <action id="com.github.qianmi.action.TraceAction" class="com.github.qianmi.action.TraceAction"
+                    text="Trace">
             </action>
 
         </group>
@@ -82,7 +84,6 @@
 
             <action id="com.github.qianmi.action.dubboinvoke.DubboInvokeAction"
                     class="com.github.qianmi.action.dubboinvoke.DubboInvokeAction"
-                    icon="com.github.qianmi.util.QianmiIcons.es"
                     text="Copy DubboInvoke Command">
             </action>
 

@@ -12,7 +12,7 @@ class DubboAdminAction : AnAction() {
     }
 
     override fun update(e: AnActionEvent) {
-        e.presentation.isEnabledAndVisible = MyProject.dubboAdmin.isSupport
+        e.presentation.isEnabled = MyProject.dubboAdmin.isSupport
     }
 
 

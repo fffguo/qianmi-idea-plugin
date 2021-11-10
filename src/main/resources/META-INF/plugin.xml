@@ -8,16 +8,6 @@
     <depends>com.intellij.modules.platform</depends>
     <depends>org.jetbrains.plugins.remote-run</depends>
 
-    <description><![CDATA[
-   <a href="https://github.com/fffguo/qianmi-idea-plugin">GitHub</a>
-   <br/>
-   <br/>
-   <p> 仅供千米网使用的插件. <p>
-   <p> 1）提供跳转至bugatti、gitlab、wiki等内网基础设施.<p>
-   <p> 2）提供在终端中直联环境上linux节点 <p>
-   <p> 3）提供一个dubbo invoke命令生成小工具 <p>
-  ]]></description>
-
     <extensions defaultExtensionNs="com.intellij">
         <projectService serviceImplementation="com.github.qianmi.services.ProjectInitService"/>
         <projectService serviceImplementation="com.github.qianmi.services.DefaultConfigInitService"/>

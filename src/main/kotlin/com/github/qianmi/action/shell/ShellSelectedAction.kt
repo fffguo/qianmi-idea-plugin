@@ -1,6 +1,6 @@
 package com.github.qianmi.action.shell
 
-import com.github.qianmi.domain.project.Shell
+import com.github.qianmi.domain.project.tools.Shell
 import com.intellij.openapi.actionSystem.AnAction
 import com.intellij.openapi.actionSystem.AnActionEvent
 

@@ -12,7 +12,9 @@ class EnvEnumAction(var env: EnvEnum) : AnAction() {
 
     override fun actionPerformed(e: AnActionEvent) {
         MyProject.env = env
-        MyProject.dubboAdmin.domain = env.dubboAdmin.domain
+        MyProject.dubboAdmin.url = env.dubboAdmin.url
+        MyProject.rocketMq.url = env.rocketMq.url
+        MyProject.activeMq.url = env.activeMq.url
         MyProject.bugatti.envCode = env.bugatti.envCode
         MyProject.shell.isNeedSyncEle = true
     }

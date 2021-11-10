@@ -1,4 +1,4 @@
-package com.github.qianmi.domain.project
+package com.github.qianmi.domain.project.tools
 
 import com.github.qianmi.config.ShellConfig
 import com.github.qianmi.services.vo.BugattiShellInfoResult
@@ -45,7 +45,7 @@ class Shell(
         /**
          * ip 地址
          */
-        var ip: String = "172.21.4.55"
+        var ip: String = ""
 
         /**
          * 用户名

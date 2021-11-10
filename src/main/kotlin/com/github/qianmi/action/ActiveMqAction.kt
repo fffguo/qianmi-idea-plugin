@@ -5,14 +5,14 @@ import com.intellij.ide.BrowserUtil
 import com.intellij.openapi.actionSystem.AnAction
 import com.intellij.openapi.actionSystem.AnActionEvent
 
-class DubboAdminAction : AnAction() {
+class ActiveMqAction : AnAction() {
 
     override fun actionPerformed(e: AnActionEvent) {
-        BrowserUtil.open(MyProject.dubboAdmin.url)
+        BrowserUtil.open(MyProject.activeMq.url)
     }
 
     override fun update(e: AnActionEvent) {
-        e.presentation.isEnabledAndVisible = MyProject.dubboAdmin.isSupport
+        e.presentation.isEnabledAndVisible = MyProject.activeMq.isSupport
     }
 
 

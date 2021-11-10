@@ -15,5 +15,4 @@ class GitlabAction : AnAction() {
         e.presentation.isEnabledAndVisible = MyProject.gitlab.isSupport
     }
 
-
 }

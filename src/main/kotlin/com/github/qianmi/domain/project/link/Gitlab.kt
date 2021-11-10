@@ -1,6 +1,5 @@
-package com.github.qianmi.domain.project
+package com.github.qianmi.domain.project.link
 
-private const val formatUrl = "{domain}/{group}/{projectName}.git"
 
 class Gitlab(
     /**
@@ -12,7 +11,6 @@ class Gitlab(
      */
     var url: String,
 ) {
-
     companion object {
         fun defaultGitlab(): Gitlab {
             return Gitlab(false, "")

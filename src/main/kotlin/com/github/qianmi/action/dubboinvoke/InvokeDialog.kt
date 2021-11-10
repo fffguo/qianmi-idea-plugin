@@ -1,7 +1,7 @@
 package com.github.qianmi.action.dubboinvoke
 
 import com.alibaba.fastjson.JSONObject
-import com.github.qianmi.domain.project.DubboAdminInvoke
+import com.github.qianmi.domain.project.tools.DubboAdminInvoke
 import com.github.qianmi.util.JsonConverter
 import com.github.qianmi.util.JsonPrettyUtil
 import com.intellij.openapi.project.Project
@@ -23,7 +23,7 @@ import javax.swing.event.DocumentEvent
  * @author lfg
  * @version 1.0
  */
-class ArgumentDialog(var project: Project?, var psiMethod: PsiMethod) : DialogWrapper(project) {
+class InvokeDialog(var project: Project?, var psiMethod: PsiMethod) : DialogWrapper(project) {
 
     //默认宽度
     private var jTextColumns = 80
@@ -146,6 +146,5 @@ class ArgumentDialog(var project: Project?, var psiMethod: PsiMethod) : DialogWr
     class Arg(
         var psiParameter: PsiParameter,
         var jTextArea: JTextArea,
-    ) {
-    }
+    )
 }

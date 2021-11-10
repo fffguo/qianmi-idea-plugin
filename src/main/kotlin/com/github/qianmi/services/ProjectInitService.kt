@@ -14,6 +14,5 @@ class ProjectInitService(project: Project) {
             MyProject.bugatti.isSupport = true
             MyProject.bugatti.projectCode = bugattiProjectEnum.bugattiProjectCode
         }
-        MyProject.dubboAdmin.isSupport = true
     }
 }

@@ -31,45 +31,61 @@
             <action id="com.github.qianmi.action.BugattiAction"
                     class="com.github.qianmi.action.BugattiAction"
                     icon="com.github.qianmi.util.QianmiIcons.bugatti"
-                    text="Show Bugatti" description="Qianmi bugatti idea plugin">
+                    text="Bugatti">
             </action>
 
             <action id="com.github.qianmi.action.GitlabAction"
                     class="com.github.qianmi.action.GitlabAction"
                     icon="com.github.qianmi.util.QianmiIcons.gitlab"
-                    text="Show Gitlab" description="Qianmi gitlab idea plugin"/>
+                    text="Gitlab">
+            </action>
 
             <action id="com.github.qianmi.action.DubboAdminAction"
                     class="com.github.qianmi.action.DubboAdminAction"
                     icon="com.github.qianmi.util.QianmiIcons.es"
-                    text="Show Dubbo Admin"
-                    description="Qianmi dubbo admin idea plugin"/>
+                    text="Dubbo Admin">
+            </action>
+
+            <action id="com.github.qianmi.action.RocketMqAction"
+                    class="com.github.qianmi.action.RocketMqAction"
+                    icon="com.github.qianmi.util.QianmiIcons.es"
+                    text="Rocket MQ">
+            </action>
+
+            <action id="com.github.qianmi.action.ActiveMqAction"
+                    class="com.github.qianmi.action.ActiveMqAction"
+                    icon="com.github.qianmi.util.QianmiIcons.es"
+                    text="Active MQ">
+            </action>
+
         </group>
 
         <!--千米 工具-->
         <group id="com.github.qianmi.group.QianmiToolGroup" class="com.github.qianmi.group.QianmiToolGroup"
                icon="com.github.qianmi.util.QianmiIcons.qianmi"
                popup="true"
-               text="Qianmi Tools"
-               description="Qianmi group">
+               text="Qianmi Tools">
+
             <add-to-group group-id="EditorPopupMenu" anchor="first"/>
 
             <action id="com.github.qianmi.action.shell.ShellAction"
                     class="com.github.qianmi.action.shell.ShellAction"
                     icon="com.github.qianmi.util.QianmiIcons.shell"
-                    text="Show Shell" description="Qianmi shell idea plugin"/>
+                    text="Shell Terminal">
+            </action>
 
             <action id="com.github.qianmi.action.EsBuilderAction"
                     class="com.github.qianmi.action.EsBuilderAction"
                     icon="com.github.qianmi.util.QianmiIcons.es"
-                    text="Show Es Builder"
-                    description="Qianmi Es Builder idea plugin"/>
+                    text="Es Builder">
+            </action>
 
             <action id="com.github.qianmi.action.dubboinvoke.DubboInvokeAction"
                     class="com.github.qianmi.action.dubboinvoke.DubboInvokeAction"
                     icon="com.github.qianmi.util.QianmiIcons.es"
-                    text="Copy DubboInvoke Command"
-                    description="Qianmi Dubbo Invoke idea plugin"/>
+                    text="Copy DubboInvoke Command">
+            </action>
+
         </group>
 
         <!--切换千米环境-->

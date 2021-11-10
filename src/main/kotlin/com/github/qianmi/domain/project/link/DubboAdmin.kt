@@ -1,6 +1,6 @@
-package com.github.qianmi.domain.project
+package com.github.qianmi.domain.project.link
 
-private const val formatUrl = "{domain}"
+import com.github.qianmi.domain.project.MyProject
 
 class DubboAdmin(
     /**
@@ -12,24 +12,16 @@ class DubboAdmin(
      */
     var dubboType: DubboTypeEnum,
     /**
-     * 域名
+     * 地址
      */
-    var domain: String,
+    var url: String,
 ) {
 
 
     companion object {
         fun defaultDubboAdmin(): DubboAdmin {
-            return DubboAdmin(false, DubboTypeEnum.NONE, MyProject.env.dubboAdmin.domain)
+            return DubboAdmin(true, DubboTypeEnum.NONE, MyProject.env.dubboAdmin.url)
         }
-    }
-
-
-    /**
-     * 获取 dubbo admin url
-     */
-    fun getDubboAdminUrl(): String {
-        return formatUrl.replace("{domain}", domain)
     }
 
     enum class DubboTypeEnum {

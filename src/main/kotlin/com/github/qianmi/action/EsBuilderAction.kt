@@ -14,7 +14,6 @@ class EsBuilderAction : AnAction() {
 
     override fun update(e: AnActionEvent) {
         e.presentation.isVisible = false
-
     }
 
 

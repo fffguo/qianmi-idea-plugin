@@ -1,8 +1,8 @@
-package com.github.qianmi.domain.project
+package com.github.qianmi.domain.project.link
 
 import com.github.qianmi.config.BugattiConfig
+import com.github.qianmi.domain.project.MyProject
 
-private const val formatUrl = "{domain}/#/list/{envCode}/info/{projectCode}?txt={projectName}"
 
 class Bugatti(
     /**
@@ -29,6 +29,9 @@ class Bugatti(
 
 
     companion object {
+
+        private const val formatUrl = "{domain}/#/list/{envCode}/info/{projectCode}?txt={projectName}"
+
         fun defaultBugatti(): Bugatti {
             return Bugatti(false, "", "", MyProject.env.bugatti.envCode, "")
         }

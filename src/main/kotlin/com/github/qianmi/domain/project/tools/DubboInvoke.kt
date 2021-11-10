@@ -1,13 +1,12 @@
-package com.github.qianmi.domain.project
+package com.github.qianmi.domain.project.tools
 
 import com.alibaba.fastjson.JSONObject
-import com.github.qianmi.action.dubboinvoke.ArgumentDialog
+import com.github.qianmi.action.dubboinvoke.InvokeDialog
 import com.github.qianmi.util.MyPSIUtils
 import com.intellij.psi.PsiMethod
 import org.apache.commons.io.FilenameUtils
 import java.util.stream.Collectors
 
-private const val formatUrl = "invoke {packageName}.{className}.{methodName} ({argJson})"
 
 class DubboAdminInvoke(
     /**
@@ -16,13 +15,14 @@ class DubboAdminInvoke(
     var isSupport: Boolean,
 ) {
 
-
     companion object {
         fun defaultDubboAdminInvoke(): DubboAdminInvoke {
-            return DubboAdminInvoke(false)
+            return DubboAdminInvoke(true)
         }
 
-        fun getInvokeCommand(methodPsi: PsiMethod, argList: Map<String, ArgumentDialog.Arg>): String {
+        private const val formatUrl = "invoke {packageName}.{className}.{methodName} ({argJson})"
+
+        fun getInvokeCommand(methodPsi: PsiMethod, argList: Map<String, InvokeDialog.Arg>): String {
             val psiJavaFile = MyPSIUtils.getContainingPsiJavaFile(methodPsi)
             return formatUrl
                 .replace("{packageName}", psiJavaFile.packageName)

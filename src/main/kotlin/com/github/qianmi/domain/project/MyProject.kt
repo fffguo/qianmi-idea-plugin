@@ -1,6 +1,9 @@
 package com.github.qianmi.domain.project
 
 import com.github.qianmi.domain.enums.EnvEnum
+import com.github.qianmi.domain.project.link.*
+import com.github.qianmi.domain.project.tools.DubboAdminInvoke
+import com.github.qianmi.domain.project.tools.Shell
 
 object MyProject {
 
@@ -38,4 +41,14 @@ object MyProject {
      * dubboInvoke
      */
     var dubboInvoke: DubboAdminInvoke = DubboAdminInvoke.defaultDubboAdminInvoke()
+
+    /**
+     * rocketMq
+     */
+    var rocketMq: RocketMq = RocketMq.defaultRocketMq()
+
+    /**
+     * activeMq
+     */
+    var activeMq: ActiveMq = ActiveMq.defaultActiveMq()
 }

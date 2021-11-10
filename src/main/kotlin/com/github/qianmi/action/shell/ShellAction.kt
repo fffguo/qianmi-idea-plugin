@@ -26,12 +26,11 @@ class ShellAction : AnAction() {
                 return
             }
         }
-        val formatStr = "%s: %s(%s)"
         val actionList = eleList.stream()
             .map { ele -> ShellSelectedAction(ele) }
             .peek { action ->
                 action.templatePresentation.text =
-                    String.format(formatStr, action.ele.group, action.ele.ip, action.ele.version)
+                    String.format("%s: %s(%s)", action.ele.group, action.ele.ip, action.ele.version)
             }
             .collect(Collectors.toList())
         //创建popup

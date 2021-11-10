@@ -2,6 +2,9 @@ package com.github.qianmi.domain.project
 
 import com.github.qianmi.domain.enums.EnvEnum
 import com.github.qianmi.domain.project.link.*
+import com.github.qianmi.domain.project.link.console.ConsoleOfD2pMc
+import com.github.qianmi.domain.project.link.console.ConsoleOfOms
+import com.github.qianmi.domain.project.link.console.ConsoleOfPc
 import com.github.qianmi.domain.project.tools.DubboAdminInvoke
 import com.github.qianmi.domain.project.tools.Shell
 
@@ -31,4 +34,7 @@ object MyProject {
     var mongoDBManager: MongoDBManager = MongoDBManager.defaultMongoDBManager()
     var wiki: Wiki = Wiki.defaultWiki()
     var gitBook: GitBook = GitBook.defaultGitBook()
+    var consoleOfD2pMc: ConsoleOfD2pMc = ConsoleOfD2pMc.defaultConsoleOfD2pMc()
+    var consoleOfOms: ConsoleOfOms = ConsoleOfOms.defaultConsoleOfOms()
+    var consoleOfPc: ConsoleOfPc = ConsoleOfPc.defaultConsoleOfPc()
 }

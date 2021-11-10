@@ -43,6 +43,18 @@ class EnvEnumAction(var env: EnvEnum) : AnAction() {
         MyProject.qianmiAdmin.isSupport = StringUtil.isNotBlank(env.qianmiAdmin.url)
         MyProject.qianmiAdmin.url = env.qianmiAdmin.url
 
+        //console d2p mc
+        MyProject.consoleOfD2pMc.isSupport = StringUtil.isNotBlank(env.consoleOfD2pMc.url)
+        MyProject.consoleOfD2pMc.url = env.consoleOfD2pMc.url
+
+        //console pc
+        MyProject.consoleOfPc.isSupport = StringUtil.isNotBlank(env.consoleOfPc.url)
+        MyProject.consoleOfPc.url = env.consoleOfPc.url
+
+        //console oms
+        MyProject.consoleOfOms.isSupport = StringUtil.isNotBlank(env.consoleOfOms.url)
+        MyProject.consoleOfOms.url = env.consoleOfOms.url
+
     }
 
 }

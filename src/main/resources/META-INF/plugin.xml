@@ -30,13 +30,11 @@
 
             <action id="com.github.qianmi.action.BugattiAction"
                     class="com.github.qianmi.action.BugattiAction"
-                    icon="com.github.qianmi.util.QianmiIcons.bugatti"
                     text="Bugatti">
             </action>
 
             <action id="com.github.qianmi.action.GitlabAction"
                     class="com.github.qianmi.action.GitlabAction"
-                    icon="com.github.qianmi.util.QianmiIcons.gitlab"
                     text="Gitlab">
             </action>
 
@@ -79,6 +77,21 @@
 
             <action id="com.github.qianmi.action.GitBookAction" class="com.github.qianmi.action.GitBookAction"
                     text="Git Book">
+            </action>
+
+            <action id="com.github.qianmi.action.console.ConsoleOfD2pMcAction"
+                    class="com.github.qianmi.action.console.ConsoleOfD2pMcAction"
+                    text="Console D2P MC">
+            </action>
+
+            <action id="com.github.qianmi.action.console.ConsoleOfOmsAction"
+                    class="com.github.qianmi.action.console.ConsoleOfOmsAction"
+                    text="Console OMS">
+            </action>
+
+            <action id="com.github.qianmi.action.console.ConsoleOfPcAction"
+                    class="com.github.qianmi.action.console.ConsoleOfPcAction"
+                    text="Console PC">
             </action>
 
         </group>

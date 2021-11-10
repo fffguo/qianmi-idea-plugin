@@ -2,9 +2,9 @@
 
 # qianmi-idea-plugin Changelog
 
-## [Unreleased]
+## [千米网]
 
-### Added
+### 功能
 
 - Shell：支持根据项目和环境，直接在终端连接对应节点
 - DubboInvoke：支持根据选中方法，构建 Dubbo invoke 命令

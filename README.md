@@ -4,30 +4,13 @@
 [![Version](https://img.shields.io/jetbrains/plugin/v/PLUGIN_ID.svg)](https://plugins.jetbrains.com/plugin/PLUGIN_ID)
 [![Downloads](https://img.shields.io/jetbrains/plugin/d/PLUGIN_ID.svg)](https://plugins.jetbrains.com/plugin/PLUGIN_ID)
 
-## Template ToDo list
-- [x] Create a new [IntelliJ Platform Plugin Template][template] project.
-- [ ] Get known with the [template documentation][template].
-- [ ] Verify the [pluginGroup](/gradle.properties), [plugin ID](/src/main/resources/META-INF/plugin.xml) and [sources package](/src/main/kotlin).
-- [ ] Review the [Legal Agreements](https://plugins.jetbrains.com/docs/marketplace/legal-agreements.html).
-- [ ] [Publish a plugin manually](https://plugins.jetbrains.com/docs/intellij/publishing-plugin.html?from=IJPluginTemplate) for the first time.
-- [ ] Set the Plugin ID in the above README badges.
-- [ ] Set the [Deployment Token](https://plugins.jetbrains.com/docs/marketplace/plugin-upload.html).
-- [ ] Click the <kbd>Watch</kbd> button on the top of the [IntelliJ Platform Plugin Template][template] to be notified about releases containing new features and fixes.
-
-<!-- Plugin description -->
-This Fancy IntelliJ Platform Plugin is going to be your implementation of the brilliant ideas that you have.
-
-This specific section is a source for the [plugin.xml](/src/main/resources/META-INF/plugin.xml) file which will be extracted by the [Gradle](/build.gradle.kts) during the build process.
-
-To keep everything working, do not remove `<!-- ... -->` sections. 
-<!-- Plugin description end -->
 
 ## Installation
 
 - Using IDE built-in plugin system:
 
   <kbd>Settings/Preferences</kbd> > <kbd>Plugins</kbd> > <kbd>Marketplace</kbd> > <kbd>Search for "
-  qianmi-idea-plugin"</kbd> >
+  Qianmi-Tools"</kbd> >
   <kbd>Install Plugin</kbd>
 
 - Manually:
@@ -36,8 +19,27 @@ To keep everything working, do not remove `<!-- ... -->` sections.
   using
   <kbd>Settings/Preferences</kbd> > <kbd>Plugins</kbd> > <kbd>⚙️</kbd> > <kbd>Install plugin from disk...</kbd>
 
-
 ---
 Plugin based on the [IntelliJ Platform Plugin Template][template].
 
 [template]: https://github.com/JetBrains/intellij-platform-plugin-template
+
+### 功能
+
+- Shell：支持根据项目和环境，直接在终端连接对应节点
+- DubboInvoke：支持根据选中方法，构建 Dubbo invoke 命令
+- Bugatti：支持根据项目和环境，一键跳转至 Bugatti
+- Gitlab：支持根据项目，一键跳转至 gitlab
+- DubboAdmin：支持根据环境，一键跳转至 DubboAdmin
+- RocketMq：支持根据环境，一键跳转至 RocketMq
+- ActiveMq：支持根据环境，一键跳转至 ActiveMq
+- Trace：支持根据环境，一键跳转至 Trace
+- Gavin：支持根据环境，一键跳转至 Gavin
+- QianmiAdmin: 支持根据环境，一键跳转至 QianmiAdmin
+- ApmDashboard：一键跳转至 ApmDashboard
+- MongoDBManager：一键跳转至 MongoDBManager
+- Wiki：一键跳转至 Wiki
+- gitBook：一键跳转至 gitBook
+- ConsoleOfPc：支持根据环境，一键跳转至 商品控制台
+- ConsoleOfD2pMc：支持根据环境，一键跳转至 分销营销控制台
+- ConsoleOfOms：支持根据环境，一键跳转至 OMS控制台

@@ -68,6 +68,11 @@
                     text="Apm Dashboard">
             </action>
 
+            <action id="com.github.qianmi.action.MongoDBManagerAction"
+                    class="com.github.qianmi.action.MongoDBManagerAction"
+                    text="MongoDB Manager">
+            </action>
+
         </group>
 
         <!--千米 工具-->

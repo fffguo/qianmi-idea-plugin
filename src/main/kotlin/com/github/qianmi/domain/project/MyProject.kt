@@ -28,4 +28,5 @@ object MyProject {
     var trace: Trace = Trace.defaultTrace()
     var qianmiAdmin: QianmiAdmin = QianmiAdmin.defaultQianmiAdmin()
     var apmDashboard: ApmDashboard = ApmDashboard.defaultApmDashboard()
+    var mongoDBManager: MongoDBManager = MongoDBManager.defaultMongoDBManager()
 }

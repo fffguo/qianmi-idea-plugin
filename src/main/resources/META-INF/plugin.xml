@@ -77,6 +77,10 @@
                     text="Wiki">
             </action>
 
+            <action id="com.github.qianmi.action.GitBookAction" class="com.github.qianmi.action.GitBookAction"
+                    text="Git Book">
+            </action>
+
         </group>
 
         <!--千米 工具-->

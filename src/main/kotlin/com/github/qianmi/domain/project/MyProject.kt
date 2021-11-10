@@ -30,4 +30,5 @@ object MyProject {
     var apmDashboard: ApmDashboard = ApmDashboard.defaultApmDashboard()
     var mongoDBManager: MongoDBManager = MongoDBManager.defaultMongoDBManager()
     var wiki: Wiki = Wiki.defaultWiki()
+    var gitBook: GitBook = GitBook.defaultGitBook()
 }

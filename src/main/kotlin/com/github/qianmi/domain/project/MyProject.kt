@@ -26,4 +26,5 @@ object MyProject {
     var activeMq: ActiveMq = ActiveMq.defaultActiveMq()
     var gavin: Gavin = Gavin.defaultGavin()
     var trace: Trace = Trace.defaultTrace()
+    var qianmiAdmin: QianmiAdmin = QianmiAdmin.defaultQianmiAdmin()
 }

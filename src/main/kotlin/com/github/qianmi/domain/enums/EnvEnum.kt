@@ -11,15 +11,16 @@ enum class EnvEnum(
     val activeMq: ActiveMqEnum,
     val gavin: GavinEnum,
     val trace: TraceEnum,
+    val qianmiAdmin: QianmiAdminEnum,
 ) {
     //  @formatter:off
-    TEST0("test0", BugattiEnvEnum.TEST0, DubboAdminEnum.TEST0, RocketMqEnum.TEST0, ActiveMqEnum.TEST0, GavinEnum.TEST0, TraceEnum.TEST0),
-    TEST1("test1", BugattiEnvEnum.TEST1, DubboAdminEnum.TEST1, RocketMqEnum.TEST1, ActiveMqEnum.TEST1, GavinEnum.TEST1, TraceEnum.TEST1),
-    TEST2("test2", BugattiEnvEnum.TEST2, DubboAdminEnum.TEST2, RocketMqEnum.TEST2, ActiveMqEnum.TEST2, GavinEnum.TEST2, TraceEnum.TEST2),
-    TEST4("test4", BugattiEnvEnum.TEST4, DubboAdminEnum.TEST4, RocketMqEnum.TEST4, ActiveMqEnum.TEST4, GavinEnum.TEST4, TraceEnum.TEST4),
-    TEST5("test5", BugattiEnvEnum.TEST5, DubboAdminEnum.TEST5, RocketMqEnum.TEST5, ActiveMqEnum.TEST5, GavinEnum.TEST5, TraceEnum.TEST5),
-    DEV("dev", BugattiEnvEnum.DEV, DubboAdminEnum.DEV, RocketMqEnum.DEV, ActiveMqEnum.DEV, GavinEnum.DEV,TraceEnum.DEV),
-    PROD("prod", BugattiEnvEnum.PROD, DubboAdminEnum.PROD, RocketMqEnum.PROD, ActiveMqEnum.PROD, GavinEnum.PROD,TraceEnum.PROD);
+    TEST0("test0", BugattiEnvEnum.TEST0, DubboAdminEnum.TEST0, RocketMqEnum.TEST0, ActiveMqEnum.TEST0, GavinEnum.TEST0, TraceEnum.TEST0, QianmiAdminEnum.TEST0),
+    TEST1("test1", BugattiEnvEnum.TEST1, DubboAdminEnum.TEST1, RocketMqEnum.TEST1, ActiveMqEnum.TEST1, GavinEnum.TEST1, TraceEnum.TEST1, QianmiAdminEnum.TEST1),
+    TEST2("test2", BugattiEnvEnum.TEST2, DubboAdminEnum.TEST2, RocketMqEnum.TEST2, ActiveMqEnum.TEST2, GavinEnum.TEST2, TraceEnum.TEST2, QianmiAdminEnum.TEST2),
+    TEST4("test4", BugattiEnvEnum.TEST4, DubboAdminEnum.TEST4, RocketMqEnum.TEST4, ActiveMqEnum.TEST4, GavinEnum.TEST4, TraceEnum.TEST4, QianmiAdminEnum.TEST4),
+    TEST5("test5", BugattiEnvEnum.TEST5, DubboAdminEnum.TEST5, RocketMqEnum.TEST5, ActiveMqEnum.TEST5, GavinEnum.TEST5, TraceEnum.TEST5, QianmiAdminEnum.TEST5),
+    DEV("dev", BugattiEnvEnum.DEV, DubboAdminEnum.DEV, RocketMqEnum.DEV, ActiveMqEnum.DEV, GavinEnum.DEV,TraceEnum.DEV,QianmiAdminEnum.DEV),
+    PROD("prod", BugattiEnvEnum.PROD, DubboAdminEnum.PROD, RocketMqEnum.PROD, ActiveMqEnum.PROD, GavinEnum.PROD,TraceEnum.PROD,QianmiAdminEnum.PROD);
     //  @formatter:on
 
 
@@ -99,5 +100,18 @@ enum class EnvEnum(
         TEST5(""),
         DEV(""),
         PROD("http://trace.dev.qianmi.com/search")
+    }
+
+    /**
+     * qianmi
+     */
+    enum class QianmiAdminEnum(val url: String) {
+        TEST0("http://web.1000.com.test0.ck/#/main/"),
+        TEST1("http://web.1000.com.test1.ck/#/main/"),
+        TEST2("http://web.1000.com.test2.ck/#/main/"),
+        TEST4("http://web.1000.com.test4.ck/#/main/"),
+        TEST5("http://web.1000.com.test5.ck/#/main/"),
+        DEV(""),
+        PROD("https://www.1000.com/")
     }
 }

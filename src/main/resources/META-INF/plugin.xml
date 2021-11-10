@@ -60,6 +60,10 @@
                     text="Trace">
             </action>
 
+            <action id="com.github.qianmi.action.QianmiAdminAction" class="com.github.qianmi.action.QianmiAdminAction"
+                    text="Qianmi Admin">
+            </action>
+
         </group>
 
         <!--千米 工具-->

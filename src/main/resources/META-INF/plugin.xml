@@ -64,6 +64,10 @@
                     text="Qianmi Admin">
             </action>
 
+            <action id="com.github.qianmi.action.ApmDashboardAction" class="com.github.qianmi.action.ApmDashboardAction"
+                    text="Apm Dashboard">
+            </action>
+
         </group>
 
         <!--千米 工具-->

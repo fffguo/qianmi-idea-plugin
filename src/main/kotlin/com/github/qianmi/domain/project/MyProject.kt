@@ -27,4 +27,5 @@ object MyProject {
     var gavin: Gavin = Gavin.defaultGavin()
     var trace: Trace = Trace.defaultTrace()
     var qianmiAdmin: QianmiAdmin = QianmiAdmin.defaultQianmiAdmin()
+    var apmDashboard: ApmDashboard = ApmDashboard.defaultApmDashboard()
 }

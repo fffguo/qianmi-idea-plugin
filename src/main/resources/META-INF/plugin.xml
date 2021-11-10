@@ -73,6 +73,10 @@
                     text="MongoDB Manager">
             </action>
 
+            <action id="com.github.qianmi.action.WikiAction" class="com.github.qianmi.action.WikiAction"
+                    text="Wiki">
+            </action>
+
         </group>
 
         <!--千米 工具-->

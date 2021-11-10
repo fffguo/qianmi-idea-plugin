@@ -29,4 +29,5 @@ object MyProject {
     var qianmiAdmin: QianmiAdmin = QianmiAdmin.defaultQianmiAdmin()
     var apmDashboard: ApmDashboard = ApmDashboard.defaultApmDashboard()
     var mongoDBManager: MongoDBManager = MongoDBManager.defaultMongoDBManager()
+    var wiki: Wiki = Wiki.defaultWiki()
 }

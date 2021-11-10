@@ -16,3 +16,10 @@
 - Trace：支持根据环境，一键跳转至 Trace
 - Gavin：支持根据环境，一键跳转至 Gavin
 - QianmiAdmin: 支持根据环境，一键跳转至 QianmiAdmin
+- ApmDashboard：一键跳转至 ApmDashboard
+- MongoDBManager：一键跳转至 MongoDBManager
+- Wiki：一键跳转至 Wiki
+- gitBook：一键跳转至 gitBook
+- ConsoleOfPc：支持根据环境，一键跳转至 商品控制台
+- ConsoleOfD2pMc：支持根据环境，一键跳转至 分销营销控制台
+- ConsoleOfOms：支持根据环境，一键跳转至 OMS控制台

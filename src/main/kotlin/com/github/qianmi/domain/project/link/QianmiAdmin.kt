@@ -1,7 +1,5 @@
 package com.github.qianmi.domain.project.link
 
-import com.github.qianmi.domain.project.MyProject
-
 class QianmiAdmin(
     /**
      * 是否支持
@@ -15,7 +13,7 @@ class QianmiAdmin(
 ) {
     companion object {
         fun defaultQianmiAdmin(): QianmiAdmin {
-            return QianmiAdmin(true, MyProject.env.qianmiAdmin.url)
+            return QianmiAdmin(true, "")
         }
     }
 }

@@ -1,7 +1,5 @@
 package com.github.qianmi.domain.project.link
 
-import com.github.qianmi.domain.project.MyProject
-
 class Trace(
     /**
      * 是否支持
@@ -15,7 +13,7 @@ class Trace(
 ) {
     companion object {
         fun defaultTrace(): Trace {
-            return Trace(true, MyProject.env.trace.url)
+            return Trace(true, "")
         }
     }
 }

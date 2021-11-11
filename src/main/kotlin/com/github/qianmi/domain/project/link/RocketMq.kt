@@ -1,7 +1,5 @@
 package com.github.qianmi.domain.project.link
 
-import com.github.qianmi.domain.project.MyProject
-
 class RocketMq(
     /**
      * 是否支持
@@ -15,7 +13,7 @@ class RocketMq(
 ) {
     companion object {
         fun defaultRocketMq(): RocketMq {
-            return RocketMq(true, MyProject.env.rocketMq.url)
+            return RocketMq(true, "")
         }
     }
 }

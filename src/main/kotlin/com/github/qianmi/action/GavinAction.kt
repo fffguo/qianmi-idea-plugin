@@ -1,6 +1,6 @@
 package com.github.qianmi.action
 
-import com.github.qianmi.domain.project.MyProject
+import com.github.qianmi.domain.project.AllProject
 import com.intellij.ide.BrowserUtil
 import com.intellij.openapi.actionSystem.AnAction
 import com.intellij.openapi.actionSystem.AnActionEvent
@@ -8,11 +8,11 @@ import com.intellij.openapi.actionSystem.AnActionEvent
 class GavinAction : AnAction() {
 
     override fun actionPerformed(e: AnActionEvent) {
-        BrowserUtil.open(MyProject.gavin.url)
+        BrowserUtil.open(AllProject.currentProject(e).gavin.url)
     }
 
     override fun update(e: AnActionEvent) {
-        e.presentation.isEnabled = MyProject.gavin.isSupport
+        e.presentation.isEnabled = AllProject.currentProject(e).gavin.isSupport
     }
 
 }

@@ -8,11 +8,12 @@
 <a href="https://github.com/fffguo/qianmi-idea-plugin">GitHub</a>
 <br/>
 <br/>
-<p>  仅供千米网使用的插件.  <p>
-<p> 1）提供跳转至bugatti、gitlab、wiki等内网基础设施.<p>
-<p> 2）提供在终端中直联环境上linux节点 <p>
-<p> 3）提供一个dubbo invoke命令生成小工具 <p>
-详细描述
+<p>  仅供千米网使用的插件.  </p>
+<p> 1）提供跳转至bugatti、gitlab、wiki等内网基础设施.</p>
+<p> 2）提供在终端中直连环境上linux节点 </p>
+<p> 3）提供一个dubbo invoke命令生成小工具 </p>
+<br/>
+<h4>详细描述</h4>
 <p> Shell：支持根据项目和环境，直接在终端连接对应节点</p>
 <p> DubboInvoke：支持根据选中方法，构建 Dubbo invoke 命令</p>
 <p> Bugatti：支持根据项目和环境，一键跳转至 Bugatti</p>

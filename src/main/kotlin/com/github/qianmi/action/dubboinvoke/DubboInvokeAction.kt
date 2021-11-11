@@ -1,6 +1,6 @@
 package com.github.qianmi.action.dubboinvoke
 
-import com.github.qianmi.domain.project.MyProject
+import com.github.qianmi.domain.project.AllProject
 import com.intellij.lang.java.JavaLanguage
 import com.intellij.openapi.actionSystem.AnAction
 import com.intellij.openapi.actionSystem.AnActionEvent
@@ -21,7 +21,7 @@ class DubboInvokeAction : AnAction() {
     override fun update(e: AnActionEvent) {
         val psiElement: PsiElement? = CommonDataKeys.PSI_ELEMENT.getData(e.dataContext)
         e.presentation.isEnabled =
-            MyProject.dubboInvoke.isSupport
+            AllProject.currentProject(e).dubboInvoke.isSupport
                     && psiElement != null
                     && psiElement.language is JavaLanguage
                     && psiElement is PsiMethod

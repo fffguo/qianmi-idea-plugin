@@ -1,7 +1,5 @@
 package com.github.qianmi.domain.project.link
 
-import com.github.qianmi.domain.project.MyProject
-
 class Gavin(
     /**
      * 是否支持
@@ -15,7 +13,7 @@ class Gavin(
 ) {
     companion object {
         fun defaultGavin(): Gavin {
-            return Gavin(true, MyProject.env.gavin.url)
+            return Gavin(true, "")
         }
     }
 }

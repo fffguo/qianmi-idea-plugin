@@ -4,7 +4,7 @@ import cn.hutool.core.collection.CollectionUtil
 import cn.hutool.http.HttpUtil
 import com.alibaba.fastjson.JSONObject
 import com.github.qianmi.config.BugattiConfig
-import com.github.qianmi.domain.project.MyProject
+import com.github.qianmi.domain.project.AllProject
 import com.github.qianmi.domain.project.tools.Shell
 import com.github.qianmi.services.vo.BugattiShellInfoResult
 import com.intellij.openapi.project.Project
@@ -12,15 +12,20 @@ import com.intellij.openapi.project.Project
 
 class ShellInitService(project: Project) {
     init {
-        syncShellElement()
+        try {
+            val myProject = AllProject.currentProject(project)
+            syncShellElement(myProject)
+        } catch (e: Exception) {
+
+        }
     }
 
     companion object {
-        fun syncShellElement() {
+        fun syncShellElement(myProject: AllProject.MyProject) {
             val result: String = HttpUtil.get(BugattiConfig.domain +
                     String.format("/task/clusters?envId=%s&projectId=%s",
-                        MyProject.bugatti.envCode,
-                        MyProject.bugatti.projectCode))
+                        myProject.bugatti.envCode,
+                        myProject.bugatti.projectCode))
 
             val shellEleList = ArrayList<Shell.Element>()
 
@@ -37,9 +42,9 @@ class ShellInitService(project: Project) {
                 }
             }
             if (CollectionUtil.isNotEmpty(shellEleList)) {
-                MyProject.shell.isSupportShell = true
-                MyProject.shell.eleList = shellEleList
-                MyProject.shell.isNeedSyncEle = false
+                myProject.shell.isSupportShell = true
+                myProject.shell.eleList = shellEleList
+                myProject.shell.isNeedSyncEle = false
             }
         }
     }

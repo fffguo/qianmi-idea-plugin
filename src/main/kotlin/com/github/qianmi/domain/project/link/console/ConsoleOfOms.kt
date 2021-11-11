@@ -1,7 +1,5 @@
 package com.github.qianmi.domain.project.link.console
 
-import com.github.qianmi.domain.project.MyProject
-
 class ConsoleOfOms(
     /**
      * 是否支持
@@ -15,7 +13,7 @@ class ConsoleOfOms(
 ) {
     companion object {
         fun defaultConsoleOfOms(): ConsoleOfOms {
-            return ConsoleOfOms(true, MyProject.env.consoleOfOms.url)
+            return ConsoleOfOms(true, "")
         }
     }
 }

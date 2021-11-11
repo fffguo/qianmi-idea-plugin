@@ -1,7 +1,6 @@
 package com.github.qianmi.domain.project.link
 
 import com.github.qianmi.config.BugattiConfig
-import com.github.qianmi.domain.project.MyProject
 
 
 class Bugatti(
@@ -25,7 +24,8 @@ class Bugatti(
      * 项目描述
      */
     var desc: String,
-) {
+
+    ) {
 
 
     companion object {
@@ -33,7 +33,7 @@ class Bugatti(
         private const val formatUrl = "{domain}/#/list/{envCode}/info/{projectCode}?txt={projectName}"
 
         fun defaultBugatti(): Bugatti {
-            return Bugatti(false, "", "", MyProject.env.bugatti.envCode, "")
+            return Bugatti(false, "", "", "", "")
         }
     }
 

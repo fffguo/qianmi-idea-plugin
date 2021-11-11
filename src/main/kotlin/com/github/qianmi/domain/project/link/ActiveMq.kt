@@ -1,7 +1,5 @@
 package com.github.qianmi.domain.project.link
 
-import com.github.qianmi.domain.project.MyProject
-
 class ActiveMq(
     /**
      * 是否支持
@@ -15,7 +13,7 @@ class ActiveMq(
 ) {
     companion object {
         fun defaultActiveMq(): ActiveMq {
-            return ActiveMq(true, MyProject.env.activeMq.url)
+            return ActiveMq(true, "")
         }
     }
 }

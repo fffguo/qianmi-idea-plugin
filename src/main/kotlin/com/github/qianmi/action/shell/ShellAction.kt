@@ -1,7 +1,7 @@
 package com.github.qianmi.action.shell
 
 import cn.hutool.core.collection.CollectionUtil
-import com.github.qianmi.domain.project.MyProject
+import com.github.qianmi.domain.project.AllProject
 import com.github.qianmi.services.ShellInitService
 import com.intellij.openapi.actionSystem.AnAction
 import com.intellij.openapi.actionSystem.AnActionEvent
@@ -13,13 +13,13 @@ import java.util.stream.Collectors
 class ShellAction : AnAction() {
 
     override fun actionPerformed(e: AnActionEvent) {
-
+        val myProject = AllProject.currentProject(e)
         //同步节点配置
-        if (MyProject.shell.isNeedSyncEle) {
-            ShellInitService.syncShellElement()
+        if (myProject.shell.isNeedSyncEle) {
+            ShellInitService.syncShellElement(myProject)
         }
 
-        val eleList = MyProject.shell.eleList
+        val eleList = myProject.shell.eleList
         if (CollectionUtil.isNotEmpty(eleList)) {
             if (eleList.size == 1) {
                 eleList[0].openSshTerminal(e.project!!)
@@ -48,7 +48,7 @@ class ShellAction : AnAction() {
 
 
     override fun update(e: AnActionEvent) {
-        e.presentation.isEnabled = MyProject.shell.isSupportShell
+        e.presentation.isEnabled = AllProject.currentProject(e).shell.isSupportShell
     }
 
 

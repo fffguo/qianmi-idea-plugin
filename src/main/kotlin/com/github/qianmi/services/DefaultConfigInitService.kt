@@ -4,7 +4,7 @@ import cn.hutool.http.ContentType
 import cn.hutool.http.HttpUtil
 import com.alibaba.fastjson.JSONObject
 import com.github.qianmi.config.BugattiConfig
-import com.github.qianmi.domain.project.MyProject
+import com.github.qianmi.domain.project.AllProject
 import com.github.qianmi.services.vo.BugattiProjectInfoResult
 import com.github.qianmi.util.StringUtil
 import com.intellij.openapi.project.Project
@@ -13,16 +13,21 @@ import org.jetbrains.annotations.NotNull
 
 class DefaultConfigInitService(project: Project) {
     init {
-        //登录
-        loginBugatti()
-        //获取项目信息
-        val bugattiProjectResult = getProjectInfo()
+        try {
+            val myProject = AllProject.currentProject(project)
+            //登录
+            loginBugatti()
+            //获取项目信息
+            val bugattiProjectResult = getProjectInfo(myProject)
 
-        //更新gitlab属性
-        updateAttrWithGitLab(bugattiProjectResult)
+            //更新gitlab属性
+            updateAttrWithGitLab(myProject, bugattiProjectResult)
 
-        //更新bugatti属性
-        updateAttrWithBugatti(bugattiProjectResult)
+            //更新bugatti属性
+            updateAttrWithBugatti(myProject, bugattiProjectResult)
+        } catch (e: Exception) {
+
+        }
     }
 
     private fun loginBugatti() {
@@ -35,28 +40,28 @@ class DefaultConfigInitService(project: Project) {
     }
 
     @NotNull
-    private fun getProjectInfo(): BugattiProjectInfoResult {
+    private fun getProjectInfo(myProject: AllProject.MyProject): BugattiProjectInfoResult {
         val result: String = HttpUtil.get(BugattiConfig.domain +
                 String.format("/project/%s/%s",
-                    MyProject.bugatti.projectCode,
-                    MyProject.bugatti.envCode))
+                    myProject.bugatti.projectCode,
+                    myProject.bugatti.envCode))
 
         return JSONObject.parseObject(result, BugattiProjectInfoResult::class.java)
     }
 
-    private fun updateAttrWithGitLab(result: BugattiProjectInfoResult) {
+    private fun updateAttrWithGitLab(myProject: AllProject.MyProject, result: BugattiProjectInfoResult) {
         if (StringUtil.isNotBlank(result.git)) {
-            MyProject.gitlab.isSupport = true
-            MyProject.gitlab.url = result.git
+            myProject.gitlab.isSupport = true
+            myProject.gitlab.url = result.git
         } else {
-            MyProject.gitlab.isSupport = false
+            myProject.gitlab.isSupport = false
         }
     }
 
-    private fun updateAttrWithBugatti(result: BugattiProjectInfoResult) {
-        MyProject.bugatti.desc = result.description
-        MyProject.bugatti.projectName = result.projectName
-        MyProject.bugatti.isSupport = true
+    private fun updateAttrWithBugatti(myProject: AllProject.MyProject, result: BugattiProjectInfoResult) {
+        myProject.bugatti.desc = result.description
+        myProject.bugatti.projectName = result.projectName
+        myProject.bugatti.isSupport = true
     }
 
 }

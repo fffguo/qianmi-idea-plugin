@@ -1,6 +1,6 @@
 package com.github.qianmi.action
 
-import com.github.qianmi.domain.project.MyProject
+import com.github.qianmi.domain.project.AllProject
 import com.intellij.ide.BrowserUtil
 import com.intellij.openapi.actionSystem.AnAction
 import com.intellij.openapi.actionSystem.AnActionEvent
@@ -8,11 +8,11 @@ import com.intellij.openapi.actionSystem.AnActionEvent
 class GitlabAction : AnAction() {
 
     override fun actionPerformed(e: AnActionEvent) {
-        BrowserUtil.open(MyProject.gitlab.url)
+        BrowserUtil.open(AllProject.currentProject(e).gitlab.url)
     }
 
     override fun update(e: AnActionEvent) {
-        e.presentation.isEnabled = MyProject.gitlab.isSupport
+        e.presentation.isEnabled = AllProject.currentProject(e).gitlab.isSupport
     }
 
 }

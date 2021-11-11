@@ -1,13 +1,107 @@
 package com.github.qianmi.util
 
+import cn.hutool.core.date.DateUtil
 import com.google.common.collect.Sets
 import com.intellij.psi.*
+import com.intellij.psi.util.PsiUtil
+import com.intellij.util.containers.isEmpty
 import org.apache.commons.io.FilenameUtils
+import java.time.LocalDate
+import java.time.LocalDateTime
+import java.time.LocalTime
 
-class MyPSIUtils {
+class MyPsiUtil {
 
     companion object {
+        var normalTypes = hashMapOf<String, Any>(
+            "Boolean" to false,
+            "Byte" to 0,
+            "Short" to 0,
+            "Integer" to 0,
+            "int" to 0,
+            "Long" to 0L,
+            "Float" to 0.0F,
+            "Double" to 0.0,
+            "String" to "",
+            "BigDecimal" to 0.0,
+            "Date" to DateUtil.now(),
+            "Timestamp" to System.currentTimeMillis(),
+            "LocalDate" to LocalDate.now().toString(),
+            "LocalTime" to LocalTime.now().toString(),
+            "LocalDateTime" to LocalDateTime.now().toString(),
+            "Object" to "")
 
+        fun isNormalType(typeName: String): Boolean {
+            return normalTypes.containsKey(typeName)
+        }
+
+        fun isIgnoreType(name: String): Boolean {
+            return !normalTypes.keys.stream().filter { key -> name.lowercase().contains(key.lowercase()) }.isEmpty()
+        }
+
+        /**
+         * 是否为 list
+         */
+        fun isList(psiType: PsiType): Boolean {
+            return isList(psiType.presentableText)
+        }
+
+        fun isList(psiClass: PsiClass): Boolean {
+            return isList(psiClass.name!!)
+        }
+
+        fun isList(name: String): Boolean {
+            return name.startsWith("List")
+                    || name.startsWith("ArrayList")
+                    || name.startsWith("LinkedList")
+                    || name.startsWith("Vector")
+                    || name.startsWith("Stack")
+                    || name.startsWith("Set")
+                    || name.startsWith("TreeSet")
+                    || name.startsWith("HashSet")
+                    || name.startsWith("LinkedHashSet")
+        }
+
+        /**
+         * 是否为 array
+         */
+        fun isArray(psiClass: PsiClass): Boolean {
+            return psiClass is PsiArrayType
+        }
+
+        /**
+         * 是否为 array
+         */
+        fun isArray(psiType: PsiType): Boolean {
+            return psiType is PsiArrayType
+        }
+
+        /**
+         * 是否为 map
+         */
+        fun isMap(psiType: PsiType): Boolean {
+            val fieldTypeName = psiType.presentableText
+            return isMap(fieldTypeName)
+        }
+
+        /**
+         * 是否为 map
+         */
+        fun isMap(str: String): Boolean {
+            return str.startsWith("Node")
+                    || str.startsWith("HashMap")
+                    || str.startsWith("LinkedHashMap")
+                    || str.startsWith("TreeMap")
+                    || str.startsWith("Entry")
+                    || str.startsWith("Map")
+        }
+
+        /**
+         * 是否为 enum
+         */
+        fun isEnum(psiType: PsiType): Boolean {
+            return PsiUtil.resolveClassInClassTypeOnly(psiType)!!.isEnum
+        }
 
         /**
          * 是否为匿名类

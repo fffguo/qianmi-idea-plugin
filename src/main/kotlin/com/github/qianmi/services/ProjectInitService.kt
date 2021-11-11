@@ -9,7 +9,6 @@ class ProjectInitService(project: Project) {
     init {
         try {
             val myProject = AllProject.currentProject(project)
-            myProject.name = project.name
 
             val bugattiProjectEnum = BugattiProjectEnum.instanceOf(project.name)
             if (BugattiProjectEnum.NONE != bugattiProjectEnum) {

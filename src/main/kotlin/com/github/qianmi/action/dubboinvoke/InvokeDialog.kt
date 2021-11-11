@@ -4,12 +4,13 @@ import com.alibaba.fastjson.JSONObject
 import com.github.qianmi.domain.project.tools.DubboAdminInvoke
 import com.github.qianmi.util.JsonConverter
 import com.github.qianmi.util.JsonPrettyUtil
+import com.github.qianmi.util.MyPsiUtil
+import com.github.qianmi.util.StringUtil
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.ui.DialogWrapper
 import com.intellij.openapi.ui.ValidationInfo
 import com.intellij.psi.PsiMethod
 import com.intellij.psi.PsiParameter
-import com.intellij.psi.impl.source.PsiClassReferenceType
 import com.intellij.ui.DocumentAdapter
 import com.intellij.ui.components.JBScrollPane
 import com.intellij.ui.components.panels.VerticalLayout
@@ -25,14 +26,15 @@ import javax.swing.event.DocumentEvent
  */
 class InvokeDialog(var project: Project?, var psiMethod: PsiMethod) : DialogWrapper(project) {
 
-    //默认宽度
-    private var jTextColumns = 80
+    private val jTextMaxRow = 20
+
+    private val jTextDefaultColumn = 85
 
     //参数map key：参数名，value：参数
     val argMap: HashMap<String, Arg> = HashMap()
 
     //预览invoke 文本区域
-    private var preJTextArea = JTextArea(5, jTextColumns)
+    private var preJTextArea = JTextArea(5, jTextDefaultColumn - 5)
 
     /**
      * 处理ok操作
@@ -51,7 +53,7 @@ class InvokeDialog(var project: Project?, var psiMethod: PsiMethod) : DialogWrap
         val result: MutableList<ValidationInfo> = ArrayList()
         argMap.values
             .stream()
-            .filter { arg -> !JsonConverter.isIgnoreType(arg.psiParameter.type.presentableText) }
+            .filter { arg -> !MyPsiUtil.isIgnoreType(arg.psiParameter.type.presentableText) }
             .forEach { arg ->
                 run {
                     try {
@@ -68,7 +70,7 @@ class InvokeDialog(var project: Project?, var psiMethod: PsiMethod) : DialogWrap
      * 创建容器
      */
     override fun createCenterPanel(): JComponent {
-        val panel = JPanel(VerticalLayout(20, SwingConstants.LEFT))
+        val panel = JPanel(VerticalLayout(20, SwingConstants.RIGHT))
 
         for (parameter in this.psiMethod.parameterList.parameters) {
             //入参
@@ -77,30 +79,19 @@ class InvokeDialog(var project: Project?, var psiMethod: PsiMethod) : DialogWrap
         //指令预览
         panel.add(buildPreCommand())
 
-        (this.okAction as DialogWrapper.OkAction).putValue("Name", "Copy Command")
+        (this.okAction as DialogWrapper.OkAction).putValue("Name", "复制命令")
         return panel
-    }
-
-    /**
-     * 获取参数默认值
-     */
-    private fun getArgDefaultValue(parameter: PsiParameter): String {
-        val argStr =
-            if (JsonConverter.isIgnoreType(parameter.type.presentableText)) {
-                ""
-            } else {
-                val psiClass = (parameter.type as PsiClassReferenceType).resolve()!!
-                JsonPrettyUtil.prettyJson(JsonConverter.classToJsonString(psiClass))
-            }
-        return argStr
     }
 
     /**
      * 构建单条参数 容器
      */
     private fun buildArgJPanel(parameter: PsiParameter): JPanel {
-        val jTextArea = JTextArea(getArgDefaultValue(parameter), 0, jTextColumns)
+        val prettyJson = JsonPrettyUtil.prettyJson(JsonConverter.argToJsonString(parameter.type))
+        val nRows = StringUtil.appearNumber(prettyJson, "\n")
+        val columns = if (nRows > jTextMaxRow) jTextDefaultColumn - 5 else jTextDefaultColumn
 
+        val jTextArea = JTextArea(prettyJson, jTextMaxRow.coerceAtMost(nRows), columns)
         jTextArea.document.addDocumentListener(object : DocumentAdapter() {
 
             override fun textChanged(e: DocumentEvent) {
@@ -119,6 +110,7 @@ class InvokeDialog(var project: Project?, var psiMethod: PsiMethod) : DialogWrap
         jPanel.addToLeft(parameterLabel)
         jPanel.addToRight(jTextArea)
         jPanel.addToCenter(JBScrollPane(jTextArea))
+
         return jPanel
     }
 

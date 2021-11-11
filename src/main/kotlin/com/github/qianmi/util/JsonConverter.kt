@@ -1,47 +1,17 @@
 package com.github.qianmi.util
 
-import cn.hutool.core.date.DateUtil
 import com.alibaba.fastjson.JSONObject
 import com.github.qianmi.domain.vo.KV
-import com.intellij.psi.PsiArrayType
 import com.intellij.psi.PsiClass
 import com.intellij.psi.PsiEnumConstant
 import com.intellij.psi.PsiPrimitiveType
+import com.intellij.psi.PsiType
 import com.intellij.psi.util.PsiTypesUtil
 import com.intellij.psi.util.PsiUtil
-import com.intellij.util.containers.isEmpty
-import java.time.LocalDate
-import java.time.LocalDateTime
-import java.time.LocalTime
 
 
 object JsonConverter {
-    var normalTypes = hashMapOf<String, Any>(
-        "Boolean" to false,
-        "Byte" to 0,
-        "Short" to 0,
-        "Integer" to 0,
-        "int" to 0,
-        "Long" to 0L,
-        "Float" to 0.0F,
-        "Double" to 0.0,
-        "String" to "",
-        "BigDecimal" to 0.0,
-        "Date" to DateUtil.now(),
-        "Timestamp" to System.currentTimeMillis(),
-        "LocalDate" to LocalDate.now().toString(),
-        "LocalTime" to LocalTime.now().toString(),
-        "LocalDateTime" to LocalDateTime.now().toString())
 
-    @JvmStatic
-    private fun isNormalType(typeName: String): Boolean {
-        return normalTypes.containsKey(typeName)
-    }
-
-    @JvmStatic
-    fun isIgnoreType(name: String): Boolean {
-        return !normalTypes.keys.stream().filter { key -> name.lowercase().contains(key.lowercase()) }.isEmpty()
-    }
 
     @JvmStatic
     fun classToJsonString(psiClass: PsiClass?): String {
@@ -62,42 +32,49 @@ object JsonConverter {
                     //reference Type
                     val fieldTypeName = type.presentableText
                     //normal Type
-                    if (isNormalType(fieldTypeName)) {
+                    if (MyPsiUtil.isNormalType(fieldTypeName)) {
                         if ("String" == fieldTypeName) {
                             kv[name] = name
                         } else {
-                            normalTypes[fieldTypeName]?.let { kv.set(name, it) }
+                            MyPsiUtil.normalTypes[fieldTypeName]?.let { kv.set(name, it) }
                         }
                     }
                     //array type
-                    else if (type is PsiArrayType) {
-                        val deepType = type.getDeepComponentType()
+                    else if (MyPsiUtil.isArray(type)) {
+                        val deepType = type.deepComponentType
                         val list = ArrayList<Any>()
                         val deepTypeName = deepType.presentableText
                         if (deepType is PsiPrimitiveType) {
                             list.add(PsiTypesUtil.getDefaultValue(deepType))
-                        } else if (isNormalType(deepTypeName)) {
-                            normalTypes[deepTypeName]?.let { list.add(it) }
+                        } else if (MyPsiUtil.isNormalType(deepTypeName)) {
+                            MyPsiUtil.normalTypes[deepTypeName]?.let { list.add(it) }
                         } else {
-                            list.add(classToJsonString(PsiUtil.resolveClassInType(deepType)))
+                            list.add(JSONObject.parse(classToJsonString(PsiUtil.resolveClassInType(deepType))))
                         }
                         kv[name] = list
                     }
                     //list type
-                    else if (fieldTypeName.startsWith("List")) {
+                    else if (MyPsiUtil.isList(type)) {
                         val iterableType = PsiUtil.extractIterableTypeParameter(type, false)
                         val iterableClass = PsiUtil.resolveClassInClassTypeOnly(iterableType)
+
                         val list = ArrayList<Any>()
                         val classTypeName = iterableClass!!.name!!
-                        if (isNormalType(classTypeName)) {
-                            normalTypes[classTypeName]?.let { list.add(it) }
+                        if (MyPsiUtil.isNormalType(classTypeName)) {
+                            MyPsiUtil.normalTypes[classTypeName]?.let { list.add(it) }
                         } else {
-                            list.add(classToJsonString(iterableClass))
+                            if (iterableType != null) {
+                                list.add(JSONObject.parse(argToJsonString(iterableType)))
+                            }
                         }
                         kv[name] = list
                     }
+                    //map type
+                    else if (MyPsiUtil.isMap(type)) {
+                        kv[name] = mapOf("key" to "value")
+                    }
                     //enum
-                    else if (PsiUtil.resolveClassInClassTypeOnly(type)!!.isEnum) {
+                    else if (MyPsiUtil.isEnum(type)) {
                         val nameList = ArrayList<String>()
                         val fieldList = PsiUtil.resolveClassInClassTypeOnly(type)!!.fields
                         for (f in fieldList) {
@@ -114,4 +91,41 @@ object JsonConverter {
         }
         return JSONObject.toJSONString(kv)
     }
+
+
+    @JvmStatic
+    fun argToJsonString(psiType: PsiType): String {
+        val list = ArrayList<Any>()
+        //array type
+        if (MyPsiUtil.isArray(psiType)) {
+            val deepType = psiType.deepComponentType
+            val deepTypeName = deepType.presentableText
+            if (deepType is PsiPrimitiveType) {
+                list.add(PsiTypesUtil.getDefaultValue(deepType))
+            } else if (MyPsiUtil.isNormalType(deepTypeName)) {
+                MyPsiUtil.normalTypes[deepTypeName]?.let { list.add(it) }
+            } else {
+                list.add(JSONObject.parse(classToJsonString(PsiUtil.resolveClassInType(deepType))))
+            }
+        }
+        //list type
+        else if (MyPsiUtil.isList(psiType)) {
+            val iterableType = PsiUtil.extractIterableTypeParameter(psiType, false)
+            val iterableClass = PsiUtil.resolveClassInClassTypeOnly(iterableType)
+            val classTypeName = iterableClass!!.name!!
+            if (MyPsiUtil.isNormalType(classTypeName)) {
+                MyPsiUtil.normalTypes[classTypeName]?.let { list.add(it) }
+            } else {
+                list.add(JSONObject.parse(classToJsonString(iterableClass)))
+            }
+        }
+        //map type
+        else if (MyPsiUtil.isMap(psiType)) {
+            return JSONObject.toJSONString(mapOf("key" to "value"))
+        } else {
+            return classToJsonString(PsiUtil.resolveClassInType(psiType))
+        }
+        return JSONObject.toJSONString(list)
+    }
+
 }

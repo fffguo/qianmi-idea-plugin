@@ -22,4 +22,21 @@ object StringUtil {
         }
         return true
     }
+
+    /**
+     * public int indexOf(int ch, int fromIndex)
+     * 返回在此字符串中第一次出现指定字符处的索引，从指定的索引开始搜索
+     *
+     * @return
+     */
+    @JvmStatic
+    fun appearNumber(srcText: String, findText: String): Int {
+        var count = 0;
+        var index = 0;
+        while (index != -1) {
+            index = srcText.indexOf(findText, index + findText.length)
+            count++;
+        }
+        return count;
+    }
 }

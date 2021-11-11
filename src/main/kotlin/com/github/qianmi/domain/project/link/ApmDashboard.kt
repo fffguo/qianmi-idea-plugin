@@ -16,7 +16,7 @@ class ApmDashboard(
 ) {
     companion object {
         fun defaultApmDashboard(): ApmDashboard {
-            return ApmDashboard(true, "")
+            return ApmDashboard(true, "http://apm.dev.qianmi.com/")
         }
     }
 }

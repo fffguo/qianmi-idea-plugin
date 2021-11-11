@@ -9,9 +9,7 @@
     <depends>org.jetbrains.plugins.remote-run</depends>
 
     <extensions defaultExtensionNs="com.intellij">
-        <projectService serviceImplementation="com.github.qianmi.services.ProjectInitService"/>
-        <projectService serviceImplementation="com.github.qianmi.services.DefaultConfigInitService"/>
-        <projectService serviceImplementation="com.github.qianmi.services.ShellInitService"/>
+        <projectService serviceImplementation="com.github.qianmi.services.ConfigInitService"/>
     </extensions>
 
     <applicationListeners>

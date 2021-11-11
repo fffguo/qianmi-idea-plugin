@@ -1,5 +1,7 @@
 package com.github.qianmi.domain.project.link.console
 
+import com.github.qianmi.domain.project.AllProject
+
 class ConsoleOfPc(
     /**
      * 是否支持
@@ -13,7 +15,7 @@ class ConsoleOfPc(
 ) {
     companion object {
         fun defaultConsoleOfPc(): ConsoleOfPc {
-            return ConsoleOfPc(true, "")
+            return ConsoleOfPc(true, AllProject.defaultEnv.consoleOfPc.url)
         }
     }
 }

@@ -2,7 +2,7 @@ package com.github.qianmi.action.shell
 
 import cn.hutool.core.collection.CollectionUtil
 import com.github.qianmi.domain.project.AllProject
-import com.github.qianmi.services.ShellInitService
+import com.github.qianmi.services.ConfigInitService
 import com.intellij.openapi.actionSystem.AnAction
 import com.intellij.openapi.actionSystem.AnActionEvent
 import com.intellij.openapi.actionSystem.DefaultActionGroup
@@ -16,7 +16,7 @@ class ShellAction : AnAction() {
         val myProject = AllProject.currentProject(e)
         //同步节点配置
         if (myProject.shell.isNeedSyncEle) {
-            ShellInitService.syncShellElement(myProject)
+            ConfigInitService.syncShellElement(myProject)
         }
 
         val eleList = myProject.shell.eleList

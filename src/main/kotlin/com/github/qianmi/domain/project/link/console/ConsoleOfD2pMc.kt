@@ -1,5 +1,7 @@
 package com.github.qianmi.domain.project.link.console
 
+import com.github.qianmi.domain.project.AllProject
+
 class ConsoleOfD2pMc(
     /**
      * 是否支持
@@ -13,7 +15,7 @@ class ConsoleOfD2pMc(
 ) {
     companion object {
         fun defaultConsoleOfD2pMc(): ConsoleOfD2pMc {
-            return ConsoleOfD2pMc(true, "")
+            return ConsoleOfD2pMc(true, AllProject.defaultEnv.consoleOfD2pMc.url)
         }
     }
 }

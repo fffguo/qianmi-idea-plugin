@@ -14,6 +14,8 @@ object AllProject {
 
     private var projectMap: HashMap<String, MyProject> = HashMap()
 
+    val defaultEnv = EnvEnum.TEST1
+
     fun currentProject(e: AnActionEvent): MyProject {
         return currentProject(e.project)
     }
@@ -31,7 +33,7 @@ object AllProject {
         if (myProject == null) {
             myProject = MyProject(projectName)
             projectMap[projectName] = myProject
-            return MyProject(projectName)
+            return myProject
         }
         return myProject
     }
@@ -46,7 +48,7 @@ object AllProject {
         /**
          * 项目环境
          */
-        var env: EnvEnum = EnvEnum.TEST1
+        var env: EnvEnum = defaultEnv
 
         var dubboAdmin: DubboAdmin = DubboAdmin.defaultDubboAdmin()
         var bugatti: Bugatti = Bugatti.defaultBugatti()

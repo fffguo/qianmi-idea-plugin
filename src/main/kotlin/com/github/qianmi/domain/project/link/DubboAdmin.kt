@@ -1,5 +1,7 @@
 package com.github.qianmi.domain.project.link
 
+import com.github.qianmi.domain.project.AllProject
+
 class DubboAdmin(
     /**
      * 是否支持
@@ -18,7 +20,7 @@ class DubboAdmin(
 
     companion object {
         fun defaultDubboAdmin(): DubboAdmin {
-            return DubboAdmin(true, DubboTypeEnum.NONE, "")
+            return DubboAdmin(true, DubboTypeEnum.NONE, AllProject.defaultEnv.dubboAdmin.url)
         }
     }
 

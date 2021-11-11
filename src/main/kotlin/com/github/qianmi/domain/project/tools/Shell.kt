@@ -1,6 +1,8 @@
 package com.github.qianmi.domain.project.tools
 
 import com.github.qianmi.config.ShellConfig
+import com.github.qianmi.domain.enums.EnvEnum
+import com.github.qianmi.domain.project.AllProject
 import com.github.qianmi.services.vo.BugattiShellInfoResult
 import com.intellij.openapi.project.Project
 import com.intellij.remote.AuthType
@@ -10,29 +12,23 @@ import com.jetbrains.plugins.remotesdk.console.SshTerminalCachingRunner
 import org.jetbrains.plugins.terminal.TerminalTabState
 import org.jetbrains.plugins.terminal.TerminalView
 import java.nio.charset.Charset
-import java.util.*
 
 class Shell(
 
     /**
      * 是否支持shell
      */
-    var isSupportShell: Boolean,
+    var isSupport: Boolean,
 
     /**
-     * 是否需要同步节点
+     * 节点信息
      */
-    var isNeedSyncEle: Boolean,
-
-    /**
-     * 节点列表
-     */
-    var eleList: List<Element>,
+    var eleMap: HashMap<EnvEnum, List<Element>>,
 ) {
 
     companion object {
         fun defaultShell(): Shell {
-            return Shell(isSupportShell = false, isNeedSyncEle = false, eleList = Collections.emptyList())
+            return Shell(isSupport = false, eleMap = hashMapOf(AllProject.defaultEnv to listOf()))
         }
     }
 

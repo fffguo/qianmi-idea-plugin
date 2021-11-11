@@ -2,6 +2,7 @@ package com.github.qianmi.services
 
 import cn.hutool.core.collection.CollectionUtil
 import com.github.qianmi.domain.enums.BugattiProjectEnum
+import com.github.qianmi.domain.enums.EnvEnum
 import com.github.qianmi.domain.project.AllProject
 import com.github.qianmi.services.vo.BugattiProjectInfoResult
 import com.github.qianmi.util.BugattiHttpUtil
@@ -61,13 +62,16 @@ class ConfigInitService(project: Project) {
     companion object {
         fun syncShellElement(myProject: AllProject.MyProject) {
 
-            val shellEleList = BugattiHttpUtil.getShellElementList(myProject)
-
-            if (CollectionUtil.isNotEmpty(shellEleList)) {
-                myProject.shell.isSupportShell = true
-                myProject.shell.eleList = shellEleList
-                myProject.shell.isNeedSyncEle = false
+            //遍历处理环境上的shell节点
+            for (envEnum in EnvEnum.values()) {
+                val shellEleList = BugattiHttpUtil.getShellElementList(myProject.bugatti.projectCode, envEnum)
+                myProject.shell.eleMap[envEnum] = shellEleList
             }
+            //当前环境存在shell节点
+            if (CollectionUtil.isNotEmpty(myProject.shell.eleMap[myProject.env])) {
+                myProject.shell.isSupport = true
+            }
+
         }
     }
 

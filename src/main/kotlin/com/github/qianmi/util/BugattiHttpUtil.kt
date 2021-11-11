@@ -4,6 +4,7 @@ import cn.hutool.http.ContentType
 import cn.hutool.http.HttpUtil
 import com.alibaba.fastjson.JSONObject
 import com.github.qianmi.config.BugattiConfig
+import com.github.qianmi.domain.enums.EnvEnum
 import com.github.qianmi.domain.project.AllProject
 import com.github.qianmi.domain.project.tools.Shell
 import com.github.qianmi.services.vo.BugattiProjectInfoResult
@@ -44,11 +45,13 @@ object BugattiHttpUtil {
     }
 
     @JvmStatic
-    fun getShellElementList(myProject: AllProject.MyProject): List<Shell.Element> {
-        val result: String = HttpUtil.createGet(BugattiConfig.domain +
-                String.format("/task/clusters?envId=%s&projectId=%s",
-                    myProject.bugatti.envCode,
-                    myProject.bugatti.projectCode))
+    fun getShellElementList(bugattiProjectCode: String, env: EnvEnum): List<Shell.Element> {
+        //屏蔽生产环境
+        if (EnvEnum.PROD == env) {
+            return Collections.emptyList()
+        }
+        val result: String = HttpUtil.createGet(BugattiConfig.domain
+                + String.format("/task/clusters?envId=%s&projectId=%s", env.bugatti.envCode, bugattiProjectCode))
             .cookie(getCookie())
             .execute()
             .body()

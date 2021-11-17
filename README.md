@@ -31,7 +31,12 @@
 <p> ConsoleOfPc：支持根据环境，一键跳转至 商品控制台</p>
 <p> ConsoleOfD2pMc：支持根据环境，一键跳转至 分销营销控制台</p>
 <p> ConsoleOfOms：支持根据环境，一键跳转至 OMS控制台</p>
+<p> 域账号配置：支持配置域账号信息，用以登录bugatti</p>
+<p> SNAPSHOT：支持构建 SNAPSHOT</p>
+<p> jenkins：支持一键跳转至jenkins</p>
+
 <!-- Plugin description end -->
+
 ## Installation
 
 - Using IDE built-in plugin system:

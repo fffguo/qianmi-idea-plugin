@@ -5,14 +5,14 @@ import com.intellij.ide.BrowserUtil
 import com.intellij.openapi.actionSystem.AnAction
 import com.intellij.openapi.actionSystem.AnActionEvent
 
-class BugattiAction : AnAction() {
+class JenkinsAction : AnAction() {
 
     override fun actionPerformed(e: AnActionEvent) {
-        BrowserUtil.open(AllProject.currentProject(e).bugatti.getBugattiUrl())
+        BrowserUtil.open(AllProject.currentProject(e).jenkins.getJenkinsUrl())
     }
 
     override fun update(e: AnActionEvent) {
-        e.presentation.isEnabled = AllProject.currentProject(e).bugatti.isSupport
+        e.presentation.isEnabled = AllProject.currentProject(e).jenkins.isSupport
     }
 
 }

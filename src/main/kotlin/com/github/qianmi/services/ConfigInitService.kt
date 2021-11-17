@@ -27,6 +27,9 @@ class ConfigInitService(project: Project) {
             //更新bugatti属性
             updateAttrWithBugatti(myProject, bugattiProjectInfo)
 
+            //更新jenkins属性
+            updateAttrWithJenkins(myProject, bugattiProjectInfo)
+
             //同步shell节点
             syncShellElement(myProject)
 
@@ -49,6 +52,11 @@ class ConfigInitService(project: Project) {
         myProject.bugatti.desc = result.description
         myProject.bugatti.projectName = result.projectName
         myProject.bugatti.isSupport = true
+    }
+
+    private fun updateAttrWithJenkins(myProject: AllProject.MyProject, result: BugattiProjectInfoResult) {
+        myProject.jenkins.projectName = result.jenkins
+        myProject.jenkins.isSupport = StringUtil.isNotBlank(result.jenkins)
     }
 
     private fun initAttrWithBugatti(myProject: AllProject.MyProject) {

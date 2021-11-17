@@ -10,6 +10,7 @@
 
     <extensions defaultExtensionNs="com.intellij">
         <projectService serviceImplementation="com.github.qianmi.services.ConfigInitService"/>
+        <notificationGroup id="qianmi-idea-plugin" displayType="BALLOON"/>
     </extensions>
 
     <applicationListeners>
@@ -73,6 +74,10 @@
                     text="Wiki">
             </action>
 
+            <action id="com.github.qianmi.action.JenkinsAction" class="com.github.qianmi.action.JenkinsAction"
+                    text="Jenkins">
+            </action>
+
             <action id="com.github.qianmi.action.GitBookAction" class="com.github.qianmi.action.GitBookAction"
                     text="Git Book">
             </action>
@@ -112,6 +117,11 @@
                     class="com.github.qianmi.action.EsBuilderAction"
                     icon="com.github.qianmi.util.QianmiIcons.es"
                     text="Es Builder">
+            </action>
+
+            <action id="com.github.qianmi.action.package.PackageAction"
+                    class="com.github.qianmi.action.package.PackageAction"
+                    text="Package">
             </action>
 
             <action id="com.github.qianmi.action.dubboinvoke.DubboInvokeAction"

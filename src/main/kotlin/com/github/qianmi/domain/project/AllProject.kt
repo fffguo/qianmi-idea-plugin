@@ -63,6 +63,7 @@ object AllProject {
         var apmDashboard: ApmDashboard = ApmDashboard.defaultApmDashboard()
         var mongoDBManager: MongoDBManager = MongoDBManager.defaultMongoDBManager()
         var wiki: Wiki = Wiki.defaultWiki()
+        var jenkins: Jenkins = Jenkins.defaultJenkins()
         var gitBook: GitBook = GitBook.defaultGitBook()
         var consoleOfD2pMc: ConsoleOfD2pMc = ConsoleOfD2pMc.defaultConsoleOfD2pMc()
         var consoleOfOms: ConsoleOfOms = ConsoleOfOms.defaultConsoleOfOms()

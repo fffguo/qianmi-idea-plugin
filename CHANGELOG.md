@@ -2,6 +2,18 @@
 
 # qianmi-idea-plugin Changelog
 
+## [1.1.0-RELEASE]
+
+### 新增功能
+
+- 域账号配置：支持配置域账号信息，用以登录bugatti
+- SNAPSHOT：支持构建 SNAPSHOT
+- jenkins：支持一键跳转至jenkins
+
+### 修复bug
+
+- 外网未连接vpn，插件初始化失败，导致idea打不开问题
+
 ## [1.0.0-RELEASE]
 
 ### 初始化

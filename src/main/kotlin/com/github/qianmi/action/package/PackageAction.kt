@@ -1,5 +1,6 @@
 package com.github.qianmi.action.`package`
 
+import com.github.qianmi.domain.project.AllProject
 import com.intellij.openapi.actionSystem.AnAction
 import com.intellij.openapi.actionSystem.AnActionEvent
 
@@ -13,6 +14,6 @@ class PackageAction : AnAction() {
     }
 
     override fun update(e: AnActionEvent) {
-        super.update(e)
+        e.presentation.isEnabled = AllProject.currentProject(e).jPackage.isSupport
     }
 }

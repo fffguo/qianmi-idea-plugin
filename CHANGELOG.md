@@ -7,6 +7,7 @@
 ### 新增功能
 
 - 域账号配置：支持配置域账号信息，用以登录bugatti
+- shell配置：支持配置shell默认账号、默认端口、默认工作目录
 - SNAPSHOT：支持构建 SNAPSHOT
 - jenkins：支持一键跳转至jenkins
 

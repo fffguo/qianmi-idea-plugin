@@ -1,44 +1,53 @@
 package com.github.qianmi.util
 
 import cn.hutool.core.collection.CollectionUtil
+import cn.hutool.core.date.DateField
+import cn.hutool.core.date.DateUtil
 import cn.hutool.http.ContentType
+import cn.hutool.http.HttpResponse
 import cn.hutool.http.HttpUtil
 import cn.hutool.http.Method
 import com.alibaba.fastjson.JSONObject
-import com.github.qianmi.config.BugattiConfig
 import com.github.qianmi.domain.enums.EnvEnum
 import com.github.qianmi.domain.project.AllProject
+import com.github.qianmi.domain.project.link.Bugatti
 import com.github.qianmi.domain.project.tools.Shell
 import com.github.qianmi.services.request.CiBuildRequest
 import com.github.qianmi.services.vo.*
+import com.github.qianmi.storage.BugattiCookie
+import com.github.qianmi.storage.DomainConfig
+import com.intellij.openapi.project.Project
 import org.jetbrains.annotations.NotNull
-import java.net.HttpCookie
 import java.util.*
 
 object BugattiHttpUtil {
 
-    private var cookie: HttpCookie? = null
+    private const val bugattiUrl = Bugatti.domainUrl
 
     @JvmStatic
-    fun loginBugatti(): HttpCookie? {
+    fun login(): HttpResponse {
+        return login(
+            DomainConfig.getInstance().userName,
+            DomainConfig.getInstance().passwd
+        )
+    }
+
+    @JvmStatic
+    fun login(userName: String, password: String): HttpResponse {
         val body: MutableMap<String, Any> = HashMap(8)
-        body["userName"] = BugattiConfig.userName
-        body["password"] = BugattiConfig.password
-        cookie = HttpUtil
-            .createPost(BugattiConfig.domain + "/login")
+        body["userName"] = userName
+        body["password"] = password
+        return HttpUtil
+            .createPost("$bugattiUrl/login")
             .body(JSONObject.toJSONString(body), ContentType.JSON.value)
             .execute()
-            .getCookie("SESSION")
-        return cookie
     }
 
     @NotNull
     @JvmStatic
     fun getProjectInfo(myProject: AllProject.MyProject): BugattiProjectInfoResult {
         val result: String = HttpUtil
-            .createGet(BugattiConfig.domain + String.format("/project/%s/%s",
-                myProject.bugatti.projectCode,
-                myProject.bugatti.envCode))
+            .createGet("$bugattiUrl/project/${myProject.bugatti.projectCode}/${myProject.bugatti.envCode}")
             .cookie(getCookie())
             .execute()
             .body()
@@ -50,7 +59,7 @@ object BugattiHttpUtil {
     @JvmStatic
     fun getBranchList(myProject: AllProject.MyProject): List<BugattiProjectBranchResult> {
         val result: String = HttpUtil
-            .createGet(BugattiConfig.domain + String.format("/ci/branchs?gitUrl=%s", myProject.gitlab.url))
+            .createGet("$bugattiUrl/ci/branchs?gitUrl=${myProject.gitlab.url}")
             .cookie(getCookie())
             .execute()
             .body()
@@ -64,8 +73,8 @@ object BugattiHttpUtil {
         if (EnvEnum.PROD == env) {
             return Collections.emptyList()
         }
-        val result: String = HttpUtil.createGet(BugattiConfig.domain
-                + String.format("/task/clusters?envId=%s&projectId=%s", env.bugatti.envCode, bugattiProjectCode))
+        val result = HttpUtil
+            .createGet("$bugattiUrl/task/clusters?envId=${env.bugatti.envCode}&projectId=$bugattiProjectCode")
             .cookie(getCookie())
             .execute()
             .body()
@@ -93,7 +102,7 @@ object BugattiHttpUtil {
     fun jenkinsCIBuild(myProject: AllProject.MyProject, branchName: String): BugattiResult {
 
         val result: String = HttpUtil
-            .createRequest(Method.PUT, BugattiConfig.domain + "/ci/build")
+            .createRequest(Method.PUT, "$bugattiUrl/ci/build")
             .body(JSONObject.toJSONString(CiBuildRequest.instanceOf(myProject, branchName)))
             .cookie(getCookie())
             .execute()
@@ -109,8 +118,7 @@ object BugattiHttpUtil {
     @JvmStatic
     fun ciBuildResult(myProject: AllProject.MyProject): BugattiCIBuildResult {
         val result: String = HttpUtil
-            .createGet(BugattiConfig.domain + String.format("/ci/builds?projectId=%s&page=0&pageSize=1",
-                myProject.bugatti.projectCode))
+            .createGet("$bugattiUrl/ci/builds?projectId=${myProject.bugatti.projectCode}&page=0&pageSize=1")
             .cookie(getCookie())
             .execute()
             .body()
@@ -121,19 +129,40 @@ object BugattiHttpUtil {
         return BugattiCIBuildResult()
     }
 
-    private fun getCookie(): HttpCookie? {
-        if (cookie != null) {
-            return cookie
+
+    @JvmStatic
+    fun clearCookie() {
+        BugattiCookie.getInstance().cookie = ""
+    }
+
+    private fun getCookie(): String {
+        val storage = BugattiCookie.getInstance()
+        if (StringUtil.isNotBlank(storage.cookie)) {
+            return storage.cookie
         }
-        return loginBugatti()
+        val cookie = login().getCookie("SESSION").toString()
+        storage.cookie = cookie
+        return cookie
+    }
+
+    fun refreshCookie(project: Project?): Boolean {
+        val httpResponse = login()
+        return if (httpResponse.isOk) {
+            BugattiCookie.getInstance().cookie = httpResponse.getCookie("SESSION").toString()
+            true
+        } else {
+            NotifyUtil.notifyError(project, "登录Bugatti失败！请检查账号密码是否正确; 内网网络是否通畅(VPN)")
+            false
+        }
     }
 
     init {
         //2小时更新一次 布加迪cookie
+        val time = 7200000L
         Timer().schedule(object : TimerTask() {
             override fun run() {
+                refreshCookie(null)
             }
-        }, Date(), 7200000L)
+        }, DateUtil.offset(Date(), DateField.SECOND, time.toInt()), time)
     }
-
 }

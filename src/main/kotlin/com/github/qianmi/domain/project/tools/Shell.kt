@@ -1,9 +1,9 @@
 package com.github.qianmi.domain.project.tools
 
-import com.github.qianmi.config.ShellConfig
 import com.github.qianmi.domain.enums.EnvEnum
 import com.github.qianmi.domain.project.AllProject
 import com.github.qianmi.services.vo.BugattiShellInfoResult
+import com.github.qianmi.storage.ShellConfig
 import com.intellij.openapi.project.Project
 import com.intellij.remote.AuthType
 import com.intellij.ssh.config.unified.SshConfig
@@ -46,22 +46,22 @@ class Shell(
         /**
          * 用户名
          */
-        var userName: String = ShellConfig.username
+        var userName: String = ShellConfig.getInstance().userName
 
         /**
          * 密码
          */
-        var password: String = ShellConfig.password
+        var password: String = ShellConfig.getInstance().passwd
 
         /**
          * 端口
          */
-        var port: Int = ShellConfig.port
+        var port: Int = ShellConfig.getInstance().port
 
         /**
          * 工作路径
          */
-        var workingDirectory: String = ShellConfig.workingDirectory
+        var workingDirectory: String = ShellConfig.getInstance().dir
 
         /**
          * 分组名称

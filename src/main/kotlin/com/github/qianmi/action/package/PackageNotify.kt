@@ -11,7 +11,7 @@ import java.util.*
 /**
  * 打包回调
  */
-class PackageNotify(project: Project?) {
+class PackageNotify(project: Project) {
     init {
         //2小时更新一次 布加迪cookie
         Timer().schedule(object : TimerTask() {

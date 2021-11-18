@@ -6,6 +6,7 @@ import com.github.qianmi.domain.project.link.console.ConsoleOfD2pMc
 import com.github.qianmi.domain.project.link.console.ConsoleOfOms
 import com.github.qianmi.domain.project.link.console.ConsoleOfPc
 import com.github.qianmi.domain.project.tools.DubboAdminInvoke
+import com.github.qianmi.domain.project.tools.JPackage
 import com.github.qianmi.domain.project.tools.Shell
 import com.intellij.openapi.actionSystem.AnActionEvent
 import com.intellij.openapi.project.Project
@@ -68,6 +69,7 @@ object AllProject {
         var consoleOfD2pMc: ConsoleOfD2pMc = ConsoleOfD2pMc.defaultConsoleOfD2pMc()
         var consoleOfOms: ConsoleOfOms = ConsoleOfOms.defaultConsoleOfOms()
         var consoleOfPc: ConsoleOfPc = ConsoleOfPc.defaultConsoleOfPc()
+        var jPackage: JPackage = JPackage.defaultJPackage()
 
         constructor(name: String) {
             this.name = name

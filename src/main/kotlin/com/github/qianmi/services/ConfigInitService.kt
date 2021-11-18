@@ -10,34 +10,53 @@ import com.github.qianmi.util.StringUtil
 import com.intellij.openapi.project.Project
 
 
-class ConfigInitService(project: Project) {
-    init {
-        try {
-            val myProject = AllProject.currentProject(project)
+class ConfigInitService(var project: Project) {
 
-            //初始化布加迪属性
-            initAttrWithBugatti(myProject)
+    fun init() {
 
-            //获取项目信息
-            val bugattiProjectInfo = BugattiHttpUtil.getProjectInfo(myProject)
+        val myProject = AllProject.currentProject(project)
 
-            //更新gitlab属性
-            updateAttrWithGitLab(myProject, bugattiProjectInfo)
+        //初始化布加迪属性
+        initAttrWithBugatti(myProject)
 
-            //更新bugatti属性
-            updateAttrWithBugatti(myProject, bugattiProjectInfo)
-
-            //更新jenkins属性
-            updateAttrWithJenkins(myProject, bugattiProjectInfo)
-
-            //同步shell节点
-            syncShellElement(myProject)
-
-        } catch (e: Exception) {
-
+        //刷新cookie
+        val refreshResult = BugattiHttpUtil.refreshCookie(project)
+        if (!refreshResult) {
+            return
         }
+
+        //获取项目信息
+        val bugattiProjectInfo = BugattiHttpUtil.getProjectInfo(myProject)
+
+        //更新gitlab属性
+        updateAttrWithGitLab(myProject, bugattiProjectInfo)
+
+        //更新bugatti属性
+        updateAttrWithBugatti(myProject, bugattiProjectInfo)
+
+        //更新jenkins属性
+        updateAttrWithJenkins(myProject, bugattiProjectInfo)
+
+        //更新package属性
+        updateAttrWithJPackage(myProject)
+
+        //同步shell节点
+        syncShellElement(myProject)
     }
 
+    private fun syncShellElement(myProject: AllProject.MyProject) {
+
+        //遍历处理环境上的shell节点
+        for (envEnum in EnvEnum.values()) {
+            val shellEleList = BugattiHttpUtil.getShellElementList(myProject.bugatti.projectCode, envEnum)
+            myProject.shell.eleMap[envEnum] = shellEleList
+        }
+        //当前环境存在shell节点
+        if (CollectionUtil.isNotEmpty(myProject.shell.eleMap[myProject.env])) {
+            myProject.shell.isSupport = true
+        }
+
+    }
 
     private fun updateAttrWithGitLab(myProject: AllProject.MyProject, result: BugattiProjectInfoResult) {
         if (StringUtil.isNotBlank(result.git)) {
@@ -59,6 +78,10 @@ class ConfigInitService(project: Project) {
         myProject.jenkins.isSupport = StringUtil.isNotBlank(result.jenkins)
     }
 
+    private fun updateAttrWithJPackage(myProject: AllProject.MyProject) {
+        myProject.jPackage.isSupport = true
+    }
+
     private fun initAttrWithBugatti(myProject: AllProject.MyProject) {
         val bugattiProjectEnum = BugattiProjectEnum.instanceOf(myProject.name)
         if (BugattiProjectEnum.NONE != bugattiProjectEnum) {
@@ -66,22 +89,5 @@ class ConfigInitService(project: Project) {
             myProject.bugatti.projectCode = bugattiProjectEnum.bugattiProjectCode
         }
     }
-
-    companion object {
-        fun syncShellElement(myProject: AllProject.MyProject) {
-
-            //遍历处理环境上的shell节点
-            for (envEnum in EnvEnum.values()) {
-                val shellEleList = BugattiHttpUtil.getShellElementList(myProject.bugatti.projectCode, envEnum)
-                myProject.shell.eleMap[envEnum] = shellEleList
-            }
-            //当前环境存在shell节点
-            if (CollectionUtil.isNotEmpty(myProject.shell.eleMap[myProject.env])) {
-                myProject.shell.isSupport = true
-            }
-
-        }
-    }
-
 
 }

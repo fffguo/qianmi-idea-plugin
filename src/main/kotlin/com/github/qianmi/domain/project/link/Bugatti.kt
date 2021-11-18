@@ -1,6 +1,5 @@
 package com.github.qianmi.domain.project.link
 
-import com.github.qianmi.config.BugattiConfig
 import com.github.qianmi.domain.project.AllProject
 
 
@@ -32,6 +31,7 @@ class Bugatti(
     companion object {
 
         private const val formatUrl = "{domain}/#/list/{envCode}/info/{projectCode}?txt={projectName}"
+        const val domainUrl = "http://bugatti.dev.qianmi.com"
 
         fun defaultBugatti(): Bugatti {
             return Bugatti(false, "", "", AllProject.defaultEnv.bugatti.envCode, "")
@@ -43,7 +43,7 @@ class Bugatti(
      */
     fun getBugattiUrl(): String {
         return formatUrl
-            .replace("{domain}", BugattiConfig.domain)
+            .replace("{domain}", domainUrl)
             .replace("{envCode}", envCode)
             .replace("{projectCode}", projectCode)
             .replace("{projectName}", projectName)

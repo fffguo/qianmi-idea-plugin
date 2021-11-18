@@ -20,7 +20,7 @@ import javax.swing.*
  * @author lfg
  * @version 1.0
  */
-class PackageDialog(private val project: Project?) : DialogWrapper(project) {
+class PackageDialog(private val project: Project) : DialogWrapper(project) {
     //总容器
     private var panel = JPanel(VerticalLayout(20, SwingConstants.LEFT))
 
@@ -66,20 +66,7 @@ class PackageDialog(private val project: Project?) : DialogWrapper(project) {
      * 处理验证
      */
     override fun doValidateAll(): List<ValidationInfo> {
-        val result: MutableList<ValidationInfo> = ArrayList()
-//        argMap.values
-//            .stream()
-//            .filter { arg -> !MyPsiUtil.isIgnoreType(arg.psiParameter.type.presentableText) }
-//            .forEach { arg ->
-//                run {
-//                    try {
-//                        JSONObject.parse(arg.jTextArea.text)
-//                    } catch (e: Exception) {
-//                        result.add(ValidationInfo("Json 格式有误", arg.jTextArea))
-//                    }
-//                }
-//            }
-        return result
+        return ArrayList()
     }
 
     /**
@@ -134,7 +121,7 @@ class PackageDialog(private val project: Project?) : DialogWrapper(project) {
 
         comboBox = ComboBox(branchList.toTypedArray())
 
-        val currentBranch = CurrentBranchComponent.getCurrentBranch(project!!, project.projectFile!!)
+        val currentBranch = CurrentBranchComponent.getCurrentBranch(project, project.projectFile!!)
 
         if (currentBranch != null && branchList.contains(currentBranch.branchName ?: "")) {
             comboBox.item = currentBranch.branchName

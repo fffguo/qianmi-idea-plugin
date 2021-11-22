@@ -16,14 +16,14 @@ class ConfigInitService(var project: Project) {
 
         val myProject = AllProject.currentProject(project)
 
-        //初始化布加迪属性
-        initAttrWithBugatti(myProject)
-
         //刷新cookie
         val refreshResult = BugattiHttpUtil.refreshCookie(project)
         if (!refreshResult) {
             return
         }
+
+        //初始化布加迪属性
+        initAttrWithBugatti(myProject)
 
         //获取项目信息
         val bugattiProjectInfo = BugattiHttpUtil.getProjectInfo(myProject)

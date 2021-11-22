@@ -7,7 +7,7 @@ import com.intellij.openapi.application.ApplicationManager
 import com.intellij.openapi.application.ModalityState
 import com.intellij.openapi.options.ShowSettingsUtil
 
-class AccountAction : AnAction() {
+class SettingAction : AnAction() {
 
     override fun actionPerformed(e: AnActionEvent) {
 

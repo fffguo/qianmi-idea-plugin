@@ -12,6 +12,7 @@ import com.github.qianmi.domain.enums.EnvEnum
 import com.github.qianmi.domain.project.AllProject
 import com.github.qianmi.domain.project.link.Bugatti
 import com.github.qianmi.domain.project.tools.Shell
+import com.github.qianmi.services.request.CiBuildReleaseRequest
 import com.github.qianmi.services.request.CiBuildRequest
 import com.github.qianmi.services.vo.*
 import com.github.qianmi.storage.BugattiCookie
@@ -67,6 +68,39 @@ object BugattiHttpUtil {
         return CollectionUtil.emptyIfNull(JSONObject.parseArray(result, BugattiProjectBranchResult::class.java))
     }
 
+    /**
+     * Returns 分支名称，版本信息
+     */
+    @NotNull
+    @JvmStatic
+    fun mapLastBetaVersion(myProject: AllProject.MyProject): Map<String, BugattiLastVersionResult> {
+        val result: String = HttpUtil
+            .createGet("$bugattiUrl/project/${myProject.bugatti.projectCode}/versoin/lastbetaversion")
+            .cookie(getCookie())
+            .execute()
+            .body()
+
+        return CollectionUtil.emptyIfNull(JSONObject.parseArray(result, BugattiLastVersionResult::class.java))
+            .associateBy { it.branch }
+
+    }
+
+    @NotNull
+    @JvmStatic
+    fun getLastReleaseVersion(myProject: AllProject.MyProject): BugattiLastVersionResult? {
+        val result: String = HttpUtil
+            .createGet("$bugattiUrl/project/${myProject.bugatti.projectCode}/versoin/lastrelaseversion")
+            .cookie(getCookie())
+            .execute()
+            .body()
+
+        val resultList = CollectionUtil.emptyIfNull(JSONObject.parseArray(result, BugattiLastVersionResult::class.java))
+        if (CollectionUtil.isNotEmpty(resultList)) {
+            return resultList[0]
+        }
+        return null
+    }
+
     @JvmStatic
     fun getShellElementList(bugattiProjectCode: String, env: EnvEnum): List<Shell.Element> {
         //屏蔽生产环境
@@ -116,9 +150,51 @@ object BugattiHttpUtil {
 
     @NotNull
     @JvmStatic
+    fun jenkinsCIRelease(
+        myProject: AllProject.MyProject,
+        branchName: String,
+        version: String,
+        snapshotVersion: String,
+    ): BugattiResult {
+
+        val result: String = HttpUtil
+            .createRequest(Method.PUT, "$bugattiUrl/ci/release?force=true")
+            .body(JSONObject.toJSONString(CiBuildReleaseRequest.instanceOf(myProject,
+                branchName,
+                version,
+                snapshotVersion)))
+            .cookie(getCookie())
+            .execute()
+            .body()
+        val releaseResult = JSONObject.parseObject(result, BugattiCIReleaseResult::class.java)
+
+        return if (BugattiResult.SUCCESS == releaseResult.data) {
+            BugattiResult.success()
+        } else {
+            BugattiResult.fail(releaseResult.data)
+        }
+    }
+
+    @NotNull
+    @JvmStatic
     fun ciBuildResult(myProject: AllProject.MyProject): BugattiCIBuildResult {
         val result: String = HttpUtil
             .createGet("$bugattiUrl/ci/builds?projectId=${myProject.bugatti.projectCode}&page=0&pageSize=1")
+            .cookie(getCookie())
+            .execute()
+            .body()
+        val resultList = JSONObject.parseArray(result, BugattiCIBuildResult::class.java)
+        if (CollectionUtil.isNotEmpty(resultList)) {
+            return resultList[0]
+        }
+        return BugattiCIBuildResult()
+    }
+
+    @NotNull
+    @JvmStatic
+    fun ciReleaseResult(myProject: AllProject.MyProject, version: String, branchName: String): BugattiCIBuildResult {
+        val result: String = HttpUtil
+            .createGet("$bugattiUrl/ci/releases?projectId=${myProject.bugatti.projectCode}&page=0&pageSize=1&version=${version}&user=&tag=${branchName}")
             .cookie(getCookie())
             .execute()
             .body()

@@ -1,6 +1,7 @@
 package com.github.qianmi.action.`package`
 
 import com.github.qianmi.domain.project.AllProject
+import com.github.qianmi.ui.PackagePage
 import com.intellij.openapi.actionSystem.AnAction
 import com.intellij.openapi.actionSystem.AnActionEvent
 
@@ -10,7 +11,7 @@ import com.intellij.openapi.actionSystem.AnActionEvent
 class PackageAction : AnAction() {
 
     override fun actionPerformed(e: AnActionEvent) {
-        PackageDialog(e.project!!).show()
+        PackagePage(e.project!!).open()
     }
 
     override fun update(e: AnActionEvent) {

@@ -3,6 +3,7 @@ package com.github.qianmi.action.`package`
 import com.alibaba.fastjson.JSONObject
 import com.github.qianmi.action.BugattiAction
 import com.github.qianmi.domain.project.AllProject
+import com.github.qianmi.ui.PackagePage
 import com.github.qianmi.util.BugattiHttpUtil
 import com.github.qianmi.util.NotifyUtil
 import com.intellij.openapi.project.Project
@@ -11,14 +12,24 @@ import java.util.*
 /**
  * 打包回调
  */
-class PackageNotify(project: Project) {
+class PackageNotify(project: Project, buildType: PackagePage.BuildType, version: String, branchName: String) {
+
+
     init {
-        //2小时更新一次 布加迪cookie
+
         Timer().schedule(object : TimerTask() {
 
             override fun run() {
                 val myProject = AllProject.currentProject(project)
-                val ciBuildResult = BugattiHttpUtil.ciBuildResult(myProject)
+                val ciBuildResult =
+                    when (buildType) {
+                        PackagePage.BuildType.SNAPSHOT -> {
+                            BugattiHttpUtil.ciBuildResult(myProject)
+                        }
+                        PackagePage.BuildType.BETA, PackagePage.BuildType.RELEASE -> {
+                            BugattiHttpUtil.ciReleaseResult(myProject, version, branchName)
+                        }
+                    }
 
                 println(JSONObject.toJSONString(ciBuildResult))
                 if (ciBuildResult.running()) {
@@ -40,6 +51,6 @@ class PackageNotify(project: Project) {
                 }
             }
 
-        }, Date(), 1000L)
+        }, Date(), 5000L)
     }
 }

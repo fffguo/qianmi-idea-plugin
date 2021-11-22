@@ -14,6 +14,7 @@
         <!-- 项目配置 -->
         <projectConfigurable id="com.github.qianmi.ui.PluginSettingPage"
                              instance="com.github.qianmi.ui.PluginSettingPage" displayName="千米网"/>
+
         <!-- 项目级 配置初始化-->
         <projectService serviceImplementation="com.github.qianmi.services.ConfigInitService"/>
         <!-- app级 配置存储-->
@@ -35,7 +36,7 @@
         </action>
 
         <!--域账号配置-->
-        <action id="com.github.qianmi.action.AccountAction" class="com.github.qianmi.action.AccountAction"/>
+        <action id="com.github.qianmi.action.SettingAction" class="com.github.qianmi.action.SettingAction"/>
 
         <action id="com.github.qianmi.action.shell.ShellAction"
                 class="com.github.qianmi.action.shell.ShellAction"

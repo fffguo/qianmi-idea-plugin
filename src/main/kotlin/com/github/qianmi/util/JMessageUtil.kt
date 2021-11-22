@@ -15,6 +15,6 @@ object JMessageUtil {
 
     @JvmStatic
     fun showTrue(title: String, message: String) {
-        jMessage.showErrorDialog(title, message, "确定", null)
+        jMessage.showOkMessageDialog(title, message, "确定", null)
     }
 }

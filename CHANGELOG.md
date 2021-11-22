@@ -8,7 +8,7 @@
 
 - 域账号配置：支持配置域账号信息，用以登录bugatti
 - shell配置：支持配置shell默认账号、默认端口、默认工作目录
-- SNAPSHOT：支持构建 SNAPSHOT、beta、release，并支持打包结果回调
+- build：支持构建 SNAPSHOT、BETA、RELEASE，并支持打包结果回调
 - jenkins：支持一键跳转至jenkins
 
 ### 修复bug

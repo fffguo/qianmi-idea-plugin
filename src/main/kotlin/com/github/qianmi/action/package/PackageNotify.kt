@@ -1,6 +1,5 @@
 package com.github.qianmi.action.`package`
 
-import com.alibaba.fastjson.JSONObject
 import com.github.qianmi.action.BugattiAction
 import com.github.qianmi.domain.project.AllProject
 import com.github.qianmi.ui.PackagePage
@@ -14,9 +13,7 @@ import java.util.*
  */
 class PackageNotify(project: Project, buildType: PackagePage.BuildType, version: String, branchName: String) {
 
-
     init {
-
         Timer().schedule(object : TimerTask() {
 
             override fun run() {
@@ -31,7 +28,6 @@ class PackageNotify(project: Project, buildType: PackagePage.BuildType, version:
                         }
                     }
 
-                println(JSONObject.toJSONString(ciBuildResult))
                 if (ciBuildResult.running()) {
                     return
                 }

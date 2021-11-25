@@ -247,11 +247,7 @@ class PackagePage : JDialog {
         //填充分支
         branchList.forEach { branchName -> selected!!.addItem(branchName) }
         //当前分支
-        val currentBranch = if (buildType == RELEASE) {
-            "master"
-        } else {
-            BranchUtil.getCurrentBranchName(project!!)
-        }
+        val currentBranch = BranchUtil.getCurrentBranchName(project!!)
 
         //默认选中分支
         if (this.branchList.contains(currentBranch)) {
@@ -264,7 +260,7 @@ class PackagePage : JDialog {
                 updateBetaVersionInfo(this.betaGitBranchSelected!!.selectedItem as String)
             }
         }
-        return currentBranch
+        return (selected!!.selectedItem as String).toString()
     }
 
     /**

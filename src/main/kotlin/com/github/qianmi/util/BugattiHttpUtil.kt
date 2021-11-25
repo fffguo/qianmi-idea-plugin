@@ -3,6 +3,7 @@ package com.github.qianmi.util
 import cn.hutool.core.collection.CollectionUtil
 import cn.hutool.core.date.DateField
 import cn.hutool.core.date.DateUtil
+import cn.hutool.core.io.IORuntimeException
 import cn.hutool.http.ContentType
 import cn.hutool.http.HttpResponse
 import cn.hutool.http.HttpUtil
@@ -19,6 +20,7 @@ import com.github.qianmi.storage.BugattiCookie
 import com.github.qianmi.storage.DomainConfig
 import com.intellij.openapi.project.Project
 import org.jetbrains.annotations.NotNull
+import org.jetbrains.annotations.Nullable
 import java.util.*
 
 object BugattiHttpUtil {
@@ -26,11 +28,29 @@ object BugattiHttpUtil {
     private const val bugattiUrl = Bugatti.domainUrl
 
     @JvmStatic
-    fun login(): HttpResponse {
-        return login(
-            DomainConfig.getInstance().userName,
-            DomainConfig.getInstance().passwd
-        )
+    @Nullable
+    fun login(project: Project?): HttpResponse? {
+        try {
+            val httpResponse = login(
+                DomainConfig.getInstance().userName,
+                DomainConfig.getInstance().passwd
+            )
+            if (httpResponse.status == 406) {
+                NotifyUtil.notifyError(project, "登录Bugatti失败！账号或密码错误~")
+            } else {
+                BugattiCookie.getInstance().cookie = httpResponse.getCookie("SESSION").toString()
+            }
+            return httpResponse
+        } catch (e: IORuntimeException) {
+            NotifyUtil.notifyError(project, "登录Bugatti失败！请检查网络(VPN)是否通畅~")
+        }
+        return null
+    }
+
+    @JvmStatic
+    fun isLoginSuccess(httpResponse: HttpResponse?): Boolean {
+        return httpResponse != null
+                && httpResponse.isOk
     }
 
     @JvmStatic
@@ -41,6 +61,7 @@ object BugattiHttpUtil {
         return HttpUtil
             .createPost("$bugattiUrl/login")
             .body(JSONObject.toJSONString(body), ContentType.JSON.value)
+            .timeout(3000)
             .execute()
     }
 
@@ -216,20 +237,16 @@ object BugattiHttpUtil {
         if (StringUtil.isNotBlank(storage.cookie)) {
             return storage.cookie
         }
-        val cookie = login().getCookie("SESSION").toString()
-        storage.cookie = cookie
-        return cookie
+        val login = login(null)
+        val loginSuccess = isLoginSuccess(login)
+        if (loginSuccess) {
+            return storage.cookie
+        }
+        return ""
     }
 
-    fun refreshCookie(project: Project?): Boolean {
-        val httpResponse = login()
-        return if (httpResponse.isOk) {
-            BugattiCookie.getInstance().cookie = httpResponse.getCookie("SESSION").toString()
-            true
-        } else {
-            NotifyUtil.notifyError(project, "登录Bugatti失败！请检查账号密码是否正确; 内网网络是否通畅(VPN)")
-            false
-        }
+    fun refreshCookie(project: Project?) {
+        login(project)
     }
 
     init {

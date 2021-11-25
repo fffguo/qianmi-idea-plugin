@@ -16,9 +16,9 @@ class ConfigInitService(var project: Project) {
 
         val myProject = AllProject.currentProject(project)
 
-        //刷新cookie
-        val refreshResult = BugattiHttpUtil.refreshCookie(project)
-        if (!refreshResult) {
+        //登录失败直接返回
+        val login = BugattiHttpUtil.login(project)
+        if (!BugattiHttpUtil.isLoginSuccess(login)) {
             return
         }
 

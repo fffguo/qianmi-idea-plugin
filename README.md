@@ -59,7 +59,7 @@ functions to improve employee work efficiency.</h4>
 <li> Package：支持idea中直接打包，并直接打包结果回调</li>
 <li> Jenkins：支持一键跳转至jenkins</li>
 </ul>
-<!-- Plugin description en
+<!-- Plugin description end -->
 
 ## Installation
 

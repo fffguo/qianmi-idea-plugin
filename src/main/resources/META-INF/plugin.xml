@@ -50,8 +50,8 @@
                 text="Es Builder">
         </action>
 
-        <action id="com.github.qianmi.action.package.PackageAction"
-                class="com.github.qianmi.action.package.PackageAction"
+        <action id="com.github.qianmi.action.packaging.PackageAction"
+                class="com.github.qianmi.action.packaging.PackageAction"
                 text="Package">
         </action>
 
@@ -130,6 +130,8 @@
                 text="Console PC">
         </action>
 
+        <action id="com.github.qianmi.action.CopyAction" class="com.github.qianmi.action.CopyAction"/>
+
         <!-- 千米 超链接 -->
         <group id="com.github.qianmi.group.QianmiLinkGroup" class="com.github.qianmi.group.QianmiLinkGroup"
                icon="com.github.qianmi.util.QianmiIcons.qianmi"
@@ -162,7 +164,7 @@
                text="Qianmi Tools">
             <add-to-group group-id="EditorPopupMenu" anchor="first"/>
 
-            <reference ref="com.github.qianmi.action.package.PackageAction"/>
+            <reference ref="com.github.qianmi.action.packaging.PackageAction"/>
             <reference ref="com.github.qianmi.action.shell.ShellAction"/>
             <reference ref="com.github.qianmi.action.EsBuilderAction"/>
             <reference ref="com.github.qianmi.action.dubboinvoke.DubboInvokeAction"/>

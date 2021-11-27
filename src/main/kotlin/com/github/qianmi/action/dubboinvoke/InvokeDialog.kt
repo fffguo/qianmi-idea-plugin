@@ -2,10 +2,7 @@ package com.github.qianmi.action.dubboinvoke
 
 import com.alibaba.fastjson.JSONObject
 import com.github.qianmi.domain.project.tools.DubboAdminInvoke
-import com.github.qianmi.util.JsonConverter
-import com.github.qianmi.util.JsonPrettyUtil
-import com.github.qianmi.util.MyPsiUtil
-import com.github.qianmi.util.StringUtil
+import com.github.qianmi.util.*
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.ui.DialogWrapper
 import com.intellij.openapi.ui.ValidationInfo
@@ -15,8 +12,6 @@ import com.intellij.ui.DocumentAdapter
 import com.intellij.ui.components.JBScrollPane
 import com.intellij.ui.components.panels.VerticalLayout
 import com.intellij.util.ui.components.BorderLayoutPanel
-import java.awt.Toolkit
-import java.awt.datatransfer.StringSelection
 import javax.swing.*
 import javax.swing.event.DocumentEvent
 
@@ -41,9 +36,7 @@ class InvokeDialog(var project: Project?, var psiMethod: PsiMethod) : DialogWrap
      */
     override fun doOKAction() {
         super.doOKAction()
-        val selection = StringSelection(preJTextArea.text)
-        val clipboard = Toolkit.getDefaultToolkit().systemClipboard
-        clipboard.setContents(selection, selection)
+        CopyUtil.copy(preJTextArea.text)
     }
 
     /**

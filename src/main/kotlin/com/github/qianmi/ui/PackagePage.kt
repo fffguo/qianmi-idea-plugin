@@ -2,7 +2,7 @@ package com.github.qianmi.ui
 
 import cn.hutool.core.map.MapUtil
 import com.github.qianmi.action.BugattiAction
-import com.github.qianmi.action.`package`.PackageNotify
+import com.github.qianmi.action.packaging.PackageNotify
 import com.github.qianmi.domain.project.AllProject
 import com.github.qianmi.services.vo.BugattiLastVersionResult
 import com.github.qianmi.ui.PackagePage.BuildType.*
@@ -126,10 +126,6 @@ class PackagePage : JDialog {
         this.snapshotGitUrlText!!.text = myProject!!.gitlab.url
         //分支处理
         this.branchHandler(this.snapshotGitBranchSelected, SNAPSHOT)
-        //构建snapshot
-        this.snapshotBuildButton!!.addActionListener {
-            buildButtonListener(this.snapshotGitBranchSelected, SNAPSHOT, "", "")
-        }
     }
 
 
@@ -142,14 +138,6 @@ class PackagePage : JDialog {
         val currentBranch = this.branchHandler(this.betaGitBranchSelected, BETA)
         //默认版本信息
         updateBetaVersionInfo(currentBranch)
-        //构建按钮
-        this.betaBuildButton!!.addActionListener {
-            buildButtonListener(this.betaGitBranchSelected,
-                BETA,
-                this.betaVersionText!!.text,
-                this.betaSnapshotVersionText!!.text)
-        }
-
     }
 
 
@@ -166,13 +154,7 @@ class PackagePage : JDialog {
         }
         this.releaseVersionText!!.text = this.releasePreBranch!!.version
         this.releaseSnapshotVersionText!!.text = this.releasePreBranch!!.sVersion
-        //构建
-        this.releaseBuildButton!!.addActionListener {
-            buildButtonListener(this.releaseGitBranchSelected,
-                BETA,
-                this.releaseVersionText!!.text,
-                this.releaseSnapshotVersionText!!.text)
-        }
+
     }
 
 
@@ -240,8 +222,31 @@ class PackagePage : JDialog {
                 2 -> initRelease()
             }
         }
+
+        //构建打包按钮
+        initBuildButton()
     }
 
+    private fun initBuildButton() {
+        //构建按钮 snapshot
+        this.snapshotBuildButton!!.addActionListener {
+            buildButtonListener(this.snapshotGitBranchSelected, SNAPSHOT, "", "")
+        }
+        //构建按钮 beta
+        this.betaBuildButton!!.addActionListener {
+            buildButtonListener(this.betaGitBranchSelected,
+                BETA,
+                this.betaVersionText!!.text,
+                this.betaSnapshotVersionText!!.text)
+        }
+        //构建按钮 release
+        this.releaseBuildButton!!.addActionListener {
+            buildButtonListener(this.releaseGitBranchSelected,
+                BETA,
+                this.releaseVersionText!!.text,
+                this.releaseSnapshotVersionText!!.text)
+        }
+    }
 
     private fun branchHandler(selected: JComboBox<String>?, buildType: BuildType): String {
         //填充分支

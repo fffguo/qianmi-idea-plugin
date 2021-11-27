@@ -8,32 +8,12 @@
 <a href="https://github.com/fffguo/qianmi-idea-plugin">GitHub</a>
 <br/>
 <br/>
-<p>  仅供千米网使用的插件.  </p>
-<p> 1）提供跳转至bugatti、gitlab、wiki等内网基础设施.</p>
-<p> 2）提供在终端中直连环境上linux节点 </p>
-<p> 3）提供一个dubbo invoke命令生成小工具 </p>
+<p> only support qianmi use </p>
+<p> 1）link to bugatti、gitlab、wiki......</p>
+<p> 2）open ssh to test env linux</p>
+<p> 3）copy dubbo invoke command</p>
+<p> 4）build snapshot beta release</p>
 <br/>
-<h4>详细描述</h4>
-<p> Shell：支持根据项目和环境，直接在终端连接对应节点</p>
-<p> DubboInvoke：支持根据选中方法，构建 Dubbo invoke 命令</p>
-<p> Bugatti：支持根据项目和环境，一键跳转至 Bugatti</p>
-<p> Gitlab：支持根据项目，一键跳转至 gitlab</p>
-<p> DubboAdmin：支持根据环境，一键跳转至 DubboAdmin</p>
-<p> RocketMq：支持根据环境，一键跳转至 RocketMq</p>
-<p> ActiveMq：支持根据环境，一键跳转至 ActiveMq</p>
-<p> Trace：支持根据环境，一键跳转至 Trace</p>
-<p> Gavin：支持根据环境，一键跳转至 Gavin</p>
-<p> QianmiAdmin: 支持根据环境，一键跳转至 QianmiAdmin</p>
-<p> ApmDashboard：一键跳转至 ApmDashboard</p>
-<p> MongoDBManager：一键跳转至 MongoDBManager</p>
-<p> Wiki：一键跳转至 Wiki</p>
-<p> gitBook：一键跳转至 gitBook</p>
-<p> ConsoleOfPc：支持根据环境，一键跳转至 商品控制台</p>
-<p> ConsoleOfD2pMc：支持根据环境，一键跳转至 分销营销控制台</p>
-<p> ConsoleOfOms：支持根据环境，一键跳转至 OMS控制台</p>
-<p> 域账号配置：支持配置域账号信息，用以登录bugatti</p>
-<p> SNAPSHOT：支持构建 SNAPSHOT</p>
-<p> jenkins：支持一键跳转至jenkins</p>
 
 <!-- Plugin description end -->
 

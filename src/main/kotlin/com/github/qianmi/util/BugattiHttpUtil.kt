@@ -226,7 +226,6 @@ object BugattiHttpUtil {
         return BugattiCIBuildResult()
     }
 
-
     @JvmStatic
     fun clearCookie() {
         BugattiCookie.getInstance().cookie = ""

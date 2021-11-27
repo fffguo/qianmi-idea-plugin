@@ -15,4 +15,12 @@ class BugattiAction : AnAction() {
         e.presentation.isEnabled = AllProject.currentProject(e).bugatti.isSupport
     }
 
+    companion object {
+        fun instanceOf(presentText: String): BugattiAction {
+            val bugattiAction = BugattiAction()
+            bugattiAction.templatePresentation.text = presentText
+            return bugattiAction
+        }
+    }
+
 }

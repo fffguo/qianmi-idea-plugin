@@ -1,6 +1,7 @@
-package com.github.qianmi.action.`package`
+package com.github.qianmi.action.packaging
 
 import com.github.qianmi.action.BugattiAction
+import com.github.qianmi.action.CopyAction
 import com.github.qianmi.domain.project.AllProject
 import com.github.qianmi.ui.PackagePage
 import com.github.qianmi.util.BugattiHttpUtil
@@ -32,15 +33,18 @@ class PackageNotify(project: Project, buildType: PackagePage.BuildType, version:
                     return
                 }
                 try {
-                    val bugattiAction = BugattiAction()
-                    bugattiAction.templatePresentation.text = "Go Bugatti Look Look"
-
-                    var message = "构建成功啦，当前版本号：" + ciBuildResult.version
-                    if (ciBuildResult.isFail()) {
-                        message = "构建失败了，出了点小问题，快去瞅瞅啥情况吧~"
-                    }
                     //idea 通知
-                    NotifyUtil.notifyInfoWithAction(project, message, bugattiAction)
+                    NotifyUtil.notifyInfoWithAction(project,
+                        "构建成功啦，当前版本号：${ciBuildResult.version}",
+                        listOf(
+                            BugattiAction.instanceOf("Go Bugatti"),
+                            CopyAction.instanceOf("复制版本信息",
+                                "以下包需帮忙升下级：" +
+                                        "\n----------------------------------------" +
+                                        "\n\t项目名：${myProject.bugatti.projectName}" +
+                                        "\n\t版本号：${ciBuildResult.version}" +
+                                        "\n----------------------------------------")
+                        ))
                 } finally {
                     //取消定时任务
                     this.cancel()

@@ -9,6 +9,7 @@
 - 外网未连接vpn场景，idea打开极慢，设置登录bugatti超时时间3秒
 - 打包RELEASE，支持选择分支（小店场景）
 - 布加迪项目映射 d2p-admin-api 改为 d2p-admin-bff
+- 打包tab切换，重复添加按钮事件问题
 
 ## [1.1.0-RELEASE]
 

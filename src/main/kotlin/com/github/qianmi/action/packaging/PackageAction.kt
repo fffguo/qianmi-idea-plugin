@@ -1,4 +1,4 @@
-package com.github.qianmi.action.`package`
+package com.github.qianmi.action.packaging
 
 import com.github.qianmi.domain.project.AllProject
 import com.github.qianmi.ui.PackagePage

@@ -25,8 +25,7 @@ class ShellAction : AnAction() {
         val actionList = eleList.stream()
             .map { ele -> ShellSelectedAction(ele) }
             .peek { action ->
-                action.templatePresentation.text =
-                    String.format("%s: %s(%s)", action.ele.group, action.ele.ip, action.ele.version)
+                action.templatePresentation.text = "${action.ele.group}: \n \n${action.ele.ip}(${action.ele.version})"
             }
             .collect(Collectors.toList())
         //创建popup

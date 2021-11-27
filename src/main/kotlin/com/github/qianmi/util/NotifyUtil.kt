@@ -24,9 +24,14 @@ object NotifyUtil {
 
     @JvmStatic
     fun notifyInfoWithAction(@Nullable project: Project?, content: String?, action: AnAction) {
+        notifyInfoWithAction(project, content, listOf(action))
+    }
+
+    @JvmStatic
+    fun notifyInfoWithAction(@Nullable project: Project?, content: String?, actions: Collection<AnAction>) {
         notification
             .createNotification(content!!, NotificationType.INFORMATION)
-            .addAction(action)
+            .addActions(actions)
             .notify(project)
     }
 

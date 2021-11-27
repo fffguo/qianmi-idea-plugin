@@ -2,6 +2,8 @@
 
 # qianmi-idea-plugin Changelog
 
+## [Unreleased]
+
 ## [1.2.0-RELEASE]
 
 ### 优化

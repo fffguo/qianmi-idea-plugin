@@ -8,6 +8,7 @@ import com.intellij.openapi.project.Project
 import com.intellij.remote.AuthType
 import com.intellij.ssh.config.unified.SshConfig
 import com.intellij.ssh.ui.unified.SshUiData
+import com.jetbrains.plugins.remotesdk.console.SshConsoleOptionsProvider
 import com.jetbrains.plugins.remotesdk.console.SshTerminalCachingRunner
 import org.jetbrains.plugins.terminal.TerminalTabState
 import org.jetbrains.plugins.terminal.TerminalView
@@ -84,7 +85,8 @@ class Shell(
         }
 
         fun openSshTerminal(project: Project) {
-            val runner = SshTerminalCachingRunner(project, createSshUiData(), Charset.defaultCharset())
+            val charset = SshConsoleOptionsProvider.getInstance(project).charset
+            val runner = SshTerminalCachingRunner(project, createSshUiData(), charset)
             //开启openssh
             TerminalView.getInstance(project).createNewSession(runner, buildTerminalTabState())
         }

@@ -4,6 +4,12 @@
 
 ## [Unreleased]
 
+## [1.3.0-RELEASE]
+
+### 修复BUG
+
+- 修复ssh终端中文乱码问题
+
 ## [1.2.0-RELEASE]
 
 ### 优化

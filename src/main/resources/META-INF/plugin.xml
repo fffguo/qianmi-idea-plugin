@@ -41,7 +41,7 @@
         <action id="com.github.qianmi.action.shell.ShellAction"
                 class="com.github.qianmi.action.shell.ShellAction"
                 icon="com.github.qianmi.util.QianmiIcons.shell"
-                text="Shell Terminal">
+                text="SSH Terminal">
         </action>
 
         <action id="com.github.qianmi.action.EsBuilderAction"
@@ -131,6 +131,8 @@
         </action>
 
         <action id="com.github.qianmi.action.CopyAction" class="com.github.qianmi.action.CopyAction"/>
+        <action id="com.github.qianmi.action.ftp.FtpAction" class="com.github.qianmi.action.ftp.FtpAction"
+                text="SFTP Folder"/>
 
         <!-- 千米 超链接 -->
         <group id="com.github.qianmi.group.QianmiLinkGroup" class="com.github.qianmi.group.QianmiLinkGroup"
@@ -166,6 +168,7 @@
 
             <reference ref="com.github.qianmi.action.packaging.PackageAction"/>
             <reference ref="com.github.qianmi.action.shell.ShellAction"/>
+            <reference ref="com.github.qianmi.action.ftp.FtpAction"/>
             <reference ref="com.github.qianmi.action.EsBuilderAction"/>
             <reference ref="com.github.qianmi.action.dubboinvoke.DubboInvokeAction"/>
         </group>

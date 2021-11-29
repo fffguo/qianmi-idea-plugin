@@ -16,6 +16,11 @@ class ConfigInitService(var project: Project) {
 
         val myProject = AllProject.currentProject(project)
 
+        val bugattiProjectEnum = BugattiProjectEnum.instanceOf(myProject.name)
+        if (BugattiProjectEnum.NONE == bugattiProjectEnum) {
+            return
+        }
+
         //登录失败直接返回
         val login = BugattiHttpUtil.login(project)
         if (!BugattiHttpUtil.isLoginSuccess(login)) {

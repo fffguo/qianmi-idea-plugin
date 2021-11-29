@@ -6,35 +6,73 @@
 
 ## [1.3.0-RELEASE]
 
-### 修复BUG
+### FIX BUG
+
+- Fix ssh terminal Chinese garbled problem
+
 
 - 修复ssh终端中文乱码问题
 
+### ADD
+
+- Support one-click connection test environment sftp
+
+
+- 支持一键连接测试环境sftp
+
 ## [1.2.0-RELEASE]
 
-### 优化
+### FIX BUG
+
+- The VPN is not connected to the external network, the idea is very slow to open, and the login bugatti timeout time is
+  set to 3 seconds
+- Bugatti project mapping d2p-admin-api changed to d2p-admin-bff
+- Package tab switch, add button event repeatedly
+- RELEASE support branch selection
+
 
 - 外网未连接vpn场景，idea打开极慢，设置登录bugatti超时时间3秒
-- 打包RELEASE，支持选择分支（小店场景）
 - 布加迪项目映射 d2p-admin-api 改为 d2p-admin-bff
 - 打包tab切换，重复添加按钮事件问题
+- 打包RELEASE，支持选择分支（小店场景）
 
 ## [1.1.0-RELEASE]
 
-### 新增功能
+### ADD
+
+- Domain account configuration：Support configuration of domain account information to log in to bugatti
+- shell configuration：Support to configure shell default account, default port, default working directory
+- build：Support construction of SNAPSHOT, BETA, RELEASE, and support package result callback
+- jenkins：Support one-click jump to jenkins
+
 
 - 域账号配置：支持配置域账号信息，用以登录bugatti
 - shell配置：支持配置shell默认账号、默认端口、默认工作目录
 - build：支持构建 SNAPSHOT、BETA、RELEASE，并支持打包结果回调
 - jenkins：支持一键跳转至jenkins
 
-### 修复bug
-
-- 外网未连接vpn，插件初始化失败，导致idea打不开问题
-
 ## [1.0.0-RELEASE]
 
-### 初始化
+### ADD
+
+- Shell：Support according to the project and environment, directly connect the corresponding node at the terminal
+- DubboInvoke：Support constructing Dubbo invoke command according to the selected method
+- Bugatti：Support one-click jump to Bugatti according to the project and environment
+- Gitlab：Support one-click jump to gitlab according to the project
+- DubboAdmin：Support one-click jump to DubboAdmin according to the environment
+- RocketMq：Support one-click jump to RocketMq according to the environment
+- ActiveMq：Support one-click jump to ActiveMq according to the environment
+- Trace：Support one-click jump to Trace according to the environment
+- Gavin：Support one-click jump to Gavin according to the environment
+- QianmiAdmin: Support one-click jump to QianmiAdmin according to the environment
+- ApmDashboard：Jump to ApmDashboard with one click
+- MongoDBManager：Jump to MongoDBManager with one click
+- Wiki：Jump to Wiki with one click
+- gitBook：Jump to gitBook with one click
+- ConsoleOfPc：Support one-click jump to the commodity console according to the environment
+- ConsoleOfD2pMc：Support one-click jump to the distribution marketing console according to the environment
+- ConsoleOfOms：Support one-click jump to the OMS console according to the environment
+
 
 - Shell：支持根据项目和环境，直接在终端连接对应节点
 - DubboInvoke：支持根据选中方法，构建 Dubbo invoke 命令

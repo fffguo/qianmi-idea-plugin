@@ -132,7 +132,7 @@
 
         <action id="com.github.qianmi.action.CopyAction" class="com.github.qianmi.action.CopyAction"/>
         <action id="com.github.qianmi.action.ftp.FtpAction" class="com.github.qianmi.action.ftp.FtpAction"
-                text="SFTP Folder"/>
+                text="SFTP Directory"/>
 
         <!-- 千米 超链接 -->
         <group id="com.github.qianmi.group.QianmiLinkGroup" class="com.github.qianmi.group.QianmiLinkGroup"

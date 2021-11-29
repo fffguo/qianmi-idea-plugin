@@ -17,7 +17,7 @@ class FtpAction : AnAction() {
         val eleList = myProject.shell.eleMap.getOrDefault(myProject.env, Collections.emptyList())
         if (CollectionUtil.isNotEmpty(eleList)) {
             if (eleList.size == 1) {
-                eleList[0].openSshTerminal(e.project!!)
+                eleList[0].openSftp(e.project!!)
                 return
             }
         }

@@ -71,7 +71,20 @@ enum class BugattiProjectEnum(val projectName: String, val bugattiProjectCode: S
     WMS("wms", "1421"),
     YUN_XIAO_TASK("yunxiao-task", "198"),
     YX_TC_TASK("yxtc-task", "460"),
-    YX_TRADE_CENTER("yx-trade-center", "228")
+    YX_TRADE_CENTER("yx-trade-center", "228"),
+
+    //数谋项目
+    SM_SQL("sm_sql", "1770"),
+    SM_DW("sm-dw", "1766"),
+    SM_EMPOWER("sm-empower", "1781"),
+    SM_VAS("sm-vas", "1782"),
+    SM_SETTING("sm-setting", "1780"),
+    SM_MESSAGE("sm-message", "1783"),
+    SM_BFF("sm-bff", "1779"),
+    SM_BFF_BOSS("sm-bff-boss", "1779"),
+    SM_BFF_GUIDE("sm-bff-guide", "1778"),
+    SM_CRM("sm-crm", "1769"),
+    SM_GATEWAY("sm-gateway", "1768"),
     ;
 
 

@@ -4,6 +4,15 @@
 
 ## [Unreleased]
 
+## [1.3.1-RELEASE]
+
+### ADD
+
+- Add the bugatti mapping of the ShuMou project
+
+
+- 增加数谋项目的bugatti映射
+
 ## [1.3.0-RELEASE]
 
 ### FIX BUG

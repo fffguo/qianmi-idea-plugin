@@ -17,6 +17,7 @@ enum class EnvEnum(
     val consoleOfOms: ConsoleOfOmsEnum,
 ) {
     //  @formatter:off
+    LAKALA("lakala", BugattiEnvEnum.LAKALA, DubboAdminEnum.LAKALA, RocketMqEnum.LAKALA, ActiveMqEnum.LAKALA, GavinEnum.LAKALA, TraceEnum.LAKALA, QianmiAdminEnum.LAKALA, ConsoleOfPcEnum.LAKALA,ConsoleOfD2pMcEnum.LAKALA, ConsoleOfOmsEnum.LAKALA),
     TEST0("test0", BugattiEnvEnum.TEST0, DubboAdminEnum.TEST0, RocketMqEnum.TEST0, ActiveMqEnum.TEST0, GavinEnum.TEST0, TraceEnum.TEST0, QianmiAdminEnum.TEST0, ConsoleOfPcEnum.TEST0,ConsoleOfD2pMcEnum.TEST0, ConsoleOfOmsEnum.TEST0),
     TEST1("test1", BugattiEnvEnum.TEST1, DubboAdminEnum.TEST1, RocketMqEnum.TEST1, ActiveMqEnum.TEST1, GavinEnum.TEST1, TraceEnum.TEST1, QianmiAdminEnum.TEST1, ConsoleOfPcEnum.TEST1,ConsoleOfD2pMcEnum.TEST1, ConsoleOfOmsEnum.TEST1),
     TEST2("test2", BugattiEnvEnum.TEST2, DubboAdminEnum.TEST2, RocketMqEnum.TEST2, ActiveMqEnum.TEST2, GavinEnum.TEST2, TraceEnum.TEST2, QianmiAdminEnum.TEST2, ConsoleOfPcEnum.TEST2,ConsoleOfD2pMcEnum.TEST2, ConsoleOfOmsEnum.TEST2),
@@ -28,6 +29,7 @@ enum class EnvEnum(
 
 
     enum class BugattiEnvEnum(val envCode: String) {
+        LAKALA("68"),
         TEST0("17"),
         TEST1("14"),
         TEST2("18"),
@@ -38,6 +40,7 @@ enum class EnvEnum(
     }
 
     enum class DubboAdminEnum(val url: String) {
+        LAKALA("http://10.7.64.121:8080"),
         TEST0("http://172.19.67.104:8080"),
         TEST1("http://172.19.66.25:8080"),
         TEST2("http://172.19.67.127:8080"),
@@ -48,6 +51,7 @@ enum class EnvEnum(
     }
 
     enum class RocketMqEnum(val url: String) {
+        LAKALA("http://10.7.65.127:8080/#/topic"),
         TEST0("http://172.19.67.236:8080/#/topic"),
         TEST1("http://172.21.34.235:8080/#/topic"),
         TEST2("http://172.21.4.241:8080/#/topic"),
@@ -58,6 +62,7 @@ enum class EnvEnum(
     }
 
     enum class ActiveMqEnum(val url: String) {
+        LAKALA("http://10.7.65.210:8161/admin/topics.jsp"),
         TEST0("http://172.19.67.50:8161/admin/topics.jsp"),
         TEST1("http://172.21.4.29:8161/admin/topics.jsp"),
         TEST2("http://172.21.3.144:8161/admin/topics.jsp"),
@@ -68,6 +73,7 @@ enum class EnvEnum(
     }
 
     enum class GavinEnum(val url: String) {
+        LAKALA("http://10.7.65.139:8080/module/home"),
         TEST0("http://172.21.36.4:8080/module/home"),
         TEST1("http://172.19.66.177:8080/module/home"),
         TEST2("http://172.21.3.3:8080/module/home"),
@@ -78,6 +84,7 @@ enum class EnvEnum(
     }
 
     enum class TraceEnum(val url: String) {
+        LAKALA(""),
         TEST0(""),
         TEST1("http://tracet1.dev.qianmi.com/search"),
         TEST2(""),
@@ -88,6 +95,7 @@ enum class EnvEnum(
     }
 
     enum class QianmiAdminEnum(val url: String) {
+        LAKALA("http://www.1000.com.lakala.ck/#/main/"),
         TEST0("http://web.1000.com.test0.ck/#/main/"),
         TEST1("http://web.1000.com.test1.ck/#/main/"),
         TEST2("http://web.1000.com.test2.ck/#/main/"),
@@ -98,6 +106,7 @@ enum class EnvEnum(
     }
 
     enum class ConsoleOfPcEnum(val url: String) {
+        LAKALA(""),
         TEST0("http://172.21.36.47:8080/module/home"),
         TEST1("http://172.19.66.197:8080/module/home"),
         TEST2("http://172.21.3.34:8080/module/home"),
@@ -108,6 +117,7 @@ enum class EnvEnum(
     }
 
     enum class ConsoleOfOmsEnum(val url: String) {
+        LAKALA(""),
         TEST0("http://172.21.36.109:8080/#/"),
         TEST1("http://172.21.34.139:8080/#/"),
         TEST2("http://172.21.34.17:8080/#/"),
@@ -118,6 +128,7 @@ enum class EnvEnum(
     }
 
     enum class ConsoleOfD2pMcEnum(val url: String) {
+        LAKALA(""),
         TEST0("http://172.19.67.123:8080/#/"),
         TEST1("http://172.21.3.4:8080/#/"),
         TEST2("http://172.21.34.104:8080/#/"),

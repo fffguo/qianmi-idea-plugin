@@ -1,12 +1,11 @@
 package com.github.qianmi.util
 
-import com.intellij.ui.messages.JBMacMessages
+import com.intellij.ui.mac.MacMessages
 
 object JMessageUtil {
 
     @JvmStatic
-    @SuppressWarnings("all")
-    private val jMessage = JBMacMessages.getInstance()
+    private val jMessage = MacMessages.getInstance()
 
     @JvmStatic
     fun showError(title: String, message: String) {

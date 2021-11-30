@@ -29,10 +29,9 @@ object NotifyUtil {
 
     @JvmStatic
     fun notifyInfoWithAction(@Nullable project: Project?, content: String?, actions: Collection<AnAction>) {
-        notification
-            .createNotification(content!!, NotificationType.INFORMATION)
-            .addActions(actions)
-            .notify(project)
+        val createNotification = notification.createNotification(content!!, NotificationType.INFORMATION)
+        actions.forEach { createNotification.addAction(it) }
+        createNotification.notify(project)
     }
 
     @JvmStatic

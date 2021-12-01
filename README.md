@@ -6,10 +6,10 @@
 
 <!-- Plugin description -->
 
-<a href="https://github.com/fffguo/qianmi-idea-plugin">GitHub</a>
+<a href="https://github.com/fffguo/qianmi-idea-plugin">GitHub</a> please give me a star, thank you very much! (*╹▽╹*)
 
-<h4>This plug-in provides a more immersive development method for Qianmi developers and provides some practical
-functions to improve employee work efficiency.</h4>
+<h3>This plug-in provides a more immersive development method for Qianmi developers and provides some practical
+functions to improve employee work efficiency.</h3>
 
 <h3>English:</h3>
 <ul>

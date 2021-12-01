@@ -4,6 +4,15 @@
 
 ## [Unreleased]
 
+## [1.3.2-RELEASE]
+
+### SUPPORT
+
+- Support for 2021.3.1
+
+
+- 支持2021.3.1版本
+
 ## [1.3.1-RELEASE]
 
 ### ADD

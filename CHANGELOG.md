@@ -4,6 +4,15 @@
 
 ## [Unreleased]
 
+## [1.3.3-RELEASE]
+
+### FIX BUG
+
+- Fix the problem that the packaging failure also prompts the packaging success
+
+
+- 修复打包失败也提示打包成功问题
+
 ## [1.3.2-RELEASE]
 
 ### SUPPORT

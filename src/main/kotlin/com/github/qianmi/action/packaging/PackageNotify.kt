@@ -33,18 +33,24 @@ class PackageNotify(project: Project, buildType: PackagePage.BuildType, version:
                     return
                 }
                 try {
-                    //idea 通知
-                    NotifyUtil.notifyInfoWithAction(project,
-                        "构建成功啦，当前版本号：${ciBuildResult.version}",
-                        listOf(
-                            BugattiAction.instanceOf("Go Bugatti"),
-                            CopyAction.instanceOf("复制版本信息",
-                                "以下包需帮忙升下级：" +
-                                        "\n----------------------------------------" +
-                                        "\n\t项目名：${myProject.bugatti.projectName}" +
-                                        "\n\t版本号：${ciBuildResult.version}" +
-                                        "\n----------------------------------------")
-                        ))
+                    if (ciBuildResult.isSuccess()) {
+                        //idea 通知
+                        NotifyUtil.notifyInfoWithAction(project,
+                            "构建成功啦，当前版本号：${ciBuildResult.version}",
+                            listOf(
+                                BugattiAction.instanceOf("Go Bugatti"),
+                                CopyAction.instanceOf("复制版本信息",
+                                    "以下项目有最新版本了：" +
+                                            "\n----------------------------------------" +
+                                            "\n\t项目名：${myProject.bugatti.projectName}" +
+                                            "\n\t版本号：${ciBuildResult.version}" +
+                                            "\n----------------------------------------")
+                            ))
+                    } else {
+                        //idea 通知
+                        NotifyUtil.notifyInfoWithAction(project, "构建失败，出了点问题~",
+                            BugattiAction.instanceOf("Go Bugatti Look Look"))
+                    }
                 } finally {
                     //取消定时任务
                     this.cancel()

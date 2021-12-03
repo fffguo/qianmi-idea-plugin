@@ -5,8 +5,8 @@ import com.github.qianmi.action.packaging.PackageNotify
 import com.github.qianmi.domain.project.AllProject
 import com.github.qianmi.services.vo.BugattiLastVersionResult
 import com.github.qianmi.ui.PackagePage.BuildType.*
-import com.github.qianmi.util.BranchUtil
 import com.github.qianmi.util.BugattiHttpUtil
+import com.github.qianmi.util.GitUtil
 import com.github.qianmi.util.NotifyUtil
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.wm.WindowManager
@@ -251,7 +251,7 @@ class PackagePage : JDialog {
         //填充分支
         branchList.forEach { branchName -> selected!!.addItem(branchName) }
         //当前分支
-        val currentBranch = BranchUtil.getCurrentBranchName(project!!)
+        val currentBranch = GitUtil.getCurrentBranchName(project!!)
 
         //默认选中分支
         if (this.branchList.contains(currentBranch)) {

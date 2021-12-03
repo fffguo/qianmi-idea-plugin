@@ -37,10 +37,11 @@ object HttpUtil {
 
 
     @JvmStatic
-    fun put(url: String, body: String, cookie: String): HttpResponse<String> {
+    fun putJson(url: String, body: String, cookie: String): HttpResponse<String> {
         val request = HttpRequest.newBuilder()
             .uri(URI(url))
             .PUT(HttpRequest.BodyPublishers.ofString(body))
+            .header("Content-Type", "application/json")
             .header("Cookie", cookie)
             .build()
 
@@ -48,7 +49,24 @@ object HttpUtil {
     }
 
     fun HttpResponse<String>.getCookie(key: String): String {
-        return this.headers().firstValue(key).get()
+        val map = listOf(
+            this.headers().firstValue("Cookie"),
+            this.headers().firstValue("cookie"),
+            this.headers().firstValue("set-cookie")
+        ).filter { header -> header.isPresent }
+            .flatMap { header -> header.get().split(";").toList() }
+            .map { keyValue -> keyValue.trim().split("=") }
+            .associateBy(
+                { split -> split[0] },
+                { split ->
+                    if (split.size >= 2) {
+                        split[1]
+                    } else {
+                        ""
+                    }
+                }
+            )
+        return map.getOrDefault(key, "")
     }
 
     fun HttpResponse<String>.isOk(): Boolean {

@@ -3,7 +3,7 @@ package com.github.qianmi.util
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.vcs.changes.ui.CurrentBranchComponent
 
-object BranchUtil {
+object GitUtil {
 
     @JvmStatic
     fun getCurrentBranchName(project: Project): String {

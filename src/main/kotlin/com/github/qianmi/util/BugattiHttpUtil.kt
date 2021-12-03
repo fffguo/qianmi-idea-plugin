@@ -18,6 +18,7 @@ import com.github.qianmi.util.JsonUtil.toJsonString
 import com.github.qianmi.util.JsonUtil.toList
 import com.google.gson.JsonObject
 import com.intellij.openapi.project.Project
+import okhttp3.Cookie
 import org.jetbrains.annotations.NotNull
 import org.jetbrains.annotations.Nullable
 import java.net.http.HttpClient
@@ -42,7 +43,8 @@ object BugattiHttpUtil {
                 settingAction.templatePresentation.text = "配置域账号"
                 NotifyUtil.notifyErrorWithAction(project, "登录Bugatti失败！账号或密码错误~", settingAction)
             } else {
-                BugattiCookie.getInstance().cookie = httpResponse.getCookie("SESSION")
+                Cookie
+                BugattiCookie.getInstance().cookie = "SESSION=${httpResponse.getCookie("SESSION")}"
             }
             return httpResponse
         } catch (_: Exception) {
@@ -142,7 +144,7 @@ object BugattiHttpUtil {
     @JvmStatic
     fun jenkinsCIBuild(myProject: AllProject.MyProject, branchName: String): BugattiResult {
 
-        val result = HttpUtil.put(
+        val result = HttpUtil.putJson(
             "$bugattiUrl/ci/build",
             CiBuildRequest.instanceOf(myProject, branchName).toJsonString(),
             getCookie()
@@ -164,7 +166,7 @@ object BugattiHttpUtil {
         snapshotVersion: String,
     ): BugattiResult {
 
-        val result = HttpUtil.put(
+        val result = HttpUtil.putJson(
             "$bugattiUrl/ci/release?force=true",
             CiBuildReleaseRequest.instanceOf(myProject, branchName, version, snapshotVersion).toJsonString(),
             getCookie()

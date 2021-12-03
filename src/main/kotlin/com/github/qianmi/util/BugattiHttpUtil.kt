@@ -18,17 +18,14 @@ import com.github.qianmi.util.JsonUtil.toJsonString
 import com.github.qianmi.util.JsonUtil.toList
 import com.google.gson.JsonObject
 import com.intellij.openapi.project.Project
-import okhttp3.Cookie
 import org.jetbrains.annotations.NotNull
 import org.jetbrains.annotations.Nullable
-import java.net.http.HttpClient
 import java.net.http.HttpResponse
 import java.util.*
 
 object BugattiHttpUtil {
 
     private const val bugattiUrl = Bugatti.domainUrl
-    private var httpClient = HttpClient.newHttpClient()
 
     @JvmStatic
     @Nullable
@@ -43,7 +40,6 @@ object BugattiHttpUtil {
                 settingAction.templatePresentation.text = "配置域账号"
                 NotifyUtil.notifyErrorWithAction(project, "登录Bugatti失败！账号或密码错误~", settingAction)
             } else {
-                Cookie
                 BugattiCookie.getInstance().cookie = "SESSION=${httpResponse.getCookie("SESSION")}"
             }
             return httpResponse

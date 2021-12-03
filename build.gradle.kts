@@ -18,7 +18,6 @@ plugins {
 }
 
 dependencies {
-    implementation("cn.hutool:hutool-http:5.7.15")
 }
 
 group = properties("pluginGroup")

@@ -4,6 +4,7 @@ import com.github.qianmi.services.ConfigInitService
 import com.github.qianmi.storage.DomainConfig
 import com.github.qianmi.storage.ShellConfig
 import com.github.qianmi.util.BugattiHttpUtil
+import com.github.qianmi.util.HttpUtil.isOk
 import com.github.qianmi.util.JMessageUtil
 import com.intellij.openapi.options.Configurable
 import com.intellij.openapi.project.Project
@@ -144,7 +145,7 @@ class PluginSettingPage : Configurable {
         val httpResponse =
             BugattiHttpUtil.login(this.domainAccountText!!.text, String(this.domainPasswordText!!.password))
 
-        if (httpResponse.isOk) {
+        if (httpResponse.isOk()) {
             JMessageUtil.showTrue("测试结果", "success")
         } else {
             JMessageUtil.showError("测试结果", "验证失败:${httpResponse.body()}")

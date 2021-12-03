@@ -1,8 +1,8 @@
 package com.github.qianmi.action.env
 
-import cn.hutool.core.collection.CollectionUtil
 import com.github.qianmi.domain.enums.EnvEnum
 import com.github.qianmi.domain.project.AllProject
+import com.github.qianmi.util.CollectionUtil.isNotNullOrEmpty
 import com.github.qianmi.util.StringUtil
 import com.intellij.openapi.actionSystem.AnAction
 import com.intellij.openapi.actionSystem.AnActionEvent
@@ -20,7 +20,7 @@ class EnvEnumAction(var env: EnvEnum) : AnAction() {
         myProject.bugatti.envCode = env.bugatti.envCode
 
         //shell
-        myProject.shell.isSupport = CollectionUtil.isNotEmpty(myProject.shell.eleMap[env])
+        myProject.shell.isSupport = myProject.shell.eleMap[env].isNotNullOrEmpty()
 
         //activeMq
         myProject.activeMq.isSupport = StringUtil.isNotBlank(env.activeMq.url)

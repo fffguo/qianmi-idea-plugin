@@ -1,6 +1,5 @@
 package com.github.qianmi.services
 
-import cn.hutool.core.collection.CollectionUtil
 import com.github.qianmi.domain.enums.BugattiProjectEnum
 import com.github.qianmi.domain.enums.EnvEnum
 import com.github.qianmi.domain.project.AllProject
@@ -57,7 +56,7 @@ class ConfigInitService(var project: Project) {
             myProject.shell.eleMap[envEnum] = shellEleList
         }
         //当前环境存在shell节点
-        if (CollectionUtil.isNotEmpty(myProject.shell.eleMap[myProject.env])) {
+        if (myProject.shell.eleMap[myProject.env].isNullOrEmpty()) {
             myProject.shell.isSupport = true
         }
 

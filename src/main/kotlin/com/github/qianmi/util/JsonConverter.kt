@@ -76,7 +76,7 @@ object JsonConverter {
                     else if (MyPsiUtil.isEnum(type)) {
                         val fieldList = PsiUtil.resolveClassInClassTypeOnly(type)!!.fields
                         var value = ""
-                        if (fieldList.isNotEmpty()) {
+                        if (!fieldList.isNullOrEmpty()) {
                             if (fieldList[0] is PsiEnumConstant) {
                                 value = fieldList[0].name
                             }

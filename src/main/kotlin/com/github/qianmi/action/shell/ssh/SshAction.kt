@@ -1,29 +1,28 @@
-package com.github.qianmi.action.shell
+package com.github.qianmi.action.shell.ssh
 
-import cn.hutool.core.collection.CollectionUtil
 import com.github.qianmi.domain.project.AllProject
+import com.github.qianmi.util.CollectionUtil.isNotNullOrEmpty
 import com.intellij.openapi.actionSystem.AnAction
 import com.intellij.openapi.actionSystem.AnActionEvent
 import com.intellij.openapi.actionSystem.DefaultActionGroup
 import com.intellij.openapi.ui.popup.JBPopupFactory
-import java.util.*
 import java.util.stream.Collectors
 
 
-class ShellAction : AnAction() {
+class SshAction : AnAction() {
 
     override fun actionPerformed(e: AnActionEvent) {
         val myProject = AllProject.currentProject(e)
 
-        val eleList = myProject.shell.eleMap.getOrDefault(myProject.env, Collections.emptyList())
-        if (CollectionUtil.isNotEmpty(eleList)) {
+        val eleList = myProject.shell.eleMap[myProject.env].orEmpty()
+        if (eleList.isNotNullOrEmpty()) {
             if (eleList.size == 1) {
                 eleList[0].openSshTerminal(e.project!!)
                 return
             }
         }
         val actionList = eleList.stream()
-            .map { ele -> ShellSelectedAction(ele) }
+            .map { ele -> SshSelectedAction(ele) }
             .peek { action ->
                 action.templatePresentation.text = "${action.ele.group}: \n \n${action.ele.ip}(${action.ele.version})"
             }

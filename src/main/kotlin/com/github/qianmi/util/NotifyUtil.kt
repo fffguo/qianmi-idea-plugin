@@ -17,6 +17,15 @@ object NotifyUtil {
         notification.createNotification(content!!, NotificationType.ERROR).notify(project)
     }
 
+
+    @JvmStatic
+    fun notifyErrorWithAction(@Nullable project: Project?, content: String?, action: AnAction) {
+        notification
+            .createNotification(content!!, NotificationType.ERROR)
+            .addAction(action)
+            .notify(project)
+    }
+
     @JvmStatic
     fun notifyInfo(@Nullable project: Project?, content: String?) {
         notification.createNotification(content!!, NotificationType.INFORMATION).notify(project)
@@ -34,11 +43,4 @@ object NotifyUtil {
         createNotification.notify(project)
     }
 
-    @JvmStatic
-    fun notifyErrorWithAction(@Nullable project: Project?, content: String?, action: AnAction) {
-        notification
-            .createNotification(content!!, NotificationType.ERROR)
-            .addAction(action)
-            .notify(project)
-    }
 }

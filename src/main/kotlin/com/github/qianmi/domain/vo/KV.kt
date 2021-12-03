@@ -27,10 +27,6 @@ class KV<K, V> : LinkedHashMap<K, V>() {
         return this
     }
 
-    fun <T> getAs(key: K): T {
-        return get(key) as T
-    }
-
     fun getStr(key: Any?): String? {
         return get(key) as String?
     }
@@ -94,9 +90,6 @@ class KV<K, V> : LinkedHashMap<K, V>() {
     }
 
     companion object {
-        fun <K, V> by(key: K, value: V): KV<*, *> {
-            return KV<Any?, Any?>().set(key, value)
-        }
 
         fun <K, V> create(): KV<K, V> {
             return KV()

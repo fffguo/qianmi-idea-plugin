@@ -20,13 +20,15 @@
 - Fix the problem that the packaging failure also prompts the packaging success
 - Fix the bug of dubbo Invoke parsing parameters
 - Optimize the display effect of dubbo Invoke bullet frame
-- Remove unnecessary toolkits to reduce plug-in size
+- Remove unnecessary third-party toolkits, greatly reducing the size of the plug-in
+- Domain account configuration error, provide quick configuration entry
 
 
 - 修复打包失败也提示打包成功bug
 - 修复dubboInvoke解析参数bug
 - 优化dubboInvoke弹框展示效果
-- 移除不必要工具包减少插件体积
+- 移除不必要三方工具包，极大减少插件体积
+- 域账号配置错误，提供快捷配置入口
 
 ## [1.3.2-RELEASE]
 

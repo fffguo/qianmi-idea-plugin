@@ -38,8 +38,8 @@
         <!--域账号配置-->
         <action id="com.github.qianmi.action.SettingAction" class="com.github.qianmi.action.SettingAction"/>
 
-        <action id="com.github.qianmi.action.shell.ShellAction"
-                class="com.github.qianmi.action.shell.ShellAction"
+        <action id="com.github.qianmi.action.shell.ssh.SshAction"
+                class="com.github.qianmi.action.shell.ssh.SshAction"
                 icon="com.github.qianmi.util.QianmiIcons.shell"
                 text="SSH Terminal">
         </action>
@@ -131,7 +131,7 @@
         </action>
 
         <action id="com.github.qianmi.action.CopyAction" class="com.github.qianmi.action.CopyAction"/>
-        <action id="com.github.qianmi.action.ftp.FtpAction" class="com.github.qianmi.action.ftp.FtpAction"
+        <action id="com.github.qianmi.action.shell.ftp.FtpAction" class="com.github.qianmi.action.shell.ftp.FtpAction"
                 text="SFTP Directory"/>
 
         <!-- 千米 超链接 -->
@@ -167,8 +167,8 @@
             <add-to-group group-id="EditorPopupMenu" anchor="first"/>
 
             <reference ref="com.github.qianmi.action.packaging.PackageAction"/>
-            <reference ref="com.github.qianmi.action.shell.ShellAction"/>
-            <reference ref="com.github.qianmi.action.ftp.FtpAction"/>
+            <reference ref="com.github.qianmi.action.shell.ssh.SshAction"/>
+            <reference ref="com.github.qianmi.action.shell.ftp.FtpAction"/>
             <reference ref="com.github.qianmi.action.EsBuilderAction"/>
             <reference ref="com.github.qianmi.action.dubboinvoke.DubboInvokeAction"/>
         </group>

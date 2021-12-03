@@ -1,13 +1,6 @@
 package com.github.qianmi.util
 
-import cn.hutool.core.collection.CollectionUtil
-import cn.hutool.core.date.DateField
-import cn.hutool.core.date.DateUtil
-import cn.hutool.core.io.IORuntimeException
-import cn.hutool.http.ContentType
-import cn.hutool.http.HttpResponse
-import cn.hutool.http.HttpUtil
-import cn.hutool.http.Method
+import com.github.qianmi.action.SettingAction
 import com.github.qianmi.domain.enums.EnvEnum
 import com.github.qianmi.domain.project.AllProject
 import com.github.qianmi.domain.project.link.Bugatti
@@ -17,6 +10,9 @@ import com.github.qianmi.services.request.CiBuildRequest
 import com.github.qianmi.services.vo.*
 import com.github.qianmi.storage.BugattiCookie
 import com.github.qianmi.storage.DomainConfig
+import com.github.qianmi.util.CollectionUtil.firstDefault
+import com.github.qianmi.util.HttpUtil.getCookie
+import com.github.qianmi.util.HttpUtil.isOk
 import com.github.qianmi.util.JsonUtil.toBean
 import com.github.qianmi.util.JsonUtil.toJsonString
 import com.github.qianmi.util.JsonUtil.toList
@@ -24,69 +20,68 @@ import com.google.gson.JsonObject
 import com.intellij.openapi.project.Project
 import org.jetbrains.annotations.NotNull
 import org.jetbrains.annotations.Nullable
+import java.net.http.HttpClient
+import java.net.http.HttpResponse
 import java.util.*
 
 object BugattiHttpUtil {
 
     private const val bugattiUrl = Bugatti.domainUrl
+    private var httpClient = HttpClient.newHttpClient()
 
     @JvmStatic
     @Nullable
-    fun login(project: Project?): HttpResponse? {
+    fun login(project: Project?): HttpResponse<String>? {
         try {
             val httpResponse = login(
                 DomainConfig.getInstance().userName,
                 DomainConfig.getInstance().passwd
             )
-            if (httpResponse.status == 406) {
-                NotifyUtil.notifyError(project, "登录Bugatti失败！账号或密码错误~")
+            if (httpResponse.statusCode() == 406) {
+                val settingAction = SettingAction()
+                settingAction.templatePresentation.text = "配置域账号"
+                NotifyUtil.notifyErrorWithAction(project, "登录Bugatti失败！账号或密码错误~", settingAction)
             } else {
-                BugattiCookie.getInstance().cookie = httpResponse.getCookie("SESSION").toString()
+                BugattiCookie.getInstance().cookie = httpResponse.getCookie("SESSION")
             }
             return httpResponse
-        } catch (e: IORuntimeException) {
+        } catch (_: Exception) {
             NotifyUtil.notifyError(project, "登录Bugatti失败！请检查网络(VPN)是否通畅~")
         }
         return null
     }
 
     @JvmStatic
-    fun isLoginSuccess(httpResponse: HttpResponse?): Boolean {
+    fun isLoginSuccess(httpResponse: HttpResponse<String>?): Boolean {
         return httpResponse != null
-                && httpResponse.isOk
+                && httpResponse.isOk()
     }
 
     @JvmStatic
-    fun login(userName: String, password: String): HttpResponse {
+    fun login(userName: String, password: String): HttpResponse<String> {
         val body: MutableMap<String, Any> = HashMap(8)
         body["userName"] = userName
         body["password"] = password
-        return HttpUtil
-            .createPost("$bugattiUrl/login")
-            .body(body.toJsonString(), ContentType.JSON.value)
-            .timeout(3000)
-            .execute()
+        return HttpUtil.postJson("$bugattiUrl/login", body.toJsonString())
     }
 
     @NotNull
     @JvmStatic
     fun getProjectInfo(myProject: AllProject.MyProject): BugattiProjectInfoResult {
-        val result: String = HttpUtil
-            .createGet("$bugattiUrl/project/${myProject.bugatti.projectCode}/${myProject.bugatti.envCode}")
-            .cookie(getCookie())
-            .execute()
-            .body()
+        val result = HttpUtil.get(
+            "$bugattiUrl/project/${myProject.bugatti.projectCode}/${myProject.bugatti.envCode}",
+            getCookie()
+        ).body()
         return result.toBean()!!
     }
 
     @NotNull
     @JvmStatic
     fun getBranchList(myProject: AllProject.MyProject): List<BugattiProjectBranchResult> {
-        val result: String = HttpUtil
-            .createGet("$bugattiUrl/ci/branchs?gitUrl=${myProject.gitlab.url}")
-            .cookie(getCookie())
-            .execute()
-            .body()
+        val result = HttpUtil.get(
+            "$bugattiUrl/ci/branchs?gitUrl=${myProject.gitlab.url}",
+            getCookie()
+        ).body()
         return result.toList()
     }
 
@@ -96,27 +91,21 @@ object BugattiHttpUtil {
     @NotNull
     @JvmStatic
     fun mapLastBetaVersion(myProject: AllProject.MyProject): Map<String, BugattiLastVersionResult> {
-        val result: String = HttpUtil
-            .createGet("$bugattiUrl/project/${myProject.bugatti.projectCode}/versoin/lastbetaversion")
-            .cookie(getCookie())
-            .execute()
-            .body()
+        val result = HttpUtil.get(
+            "$bugattiUrl/project/${myProject.bugatti.projectCode}/versoin/lastbetaversion",
+            getCookie()
+        ).body()
         return result.toList<BugattiLastVersionResult>().associateBy { it.branch }
     }
 
     @NotNull
     @JvmStatic
     fun getLastReleaseVersion(myProject: AllProject.MyProject): BugattiLastVersionResult? {
-        val result: String = HttpUtil
-            .createGet("$bugattiUrl/project/${myProject.bugatti.projectCode}/versoin/lastrelaseversion")
-            .cookie(getCookie())
-            .execute()
-            .body()
-        val resultList = result.toList<BugattiLastVersionResult>()
-        if (CollectionUtil.isNotEmpty(resultList)) {
-            return resultList[0]
-        }
-        return null
+        val result = HttpUtil.get(
+            "$bugattiUrl/project/${myProject.bugatti.projectCode}/versoin/lastrelaseversion",
+            getCookie()
+        ).body()
+        return result.toList<BugattiLastVersionResult>().firstOrNull()
     }
 
     @JvmStatic
@@ -125,12 +114,11 @@ object BugattiHttpUtil {
         if (EnvEnum.PROD == env) {
             return Collections.emptyList()
         }
-        val result = HttpUtil
-            .createGet("$bugattiUrl/task/clusters?envId=${env.bugatti.envCode}&projectId=$bugattiProjectCode")
-            .cookie(getCookie())
-            .execute()
-            .body()
 
+        val result = HttpUtil.get(
+            "$bugattiUrl/task/clusters?envId=${env.bugatti.envCode}&projectId=$bugattiProjectCode",
+            getCookie()
+        ).body()
         val shellEleList = ArrayList<Shell.Element>()
 
 
@@ -154,12 +142,12 @@ object BugattiHttpUtil {
     @JvmStatic
     fun jenkinsCIBuild(myProject: AllProject.MyProject, branchName: String): BugattiResult {
 
-        val result: String = HttpUtil
-            .createRequest(Method.PUT, "$bugattiUrl/ci/build")
-            .body(CiBuildRequest.instanceOf(myProject, branchName).toJsonString())
-            .cookie(getCookie())
-            .execute()
-            .body()
+        val result = HttpUtil.put(
+            "$bugattiUrl/ci/build",
+            CiBuildRequest.instanceOf(myProject, branchName).toJsonString(),
+            getCookie()
+        ).body()
+
         return if (BugattiResult.SUCCESS == result) {
             BugattiResult.success()
         } else {
@@ -175,14 +163,13 @@ object BugattiHttpUtil {
         version: String,
         snapshotVersion: String,
     ): BugattiResult {
-        val request = CiBuildReleaseRequest.instanceOf(myProject, branchName, version, snapshotVersion)
 
-        val result: String = HttpUtil
-            .createRequest(Method.PUT, "$bugattiUrl/ci/release?force=true")
-            .body(request.toJsonString())
-            .cookie(getCookie())
-            .execute()
-            .body()
+        val result = HttpUtil.put(
+            "$bugattiUrl/ci/release?force=true",
+            CiBuildReleaseRequest.instanceOf(myProject, branchName, version, snapshotVersion).toJsonString(),
+            getCookie()
+        ).body()
+
         val releaseResult = result.toBean<BugattiCIReleaseResult>()!!
 
         return if (BugattiResult.SUCCESS == releaseResult.data) {
@@ -195,31 +182,22 @@ object BugattiHttpUtil {
     @NotNull
     @JvmStatic
     fun ciBuildResult(myProject: AllProject.MyProject): BugattiCIBuildResult {
-        val result: String = HttpUtil
-            .createGet("$bugattiUrl/ci/builds?projectId=${myProject.bugatti.projectCode}&page=0&pageSize=1")
-            .cookie(getCookie())
-            .execute()
-            .body()
-        val resultList = result.toList<BugattiCIBuildResult>()
-        if (CollectionUtil.isNotEmpty(resultList)) {
-            return resultList[0]
-        }
-        return BugattiCIBuildResult()
+        val result = HttpUtil.get(
+            "$bugattiUrl/ci/builds?projectId=${myProject.bugatti.projectCode}&page=0&pageSize=1",
+            getCookie()
+        ).body()
+
+        return result.toList<BugattiCIBuildResult>().firstDefault(BugattiCIBuildResult())
     }
 
     @NotNull
     @JvmStatic
     fun ciReleaseResult(myProject: AllProject.MyProject, version: String, branchName: String): BugattiCIBuildResult {
-        val result: String = HttpUtil
-            .createGet("$bugattiUrl/ci/releases?projectId=${myProject.bugatti.projectCode}&page=0&pageSize=1&version=${version}&user=&tag=${branchName}")
-            .cookie(getCookie())
-            .execute()
-            .body()
-        val resultList = result.toList<BugattiCIBuildResult>()
-        if (CollectionUtil.isNotEmpty(resultList)) {
-            return resultList[0]
-        }
-        return BugattiCIBuildResult()
+        val result = HttpUtil.get(
+            "$bugattiUrl/ci/releases?projectId=${myProject.bugatti.projectCode}&page=0&pageSize=1&version=${version}&user=&tag=${branchName}",
+            getCookie()
+        ).body()
+        return result.toList<BugattiCIBuildResult>().firstDefault(BugattiCIBuildResult())
     }
 
     @JvmStatic
@@ -251,6 +229,6 @@ object BugattiHttpUtil {
             override fun run() {
                 refreshCookie(null)
             }
-        }, DateUtil.offset(Date(), DateField.SECOND, time.toInt()), time)
+        }, time, time)
     }
 }

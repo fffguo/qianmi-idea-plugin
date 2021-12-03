@@ -1,6 +1,5 @@
 package com.github.qianmi.ui
 
-import cn.hutool.core.map.MapUtil
 import com.github.qianmi.action.BugattiAction
 import com.github.qianmi.action.packaging.PackageNotify
 import com.github.qianmi.domain.project.AllProject
@@ -273,7 +272,7 @@ class PackagePage : JDialog {
      */
     private fun updateBetaVersionInfo(versionName: String) {
         //默认版本信息
-        if (MapUtil.isEmpty(this.mapBetaPreBranch)) {
+        if (this.mapBetaPreBranch.isNullOrEmpty()) {
             this.mapBetaPreBranch = BugattiHttpUtil.mapLastBetaVersion(this.myProject!!)
         }
         val versionInfo = this.mapBetaPreBranch!![versionName]

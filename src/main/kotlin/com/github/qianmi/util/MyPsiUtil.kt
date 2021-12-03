@@ -1,12 +1,13 @@
 package com.github.qianmi.util
 
-import cn.hutool.core.date.DateUtil
+import com.github.qianmi.util.DateUtil.formatString
 import com.intellij.psi.*
 import com.intellij.psi.util.PsiUtil
 import com.intellij.util.containers.isEmpty
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.LocalTime
+import java.util.*
 
 class MyPsiUtil {
 
@@ -22,7 +23,7 @@ class MyPsiUtil {
             "Double" to 0.0,
             "String" to "",
             "BigDecimal" to 0.0,
-            "Date" to DateUtil.now(),
+            "Date" to Date().formatString(),
             "Timestamp" to System.currentTimeMillis(),
             "LocalDate" to LocalDate.now().toString(),
             "LocalTime" to LocalTime.now().toString(),
@@ -37,7 +38,7 @@ class MyPsiUtil {
             if (name.contains("[]")) {
                 return false
             }
-            return !normalTypes.keys.stream().filter { key -> name.lowercase().contains(key.lowercase()) }.isEmpty()
+            return !normalTypes.keys.stream().filter { key -> name.toLowerCase().contains(key.toLowerCase()) }.isEmpty()
         }
 
         /**
@@ -206,7 +207,7 @@ class MyPsiUtil {
             val methodName = getMethodName(psiMethod)
             val builder = StringBuilder(methodName).append("(")
             val parameters = psiMethod.parameterList.parameters
-            if (parameters.isNotEmpty()) {
+            if (!parameters.isNullOrEmpty()) {
                 for ((index, parameter) in parameters.withIndex()) {
                     val defaultParamValue = getDefaultString(parameter.type)
                     builder.append(defaultParamValue)

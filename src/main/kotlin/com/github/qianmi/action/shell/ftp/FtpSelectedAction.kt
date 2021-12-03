@@ -1,13 +1,13 @@
-package com.github.qianmi.action.shell
+package com.github.qianmi.action.shell.ftp
 
 import com.github.qianmi.domain.project.tools.Shell
 import com.intellij.openapi.actionSystem.AnAction
 import com.intellij.openapi.actionSystem.AnActionEvent
 
 
-class ShellSelectedAction(var ele: Shell.Element) : AnAction() {
+class FtpSelectedAction(var ele: Shell.Element) : AnAction() {
 
     override fun actionPerformed(e: AnActionEvent) {
-        ele.openSshTerminal(e.project!!)
+        ele.openSftp(e.project!!)
     }
 }

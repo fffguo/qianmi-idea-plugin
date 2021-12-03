@@ -1,6 +1,5 @@
 package com.github.qianmi.util
 
-import com.alibaba.fastjson.JSONObject
 import com.github.qianmi.domain.vo.KV
 import com.intellij.psi.PsiClass
 import com.intellij.psi.PsiEnumConstant
@@ -14,7 +13,7 @@ object JsonConverter {
 
 
     @JvmStatic
-    fun classToJsonString(psiClass: PsiClass?): String {
+    fun classToJson(psiClass: PsiClass?): Any {
         val kv: KV<String, Any> = KV.create()
         if (psiClass != null) {
 
@@ -49,7 +48,7 @@ object JsonConverter {
                         } else if (MyPsiUtil.isNormalType(deepTypeName)) {
                             MyPsiUtil.normalTypes[deepTypeName]?.let { list.add(it) }
                         } else {
-                            list.add(JSONObject.parse(classToJsonString(PsiUtil.resolveClassInType(deepType))))
+                            list.add(classToJson(PsiUtil.resolveClassInType(deepType)))
                         }
                         kv[name] = list
                     }
@@ -64,7 +63,7 @@ object JsonConverter {
                             MyPsiUtil.normalTypes[classTypeName]?.let { list.add(it) }
                         } else {
                             if (iterableType != null) {
-                                list.add(JSONObject.parse(argToJsonString(iterableType)))
+                                list.add((argToJsonObj(iterableType)))
                             }
                         }
                         kv[name] = list
@@ -75,29 +74,44 @@ object JsonConverter {
                     }
                     //enum
                     else if (MyPsiUtil.isEnum(type)) {
-                        val nameList = ArrayList<String>()
                         val fieldList = PsiUtil.resolveClassInClassTypeOnly(type)!!.fields
-                        for (f in fieldList) {
-                            if (f is PsiEnumConstant) {
-                                nameList.add(f.getName())
+                        var value = ""
+                        if (fieldList.isNotEmpty()) {
+                            if (fieldList[0] is PsiEnumConstant) {
+                                value = fieldList[0].name
                             }
                         }
-                        kv[name] = nameList
+                        kv[name] = value
                     } else {
-                        kv[name] = classToJsonString(PsiUtil.resolveClassInType(type))
+                        kv[name] = classToJson(PsiUtil.resolveClassInType(type))
                     }
                 }
             }
         }
-        return JSONObject.toJSONString(kv)
+        return kv
     }
 
 
     @JvmStatic
-    fun argToJsonString(psiType: PsiType): String {
+    fun argToJsonObj(psiType: PsiType): Any {
         val list = ArrayList<Any>()
+
+        if (psiType is PsiPrimitiveType) {
+            return PsiTypesUtil.getDefaultValue(psiType)
+        }
+
+        //reference Type
+        val fieldTypeName = psiType.presentableText
+        //normal Type
+        if (MyPsiUtil.isNormalType(fieldTypeName)) {
+            return if ("String" == fieldTypeName) {
+                ""
+            } else {
+                MyPsiUtil.normalTypes[fieldTypeName] ?: ""
+            }
+        }
         //array type
-        if (MyPsiUtil.isArray(psiType)) {
+        else if (MyPsiUtil.isArray(psiType)) {
             val deepType = psiType.deepComponentType
             val deepTypeName = deepType.presentableText
             if (deepType is PsiPrimitiveType) {
@@ -105,7 +119,7 @@ object JsonConverter {
             } else if (MyPsiUtil.isNormalType(deepTypeName)) {
                 MyPsiUtil.normalTypes[deepTypeName]?.let { list.add(it) }
             } else {
-                list.add(JSONObject.parse(classToJsonString(PsiUtil.resolveClassInType(deepType))))
+                list.add(classToJson(PsiUtil.resolveClassInType(deepType)))
             }
         }
         //list type
@@ -116,16 +130,17 @@ object JsonConverter {
             if (MyPsiUtil.isNormalType(classTypeName)) {
                 MyPsiUtil.normalTypes[classTypeName]?.let { list.add(it) }
             } else {
-                list.add(JSONObject.parse(classToJsonString(iterableClass)))
+                list.add(classToJson(iterableClass))
             }
         }
         //map type
         else if (MyPsiUtil.isMap(psiType)) {
-            return JSONObject.toJSONString(mapOf("key" to "value"))
-        } else {
-            return classToJsonString(PsiUtil.resolveClassInType(psiType))
+            return mapOf("key" to "value")
+        }                 //primitive Type
+        else {
+            return classToJson(PsiUtil.resolveClassInType(psiType))
         }
-        return JSONObject.toJSONString(list)
+        return list
     }
 
 }

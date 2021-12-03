@@ -1,11 +1,9 @@
 package com.github.qianmi.util
 
 import cn.hutool.core.date.DateUtil
-import com.google.common.collect.Sets
 import com.intellij.psi.*
 import com.intellij.psi.util.PsiUtil
 import com.intellij.util.containers.isEmpty
-import org.apache.commons.io.FilenameUtils
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.LocalTime
@@ -36,6 +34,9 @@ class MyPsiUtil {
         }
 
         fun isIgnoreType(name: String): Boolean {
+            if (name.contains("[]")) {
+                return false
+            }
             return !normalTypes.keys.stream().filter { key -> name.lowercase().contains(key.lowercase()) }.isEmpty()
         }
 
@@ -50,7 +51,7 @@ class MyPsiUtil {
             return isList(psiClass.name!!)
         }
 
-        fun isList(name: String): Boolean {
+        private fun isList(name: String): Boolean {
             return name.startsWith("List")
                     || name.startsWith("ArrayList")
                     || name.startsWith("LinkedList")
@@ -60,13 +61,6 @@ class MyPsiUtil {
                     || name.startsWith("TreeSet")
                     || name.startsWith("HashSet")
                     || name.startsWith("LinkedHashSet")
-        }
-
-        /**
-         * 是否为 array
-         */
-        fun isArray(psiClass: PsiClass): Boolean {
-            return psiClass is PsiArrayType
         }
 
         /**
@@ -87,7 +81,7 @@ class MyPsiUtil {
         /**
          * 是否为 map
          */
-        fun isMap(str: String): Boolean {
+        private fun isMap(str: String): Boolean {
             return str.startsWith("Node")
                     || str.startsWith("HashMap")
                     || str.startsWith("LinkedHashMap")
@@ -104,46 +98,12 @@ class MyPsiUtil {
         }
 
         /**
-         * 是否为匿名类
-         *
-         * @param psiElement
-         * @return
-         */
-        fun isAnonymousClass(psiElement: PsiElement): Boolean {
-            var result = false
-            if (isPsiFieldOrMethodOrClass(psiElement)) {
-                if (getCommonOrInnerOrAnonymousClassName(psiElement).contains("*$*")) {
-                    result = true
-                }
-            }
-            return result
-        }
-
-        /**
-         * 是否为静态的字段或者方法
-         *
-         * @param psiElement
-         * @return
-         */
-        fun isStaticMethodOrField(psiElement: PsiElement?): Boolean {
-            val result = false
-            if (isPsiFieldOrMethodOrClass(psiElement)) {
-                if (psiElement is PsiMethod) {
-                    return isStaticMethod(psiElement)
-                } else if (psiElement is PsiField) {
-                    return isStaticField(psiElement)
-                }
-            }
-            return result
-        }
-
-        /**
          * 静态方法
          *
          * @param psiElement
          * @return
          */
-        fun isStaticMethod(psiElement: PsiElement?): Boolean {
+        private fun isStaticMethod(psiElement: PsiElement?): Boolean {
             var result = false
             if (isPsiFieldOrMethodOrClass(psiElement)) {
                 if (psiElement is PsiMethod) {
@@ -161,83 +121,11 @@ class MyPsiUtil {
          * @param psiElement
          * @return
          */
-        fun isStaticField(psiElement: PsiElement?): Boolean {
+        private fun isStaticField(psiElement: PsiElement?): Boolean {
             var result = false
             if (isPsiFieldOrMethodOrClass(psiElement)) {
                 if (psiElement is PsiField) {
                     if (psiElement.hasModifierProperty(PsiModifier.STATIC)) {
-                        result = true
-                    }
-                }
-            }
-            return result
-        }
-
-        /**
-         * isFinalField
-         *
-         * @param psiElement
-         * @return
-         */
-        fun isFinalField(psiElement: PsiElement?): Boolean {
-            var result = false
-            if (isPsiFieldOrMethodOrClass(psiElement)) {
-                if (psiElement is PsiField) {
-                    if (psiElement.hasModifierProperty(PsiModifier.FINAL)) {
-                        result = true
-                    }
-                }
-            }
-            return result
-        }
-
-        /**
-         * 非静态字段
-         *
-         * @param psiElement
-         * @return
-         */
-        fun isNonStaticField(psiElement: PsiElement?): Boolean {
-            var result = false
-            if (isPsiFieldOrMethodOrClass(psiElement)) {
-                if (psiElement is PsiField) {
-                    if (!isStaticField(psiElement)) {
-                        result = true
-                    }
-                }
-            }
-            return result
-        }
-
-        /**
-         * 非静态方法
-         *
-         * @param psiElement
-         * @return
-         */
-        fun isNonStaticMethod(psiElement: PsiElement?): Boolean {
-            var result = false
-            if (isPsiFieldOrMethodOrClass(psiElement)) {
-                if (psiElement is PsiMethod) {
-                    if (!isStaticMethod(psiElement)) {
-                        result = true
-                    }
-                }
-            }
-            return result
-        }
-
-        /**
-         * 是否为构造方法
-         *
-         * @param psiElement
-         * @return
-         */
-        fun isConstructor(psiElement: PsiElement?): Boolean {
-            var result = false
-            if (isPsiFieldOrMethodOrClass(psiElement)) {
-                if (psiElement is PsiMethod) {
-                    if (psiElement.isConstructor) {
                         result = true
                     }
                 }
@@ -268,51 +156,6 @@ class MyPsiUtil {
         }
 
         /**
-         * 获取内部类、匿名类的class的 ognl 名称
-         *
-         * @param psiElement
-         * @return
-         */
-        fun getCommonOrInnerOrAnonymousClassName(psiElement: PsiElement): String {
-            if (!isPsiFieldOrMethodOrClass(psiElement)) {
-                return ""
-            }
-            if (psiElement is PsiMethod) {
-                return getCommonOrInnerOrAnonymousClassName(psiElement)
-            }
-            if (psiElement is PsiField) {
-                return getCommonOrInnerOrAnonymousClassName(psiElement)
-            }
-            if (psiElement is PsiClass) {
-                return getCommonOrInnerOrAnonymousClassName(psiElement)
-            }
-            if (psiElement is PsiJavaFile) {
-                //only select project file is PsiJavaFile
-                val packageName = (psiElement.getContainingFile() as PsiJavaFile).packageName
-                val shortClassName = FilenameUtils.getBaseName(psiElement.getContainingFile().name)
-                return "$packageName.$shortClassName"
-            }
-            throw IllegalArgumentException("Illegal parameters")
-        }
-
-
-        /**
-         * 字段的名称
-         *
-         * @param psiElement
-         * @return
-         */
-        fun getFieldName(psiElement: PsiElement?): String {
-            var fieldName = ""
-            if (isPsiFieldOrMethodOrClass(psiElement)) {
-                if (psiElement is PsiField) {
-                    fieldName = psiElement.nameIdentifier.text
-                }
-            }
-            return fieldName
-        }
-
-        /**
          * 获取方法名称
          *
          * @param psiElement
@@ -323,13 +166,12 @@ class MyPsiUtil {
             if (isPsiFieldOrMethodOrClass(psiElement)) {
                 methodName = "*"
                 if (psiElement is PsiMethod) {
-                    val psiMethod = psiElement
-                    methodName = if (psiMethod.nameIdentifier != null) {
-                        psiMethod.nameIdentifier!!.text
+                    methodName = if (psiElement.nameIdentifier != null) {
+                        psiElement.nameIdentifier!!.text
                     } else {
-                        psiMethod.name
+                        psiElement.name
                     }
-                    if (psiMethod.isConstructor) {
+                    if (psiElement.isConstructor) {
                         methodName = "<init>"
                     }
                 }
@@ -358,38 +200,23 @@ class MyPsiUtil {
          * @param psiMethod
          * @return
          */
-        fun getMethodParameterDefault(psiMethod: PsiMethod): String {
+        private fun getMethodParameterDefault(psiMethod: PsiMethod): String {
             // Experimental API method JvmField.getName() is invoked in Action.arthas.ArthasOgnlStaticCommandAction.actionPerformed().
             // This method can be changed in a future release leading to incompatibilities
             val methodName = getMethodName(psiMethod)
             val builder = StringBuilder(methodName).append("(")
             val parameters = psiMethod.parameterList.parameters
-            if (parameters.size > 0) {
-                var index = 0
-                for (parameter in parameters) {
+            if (parameters.isNotEmpty()) {
+                for ((index, parameter) in parameters.withIndex()) {
                     val defaultParamValue = getDefaultString(parameter.type)
                     builder.append(defaultParamValue)
                     if (index != parameters.size - 1) {
                         builder.append(",")
                     }
-                    index++
                 }
             }
             builder.append(")")
             return builder.toString()
-        }
-
-        /**
-         * 获取字段的默认值
-         *
-         * @return
-         */
-        fun getFieldDefaultValue(psiElement: PsiElement?): String {
-            var defaultFieldValue = ""
-            if (psiElement is PsiField) {
-                defaultFieldValue = getDefaultString(psiElement.type)
-            }
-            return defaultFieldValue
         }
 
         /**
@@ -398,8 +225,8 @@ class MyPsiUtil {
          * @param psiType
          * @return
          */
-        fun getDefaultString(psiType: PsiType): String {
-            var result = " "
+        private fun getDefaultString(psiType: PsiType): String {
+            val result: String
             val canonicalText = psiType.canonicalText
 
             //基本类型  boolean
@@ -478,119 +305,12 @@ class MyPsiUtil {
         }
 
         /**
-         * 当前是否为spring bean
-         *
-         * @return
-         */
-        fun isSpringBean(psiElement: PsiElement?): Boolean {
-            val result = false
-            if (!isPsiFieldOrMethodOrClass(psiElement)) {
-                return result
-            }
-            var psiClass: PsiClass? = null
-            if (psiElement is PsiField) {
-                val field = psiElement
-                val annotations = field.annotations
-                val annotationTypes: MutableSet<String?> = HashSet()
-                annotationTypes.add("org.springframework.beans.factory.annotation.Autowired")
-                annotationTypes.add("org.springframework.beans.factory.annotation.Qualifier")
-                annotationTypes.add("javax.annotation.Resource")
-                annotationTypes.add("org.springframework.beans.factory.annotation.Value")
-                for (annotation in annotations) {
-                    if (annotationTypes.contains(annotation.qualifiedName)) {
-                        return true
-                    }
-                }
-                psiClass = field.containingClass
-            }
-            if (psiElement is PsiMethod) {
-                val psiMethod = psiElement
-                val annotations = psiMethod.annotations
-                val annotationTypes: MutableSet<String?> = HashSet()
-                annotationTypes.add("javax.annotation.PostConstruct")
-                annotationTypes.add("javax.annotation.PreDestroy")
-                annotationTypes.add("javax.annotation.Resource")
-                annotationTypes.add("org.springframework.beans.factory.annotation.Lookup")
-                annotationTypes.add("org.springframework.context.annotation.Bean")
-                annotationTypes.add("org.springframework.context.annotation.Conditional")
-                annotationTypes.add("org.springframework.context.annotation.Scope")
-                for (annotation in annotations) {
-                    if (annotationTypes.contains(annotation.qualifiedName)) {
-                        return true
-                    }
-                }
-                psiClass = psiMethod.containingClass
-            }
-            psiClass = psiElement as PsiClass?
-            val annotationTypes = Sets.newHashSet<String?>()
-            annotationTypes.add("org.springframework.stereotype.Service")
-            annotationTypes.add("org.springframework.stereotype.Controller")
-            annotationTypes.add("org.springframework.stereotype.Repository")
-            annotationTypes.add("org.springframework.web.bind.annotation.RestController")
-            annotationTypes.add("org.springframework.context.annotation.ComponentScan")
-            annotationTypes.add("org.springframework.stereotype.Component")
-            annotationTypes.add("org.springframework.context.annotation.Conditional")
-            annotationTypes.add("javax.annotation.Resources")
-            for (annotation in psiClass!!.annotations) {
-                assert(annotation != null)
-                assert(annotation!!.qualifiedName != null)
-                if (annotation.qualifiedName!!.startsWith("org.springframework.") || annotationTypes.contains(
-                        annotation.qualifiedName)
-                ) {
-                    return true
-                }
-            }
-            for (anInterface in psiClass.interfaces) {
-                assert(anInterface != null)
-                assert(anInterface!!.qualifiedName != null)
-                if (anInterface.qualifiedName!!.startsWith("org.springframework.")) {
-                    return true
-                }
-                //todo
-            }
-            if (psiClass.superClass != null) {
-                assert(psiClass.superClass!!.qualifiedName != null)
-                if (psiClass.superClass!!.qualifiedName!!.startsWith("org.springframework.")) {
-                }
-            }
-            for (method in psiClass.methods) {
-                assert(method != null)
-                //todo
-            }
-            for (field in psiClass.fields) {
-                assert(field != null)
-                // todo
-            }
-            return false
-        }
-
-        /**
-         * 获取注解的值得信息
-         *
-         * @param annotation
-         * @param annotationTypes
-         * @param attribute
-         * @return
-         */
-        private fun getAttributeFromAnnotation(
-            annotation: PsiAnnotation, annotationTypes: Set<String>, attribute: String,
-        ): String {
-            val annotationQualifiedName = annotation.qualifiedName ?: return ""
-            if (annotationTypes.contains(annotationQualifiedName)) {
-                val annotationMemberValue = annotation.findAttributeValue(attribute) ?: return ""
-                val httpMethodWithQuotes = annotationMemberValue.text
-                return httpMethodWithQuotes.substring(1, httpMethodWithQuotes.length - 1)
-            }
-            return ""
-        }
-
-        /**
          * 当前是psi 的这个几种类型？ psiElement instanceof JvmMember 兼容性不好 修改为这个 Experimental API interface JvmElement is. This interface can be changed in a future release leading to incompatibilities
          *
          * @param psiElement
          * @return
          */
-        fun isPsiFieldOrMethodOrClass(psiElement: PsiElement?): Boolean {
+        private fun isPsiFieldOrMethodOrClass(psiElement: PsiElement?): Boolean {
             return psiElement is PsiField || psiElement is PsiClass || psiElement is PsiMethod || psiElement is PsiJavaFile
         }
 

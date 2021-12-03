@@ -1,17 +1,19 @@
 package com.github.qianmi.action.dubboinvoke
 
-import com.alibaba.fastjson.JSONObject
 import com.github.qianmi.domain.project.tools.DubboAdminInvoke
 import com.github.qianmi.util.*
+import com.github.qianmi.util.JsonUtil.isJsonString
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.ui.DialogWrapper
 import com.intellij.openapi.ui.ValidationInfo
 import com.intellij.psi.PsiMethod
 import com.intellij.psi.PsiParameter
 import com.intellij.ui.DocumentAdapter
+import com.intellij.ui.SideBorder
 import com.intellij.ui.components.JBScrollPane
 import com.intellij.ui.components.panels.VerticalLayout
 import com.intellij.util.ui.components.BorderLayoutPanel
+import java.awt.Color
 import javax.swing.*
 import javax.swing.event.DocumentEvent
 
@@ -22,11 +24,10 @@ import javax.swing.event.DocumentEvent
 class InvokeDialog(var project: Project?, var psiMethod: PsiMethod) : DialogWrapper(project) {
 
     private val jTextMaxRow = 20
-
     private val jTextDefaultColumn = 85
 
     //参数map key：参数名，value：参数
-    val argMap: HashMap<String, Arg> = HashMap()
+    val argMap: LinkedHashMap<String, Arg> = LinkedHashMap()
 
     //预览invoke 文本区域
     private var preJTextArea = JTextArea(5, jTextDefaultColumn - 5)
@@ -49,9 +50,7 @@ class InvokeDialog(var project: Project?, var psiMethod: PsiMethod) : DialogWrap
             .filter { arg -> !MyPsiUtil.isIgnoreType(arg.psiParameter.type.presentableText) }
             .forEach { arg ->
                 run {
-                    try {
-                        JSONObject.parse(arg.jTextArea.text)
-                    } catch (e: Exception) {
+                    if (!arg.jTextArea.text.isJsonString()) {
                         result.add(ValidationInfo("Json 格式有误", arg.jTextArea))
                     }
                 }
@@ -73,14 +72,17 @@ class InvokeDialog(var project: Project?, var psiMethod: PsiMethod) : DialogWrap
         panel.add(buildPreCommand())
 
         (this.okAction as DialogWrapper.OkAction).putValue("Name", "复制命令")
-        return panel
+        val jbScrollPane = JBScrollPane(panel)
+        jbScrollPane.border = SideBorder(Color.GRAY, 15, 0)
+        jbScrollPane.verticalScrollBar.value = 1
+        return jbScrollPane
     }
 
     /**
      * 构建单条参数 容器
      */
     private fun buildArgJPanel(parameter: PsiParameter): JPanel {
-        val prettyJson = JsonPrettyUtil.prettyJson(JsonConverter.argToJsonString(parameter.type))
+        val prettyJson = JsonUtil.prettyJson(JsonConverter.argToJsonObj(parameter.type))
         val nRows = StringUtil.appearNumber(prettyJson, "\n")
         val columns = if (nRows > jTextMaxRow) jTextDefaultColumn - 5 else jTextDefaultColumn
 
@@ -90,7 +92,7 @@ class InvokeDialog(var project: Project?, var psiMethod: PsiMethod) : DialogWrap
             override fun textChanged(e: DocumentEvent) {
                 try {
                     preJTextArea.text = DubboAdminInvoke.getInvokeCommand(psiMethod, argMap)
-                } catch (e: Exception) {
+                } catch (_: Exception) {
                 }
             }
         })
@@ -116,7 +118,6 @@ class InvokeDialog(var project: Project?, var psiMethod: PsiMethod) : DialogWrap
 
         val label = JLabel("预览命令")
         label.labelFor = preJTextArea
-
         val jPanel = BorderLayoutPanel(5, 5)
         jPanel.addToLeft(label)
         jPanel.addToRight(preJTextArea)

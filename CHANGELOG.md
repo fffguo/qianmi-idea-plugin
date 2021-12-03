@@ -4,14 +4,29 @@
 
 ## [Unreleased]
 
-## [1.3.3-RELEASE]
+- Support custom hyperlink
+- Support viewing packaging history
+- Support one-click export of packaged records
+
+
+- 支持自定义超链接
+- 支持查看打包历史
+- 支持一键导出打包记录
+
+## [1.4.0-RELEASE]
 
 ### FIX BUG
 
 - Fix the problem that the packaging failure also prompts the packaging success
+- Fix the bug of dubbo Invoke parsing parameters
+- Optimize the display effect of dubbo Invoke bullet frame
+- Remove unnecessary toolkits to reduce plug-in size
 
 
-- 修复打包失败也提示打包成功问题
+- 修复打包失败也提示打包成功bug
+- 修复dubboInvoke解析参数bug
+- 优化dubboInvoke弹框展示效果
+- 移除不必要工具包减少插件体积
 
 ## [1.3.2-RELEASE]
 

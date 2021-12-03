@@ -1,7 +1,7 @@
 package com.github.qianmi.services.request
 
-import com.alibaba.fastjson.JSONObject
 import com.github.qianmi.domain.project.AllProject
+import com.github.qianmi.util.JsonUtil.toJsonString
 import org.jetbrains.annotations.NotNull
 
 class CiBuildReleaseRequest(
@@ -28,15 +28,14 @@ class CiBuildReleaseRequest(
             val param = mapOf(
                 "releaseVersion" to version,
                 "developmentVersion" to snapshotVersion,
-                "json" to JSONObject.toJSONString(
-                    mapOf(
-                        "parameter" to listOf(Parameter("branch", branchName))
-                    )),
+                "json" to mapOf(
+                    "parameter" to listOf(Parameter("branch", branchName))
+                ).toJsonString()
             )
             return CiBuildReleaseRequest(
                 myProject.jenkins.projectName,
                 myProject.jenkins.projectName,
-                JSONObject.toJSONString(param),
+                param.toJsonString(),
                 myProject.bugatti.projectName,
                 myProject.bugatti.projectCode,
                 "release"

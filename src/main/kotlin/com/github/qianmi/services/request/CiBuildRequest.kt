@@ -1,7 +1,7 @@
 package com.github.qianmi.services.request
 
-import com.alibaba.fastjson.JSONObject
 import com.github.qianmi.domain.project.AllProject
+import com.github.qianmi.util.JsonUtil.toJsonString
 import org.jetbrains.annotations.NotNull
 
 class CiBuildRequest(
@@ -18,7 +18,7 @@ class CiBuildRequest(
             val param = mapOf("branch" to branchName)
             return CiBuildRequest(
                 myProject.jenkins.projectName,
-                JSONObject.toJSONString(param),
+                param.toJsonString(),
                 myProject.bugatti.projectName,
                 myProject.bugatti.projectCode,
                 "build"

@@ -8,7 +8,6 @@ import cn.hutool.http.ContentType
 import cn.hutool.http.HttpResponse
 import cn.hutool.http.HttpUtil
 import cn.hutool.http.Method
-import com.alibaba.fastjson.JSONObject
 import com.github.qianmi.domain.enums.EnvEnum
 import com.github.qianmi.domain.project.AllProject
 import com.github.qianmi.domain.project.link.Bugatti
@@ -18,6 +17,10 @@ import com.github.qianmi.services.request.CiBuildRequest
 import com.github.qianmi.services.vo.*
 import com.github.qianmi.storage.BugattiCookie
 import com.github.qianmi.storage.DomainConfig
+import com.github.qianmi.util.JsonUtil.toBean
+import com.github.qianmi.util.JsonUtil.toJsonString
+import com.github.qianmi.util.JsonUtil.toList
+import com.google.gson.JsonObject
 import com.intellij.openapi.project.Project
 import org.jetbrains.annotations.NotNull
 import org.jetbrains.annotations.Nullable
@@ -60,7 +63,7 @@ object BugattiHttpUtil {
         body["password"] = password
         return HttpUtil
             .createPost("$bugattiUrl/login")
-            .body(JSONObject.toJSONString(body), ContentType.JSON.value)
+            .body(body.toJsonString(), ContentType.JSON.value)
             .timeout(3000)
             .execute()
     }
@@ -73,8 +76,7 @@ object BugattiHttpUtil {
             .cookie(getCookie())
             .execute()
             .body()
-
-        return JSONObject.parseObject(result, BugattiProjectInfoResult::class.java)
+        return result.toBean()!!
     }
 
     @NotNull
@@ -85,8 +87,7 @@ object BugattiHttpUtil {
             .cookie(getCookie())
             .execute()
             .body()
-
-        return CollectionUtil.emptyIfNull(JSONObject.parseArray(result, BugattiProjectBranchResult::class.java))
+        return result.toList()
     }
 
     /**
@@ -100,10 +101,7 @@ object BugattiHttpUtil {
             .cookie(getCookie())
             .execute()
             .body()
-
-        return CollectionUtil.emptyIfNull(JSONObject.parseArray(result, BugattiLastVersionResult::class.java))
-            .associateBy { it.branch }
-
+        return result.toList<BugattiLastVersionResult>().associateBy { it.branch }
     }
 
     @NotNull
@@ -114,8 +112,7 @@ object BugattiHttpUtil {
             .cookie(getCookie())
             .execute()
             .body()
-
-        val resultList = CollectionUtil.emptyIfNull(JSONObject.parseArray(result, BugattiLastVersionResult::class.java))
+        val resultList = result.toList<BugattiLastVersionResult>()
         if (CollectionUtil.isNotEmpty(resultList)) {
             return resultList[0]
         }
@@ -136,16 +133,17 @@ object BugattiHttpUtil {
 
         val shellEleList = ArrayList<Shell.Element>()
 
-        for (ele in JSONObject.parseObject(result).getJSONArray("host").toList()) {
-            val eleObj = ele as JSONObject
-            val show = eleObj.getString("show")
 
-            if (show == null) {
+        for (ele in JsonUtil.parse(result).asJsonObject.getAsJsonArray("host").toList()) {
+            val eleObj = ele as JsonObject
+
+            if (Optional.ofNullable(eleObj.get("show")).map { it.asBoolean }.orElse(false)) {
                 shellEleList.add(
                     Shell.Element.instanceOf(BugattiShellInfoResult(
-                        eleObj.getString("group"),
-                        eleObj.getString("ip"),
-                        eleObj.getString("version"))))
+                        Optional.ofNullable(eleObj.get("group")).map { it.asString }.orElse(""),
+                        Optional.ofNullable(eleObj.get("ip")).map { it.asString }.orElse(""),
+                        Optional.ofNullable(eleObj.get("version")).map { it.asString }.orElse(""),
+                    )))
             }
         }
         return shellEleList
@@ -158,7 +156,7 @@ object BugattiHttpUtil {
 
         val result: String = HttpUtil
             .createRequest(Method.PUT, "$bugattiUrl/ci/build")
-            .body(JSONObject.toJSONString(CiBuildRequest.instanceOf(myProject, branchName)))
+            .body(CiBuildRequest.instanceOf(myProject, branchName).toJsonString())
             .cookie(getCookie())
             .execute()
             .body()
@@ -177,17 +175,15 @@ object BugattiHttpUtil {
         version: String,
         snapshotVersion: String,
     ): BugattiResult {
+        val request = CiBuildReleaseRequest.instanceOf(myProject, branchName, version, snapshotVersion)
 
         val result: String = HttpUtil
             .createRequest(Method.PUT, "$bugattiUrl/ci/release?force=true")
-            .body(JSONObject.toJSONString(CiBuildReleaseRequest.instanceOf(myProject,
-                branchName,
-                version,
-                snapshotVersion)))
+            .body(request.toJsonString())
             .cookie(getCookie())
             .execute()
             .body()
-        val releaseResult = JSONObject.parseObject(result, BugattiCIReleaseResult::class.java)
+        val releaseResult = result.toBean<BugattiCIReleaseResult>()!!
 
         return if (BugattiResult.SUCCESS == releaseResult.data) {
             BugattiResult.success()
@@ -204,7 +200,7 @@ object BugattiHttpUtil {
             .cookie(getCookie())
             .execute()
             .body()
-        val resultList = JSONObject.parseArray(result, BugattiCIBuildResult::class.java)
+        val resultList = result.toList<BugattiCIBuildResult>()
         if (CollectionUtil.isNotEmpty(resultList)) {
             return resultList[0]
         }
@@ -219,7 +215,7 @@ object BugattiHttpUtil {
             .cookie(getCookie())
             .execute()
             .body()
-        val resultList = JSONObject.parseArray(result, BugattiCIBuildResult::class.java)
+        val resultList = result.toList<BugattiCIBuildResult>()
         if (CollectionUtil.isNotEmpty(resultList)) {
             return resultList[0]
         }

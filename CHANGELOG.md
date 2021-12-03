@@ -4,6 +4,12 @@
 
 ## [Unreleased]
 
+## [1.4.0-RELEASE]
+
+### FIX BUG
+
+#### English
+
 - Fix the problem that the packaging failure also prompts the packaging success
 - Fix the bug of dubbo Invoke parsing parameters
 - Optimize the display effect of dubbo Invoke bullet frame
@@ -12,6 +18,7 @@
 - Supplementary qianmi tools icon
 - Optimize the packaging experience: support the esc key to close the packaging window
 
+#### 中文
 
 - 修复打包失败也提示打包成功bug
 - 修复dubboInvoke解析参数bug
@@ -20,25 +27,6 @@
 - 域账号配置错误，提供快捷配置入口
 - 补充千米工具图标
 - 优化打包体验：支持esc键关闭打包窗口
-
-## [1.4.0-RELEASE]
-
-### FIX BUG
-
-- Fix the problem that the packaging failure also prompts the packaging success
-- Fix the bug of dubbo Invoke parsing parameters
-- Optimize the display effect of dubbo Invoke bullet frame
-- Remove unnecessary third-party toolkits, greatly reducing the size of the plug-in
-- Domain account configuration error, provide quick configuration entry
-- Supplementary qianmi tools icon
-
-
-- 修复打包失败也提示打包成功bug
-- 修复dubboInvoke解析参数bug
-- 优化dubboInvoke弹框展示效果
-- 移除不必要三方工具包，极大减少插件体积
-- 域账号配置错误，提供快捷配置入口
-- 补充千米工具图标
 
 ## [1.3.2-RELEASE]
 

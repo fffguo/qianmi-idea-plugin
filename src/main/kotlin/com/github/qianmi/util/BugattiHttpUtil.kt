@@ -127,7 +127,7 @@ object BugattiHttpUtil {
         for (ele in JsonUtil.parse(result).asJsonObject.getAsJsonArray("host").toList()) {
             val eleObj = ele as JsonObject
 
-            if (Optional.ofNullable(eleObj.get("show")).map { it.asBoolean }.orElse(false)) {
+            if (eleObj.get("show") == null) {
                 shellEleList.add(
                     Shell.Element.instanceOf(BugattiShellInfoResult(
                         Optional.ofNullable(eleObj.get("group")).map { it.asString }.orElse(""),

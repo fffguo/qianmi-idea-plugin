@@ -95,12 +95,13 @@ class Shell(
             val charset = SshConsoleOptionsProvider.getInstance(project).charset
             val runner = SshTerminalCachingRunner(project, createSshUiData(), charset)
             //开启openssh
-            TerminalView.getInstance(project).createNewSession(runner, buildTerminalTabState())
+            TerminalView.getInstance(project).createNewSession(runner, buildTerminalTabState(project))
         }
 
 
         fun openSftp(project: Project) {
-            val ftpName = "${project.name}: $group"
+            val myProject = AllProject.currentProject(project)
+            val ftpName = "${project.name}: ${myProject.env.envName}($group)"
             //添加服务
             val serversConfigManager = GroupedServersConfigManager.getInstance(project)
             if (serversConfigManager.findServer(ip) == null) {
@@ -125,9 +126,11 @@ class Shell(
             toolWindow.show()
         }
 
-        private fun buildTerminalTabState(): TerminalTabState {
+        private fun buildTerminalTabState(project: Project): TerminalTabState {
+            val myProject = AllProject.currentProject(project)
+
             val state = TerminalTabState()
-            state.myTabName = group + "：" + this.ip
+            state.myTabName = "${myProject.env.envName}($group)：${this.ip}"
             state.myWorkingDirectory = this.workingDirectory
             return state
         }

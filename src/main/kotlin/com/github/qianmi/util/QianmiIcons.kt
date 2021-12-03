@@ -19,5 +19,13 @@ object QianmiIcons {
     @JvmField
     val shell = IconLoader.getIcon("/icons/shell.svg", javaClass)
 
+    @JvmField
+    val sftp = IconLoader.getIcon("/icons/sftp.svg", javaClass)
+
+    @JvmField
+    val dubboInvoke = IconLoader.getIcon("/icons/dubboInvoke.svg", javaClass)
+
+    @JvmField
+    val jenkinsPackage = IconLoader.getIcon("/icons/jenkinsPackage.svg", javaClass)
 
 }

@@ -10,6 +10,7 @@ import com.github.qianmi.util.GitUtil
 import com.github.qianmi.util.NotifyUtil
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.wm.WindowManager
+import java.util.*
 import java.util.stream.Collectors
 import javax.swing.*
 
@@ -264,7 +265,7 @@ class PackagePage : JDialog {
                 updateBetaVersionInfo(this.betaGitBranchSelected!!.selectedItem as String)
             }
         }
-        return (selected!!.selectedItem as String).toString()
+        return Optional.ofNullable(selected!!.selectedItem).map { toString() }.orElse("")
     }
 
     /**

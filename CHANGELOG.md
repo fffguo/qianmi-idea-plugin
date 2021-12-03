@@ -22,6 +22,7 @@
 - Optimize the display effect of dubbo Invoke bullet frame
 - Remove unnecessary third-party toolkits, greatly reducing the size of the plug-in
 - Domain account configuration error, provide quick configuration entry
+- Supplementary qianmi tools icon
 
 
 - 修复打包失败也提示打包成功bug
@@ -29,6 +30,7 @@
 - 优化dubboInvoke弹框展示效果
 - 移除不必要三方工具包，极大减少插件体积
 - 域账号配置错误，提供快捷配置入口
+- 补充千米工具图标
 
 ## [1.3.2-RELEASE]
 

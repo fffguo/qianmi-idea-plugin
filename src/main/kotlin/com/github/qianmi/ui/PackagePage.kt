@@ -10,6 +10,7 @@ import com.github.qianmi.util.GitUtil
 import com.github.qianmi.util.NotifyUtil
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.wm.WindowManager
+import java.awt.event.KeyEvent
 import java.util.*
 import java.util.stream.Collectors
 import javax.swing.*
@@ -225,6 +226,11 @@ class PackagePage : JDialog {
 
         //构建打包按钮
         initBuildButton()
+
+        // call close() on ESCAPE
+        contentPanel!!.registerKeyboardAction({ this.dispose() },
+            KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0),
+            JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT)
     }
 
     private fun initBuildButton() {

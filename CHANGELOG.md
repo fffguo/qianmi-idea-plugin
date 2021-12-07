@@ -4,6 +4,33 @@
 
 ## [Unreleased]
 
+## [1.5.0-RELEASE]
+
+### ADD
+
+#### English
+
+- Add Remote JVM function
+- Support to configure the default port number of Remote JVM Debug
+- When the project is closed, the SFTP and Remote JVM Debug configuration added this time will be removed
+
+#### 中文
+
+- 增加Remote JVM功能
+- 支持配置Remote JVM Debug的默认端口号
+- 项目关闭时，清退本次添加的SFTP和Remote JVM Debug配置
+
+### FIX BUG
+
+#### English
+
+- Fix the problem that the project does not take effect immediately if the server password needs to be restarted to
+  change the server password through SSH or SFTP
+
+#### 中文
+
+- 修复SSH、SFTP更改服务器密码，需重启项目不立即生效问题
+
 ## [1.4.0-RELEASE]
 
 ### FIX BUG

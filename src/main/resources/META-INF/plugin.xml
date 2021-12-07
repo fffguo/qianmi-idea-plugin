@@ -15,8 +15,10 @@
         <projectConfigurable id="com.github.qianmi.ui.PluginSettingPage"
                              instance="com.github.qianmi.ui.PluginSettingPage" displayName="千米网"/>
 
-        <!-- 项目级 配置初始化-->
+        <!-- 项目级-->
         <projectService serviceImplementation="com.github.qianmi.services.ConfigInitService"/>
+        <projectService serviceImplementation="com.github.qianmi.storage.TempConfig"/>
+
         <!-- app级 配置存储-->
         <applicationService serviceImplementation="com.github.qianmi.storage.DomainConfig"/>
         <applicationService serviceImplementation="com.github.qianmi.storage.ShellConfig"/>
@@ -135,6 +137,10 @@
         <action id="com.github.qianmi.action.shell.ftp.FtpAction" class="com.github.qianmi.action.shell.ftp.FtpAction"
                 text="SFTP Directory" icon="com.github.qianmi.util.QianmiIcons.sftp"/>
 
+        <action id="com.github.qianmi.action.shell.jvm.RemoteJVMAction"
+                class="com.github.qianmi.action.shell.jvm.RemoteJVMAction"
+                text="Remote JVM"/>
+
         <!-- 千米 超链接 -->
         <group id="com.github.qianmi.group.QianmiLinkGroup" class="com.github.qianmi.group.QianmiLinkGroup"
                icon="com.github.qianmi.util.QianmiIcons.qianmi"
@@ -170,6 +176,7 @@
             <reference ref="com.github.qianmi.action.packaging.PackageAction"/>
             <reference ref="com.github.qianmi.action.shell.ssh.SshAction"/>
             <reference ref="com.github.qianmi.action.shell.ftp.FtpAction"/>
+            <reference ref="com.github.qianmi.action.shell.jvm.RemoteJVMAction"/>
             <reference ref="com.github.qianmi.action.EsBuilderAction"/>
             <reference ref="com.github.qianmi.action.dubboinvoke.DubboInvokeAction"/>
         </group>

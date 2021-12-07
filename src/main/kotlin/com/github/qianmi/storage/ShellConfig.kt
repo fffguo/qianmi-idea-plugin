@@ -15,6 +15,7 @@ class ShellConfig : PersistentStateComponent<ShellConfig> {
     var userName: String = "root"
     var passwd: String = ""
     var port: Int = 22
+    var jvmPort: Int = 8000
     var dir: String = "/home/tomcat"
 
 

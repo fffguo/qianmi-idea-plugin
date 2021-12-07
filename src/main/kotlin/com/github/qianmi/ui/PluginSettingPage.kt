@@ -58,6 +58,11 @@ class PluginSettingPage : Configurable {
     private var shellPortJLabel: JLabel? = null
     private var shellPortText: JTextField? = null
 
+    //shell账号-jvm端口
+    private var shellJvmPortPanel: JPanel? = null
+    private var shellJvmPortJLabel: JLabel? = null
+    private var shellJvmPortText: JTextField? = null
+
     //shell账号-工作目录
     private var shellDirPanel: JPanel? = null
     private var shellDirJLabel: JLabel? = null
@@ -104,6 +109,7 @@ class PluginSettingPage : Configurable {
         val linuxModified = shellConfig.userName != this.shellAccountText!!.text
                 || shellConfig.passwd != String(this.shellPasswordText!!.password)
                 || shellConfig.port.toString() != this.shellPortText!!.text
+                || shellConfig.jvmPort.toString() != this.shellJvmPortText!!.text
                 || shellConfig.dir != this.shellDirText!!.text
         return domainModified || linuxModified
     }
@@ -119,6 +125,7 @@ class PluginSettingPage : Configurable {
         shellConfig.userName = this.shellAccountText!!.text
         shellConfig.passwd = String(this.shellPasswordText!!.password)
         shellConfig.port = Integer.valueOf(this.shellPortText!!.text)
+        shellConfig.jvmPort = Integer.valueOf(this.shellJvmPortText!!.text)
         shellConfig.dir = this.shellDirText!!.text
 
         //清空cookie
@@ -138,6 +145,7 @@ class PluginSettingPage : Configurable {
         this.shellAccountText!!.text = shellConfig.userName
         this.shellPasswordText!!.text = shellConfig.passwd
         this.shellPortText!!.text = shellConfig.port.toString()
+        this.shellJvmPortText!!.text = shellConfig.jvmPort.toString()
         this.shellDirText!!.text = shellConfig.dir
     }
 

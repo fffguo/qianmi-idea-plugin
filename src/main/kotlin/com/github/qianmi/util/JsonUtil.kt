@@ -63,6 +63,14 @@ object JsonUtil {
         }
     }
 
+    inline fun <reified T> String.toMutableList(): MutableList<T> {
+        return try {
+            Gson().fromJson(this, ParameterizedTypeImpl(T::class.java))
+        } catch (_: Exception) {
+            mutableListOf()
+        }
+    }
+
     @JvmStatic
     fun parse(jsonStr: String?): JsonElement {
         return try {

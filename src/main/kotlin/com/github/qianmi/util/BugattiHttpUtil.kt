@@ -4,7 +4,7 @@ import com.github.qianmi.action.SettingAction
 import com.github.qianmi.domain.enums.EnvEnum
 import com.github.qianmi.domain.project.AllProject
 import com.github.qianmi.domain.project.link.Bugatti
-import com.github.qianmi.domain.project.tools.Shell
+import com.github.qianmi.domain.project.tools.ShellElement
 import com.github.qianmi.services.request.CiBuildReleaseRequest
 import com.github.qianmi.services.request.CiBuildRequest
 import com.github.qianmi.services.vo.*
@@ -107,7 +107,7 @@ object BugattiHttpUtil {
     }
 
     @JvmStatic
-    fun getShellElementList(bugattiProjectCode: String, env: EnvEnum): List<Shell.Element> {
+    fun getShellElementList(bugattiProjectCode: String, env: EnvEnum): List<ShellElement> {
         //屏蔽生产环境
         if (EnvEnum.PROD == env) {
             return Collections.emptyList()
@@ -117,7 +117,7 @@ object BugattiHttpUtil {
             "$bugattiUrl/task/clusters?envId=${env.bugatti.envCode}&projectId=$bugattiProjectCode",
             getCookie()
         ).body()
-        val shellEleList = ArrayList<Shell.Element>()
+        val shellEleList = ArrayList<ShellElement>()
 
 
         for (ele in JsonUtil.parse(result).asJsonObject.getAsJsonArray("host").toList()) {
@@ -125,7 +125,7 @@ object BugattiHttpUtil {
 
             if (eleObj.get("show") == null) {
                 shellEleList.add(
-                    Shell.Element.instanceOf(BugattiShellInfoResult(
+                    ShellElement.instanceOf(BugattiShellInfoResult(
                         Optional.ofNullable(eleObj.get("group")).map { it.asString }.orElse(""),
                         Optional.ofNullable(eleObj.get("ip")).map { it.asString }.orElse(""),
                         Optional.ofNullable(eleObj.get("version")).map { it.asString }.orElse(""),

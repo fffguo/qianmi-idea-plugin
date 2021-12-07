@@ -139,7 +139,7 @@
 
         <action id="com.github.qianmi.action.shell.jvm.RemoteJVMAction"
                 class="com.github.qianmi.action.shell.jvm.RemoteJVMAction"
-                text="Remote JVM"/>
+                text="Remote JVM" icon="com.github.qianmi.util.QianmiIcons.remoteJvmDebug"/>
 
         <!-- 千米 超链接 -->
         <group id="com.github.qianmi.group.QianmiLinkGroup" class="com.github.qianmi.group.QianmiLinkGroup"

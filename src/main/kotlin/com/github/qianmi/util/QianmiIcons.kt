@@ -28,4 +28,7 @@ object QianmiIcons {
     @JvmField
     val jenkinsPackage = IconLoader.getIcon("/icons/jenkinsPackage.svg", javaClass)
 
+    @JvmField
+    val remoteJvmDebug = IconLoader.getIcon("/icons/remoteJvmDebug.svg", javaClass)
+
 }

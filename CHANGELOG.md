@@ -4,6 +4,18 @@
 
 ## [Unreleased]
 
+## [1.6.0-RELEASE]
+
+### ADD
+
+#### English
+
+- Add support for qianmi database
+
+#### 中文
+
+- 增加qianmi库的支持
+
 ## [1.5.0-RELEASE]
 
 ### ADD

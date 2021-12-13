@@ -85,6 +85,10 @@ enum class BugattiProjectEnum(val projectName: String, val bugattiProjectCode: S
     SM_BFF_GUIDE("sm-bff-guide", "1778"),
     SM_CRM("sm-crm", "1769"),
     SM_GATEWAY("sm-gateway", "1768"),
+
+    //数据库
+    DB_QIANMI("qm-qianmi", "100"),
+
     ;
 
 

@@ -6,15 +6,29 @@
 
 ## [1.6.0-RELEASE]
 
-### ADD
+### English
 
-#### English
+#### ADD
 
-- Add support for qianmi database
+- Project support: qianmi database
 
-#### 中文
+#### FIX
 
-- 增加qianmi库的支持
+- Package: When first entered, the beta version number did not render BUG
+- Package: Switch tab back and forth, branch list data doubled BUG
+- Login: Successfully logged in to Bugatti, optimized copyWriting display
+
+### 中文
+
+#### 新增
+
+- 项目支持：qianmi数据库
+
+#### 修复BUG
+
+- 打包：第一次进入时，beta版本号未渲染BUG
+- 打包：tab来回切，分支列表数据倍增BUG
+- 登录：登录Bugatti成功，优化文案展示
 
 ## [1.5.0-RELEASE]
 

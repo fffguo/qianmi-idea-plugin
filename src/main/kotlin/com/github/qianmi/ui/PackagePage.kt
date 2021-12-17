@@ -11,7 +11,6 @@ import com.github.qianmi.util.NotifyUtil
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.wm.WindowManager
 import java.awt.event.KeyEvent
-import java.util.*
 import java.util.stream.Collectors
 import javax.swing.*
 
@@ -22,7 +21,6 @@ class PackagePage : JDialog {
     //分支信息
     private var mapBetaPreBranch: Map<String, BugattiLastVersionResult>? = null
     private var releasePreBranch: BugattiLastVersionResult? = null
-    private var branchList: List<String> = listOf()
 
     //默认文案
     private val buildSuccessMsg = "提交成功！jenkins 正在加急构建中  ヽ(￣д￣;)ノ"
@@ -125,8 +123,6 @@ class PackagePage : JDialog {
         this.snapshotJenkinsText!!.text = myProject!!.jenkins.projectName
         //git地址
         this.snapshotGitUrlText!!.text = myProject!!.gitlab.url
-        //分支处理
-        this.branchHandler(this.snapshotGitBranchSelected, SNAPSHOT)
     }
 
 
@@ -135,10 +131,6 @@ class PackagePage : JDialog {
         this.betaJenkinsText!!.text = this.myProject!!.jenkins.projectName
         //git地址
         this.betaGitUrlText!!.text = this.myProject!!.gitlab.url
-        //分支处理
-        val currentBranch = this.branchHandler(this.betaGitBranchSelected, BETA)
-        //默认版本信息
-        updateBetaVersionInfo(currentBranch)
     }
 
 
@@ -147,8 +139,6 @@ class PackagePage : JDialog {
         this.releaseJenkinsText!!.text = this.myProject!!.jenkins.projectName
         //git地址
         this.releaseGitUrlText!!.text = this.myProject!!.gitlab.url
-        //分支处理
-        this.branchHandler(this.releaseGitBranchSelected, RELEASE)
         //默认版本信息
         if (this.releasePreBranch == null) {
             this.releasePreBranch = BugattiHttpUtil.getLastReleaseVersion(this.myProject!!)
@@ -169,14 +159,10 @@ class PackagePage : JDialog {
         //jenkins构建
         val branchName = selected!!.selectedItem!!.toString()
 
-        val ciResult =
-            when (buildType) {
-                SNAPSHOT -> BugattiHttpUtil.jenkinsCIBuild(this.myProject!!, branchName)
-                BETA, RELEASE -> BugattiHttpUtil.jenkinsCIRelease(this.myProject!!,
-                    branchName,
-                    version,
-                    snapshotVersion)
-            }
+        val ciResult = when (buildType) {
+            SNAPSHOT -> BugattiHttpUtil.jenkinsCIBuild(this.myProject!!, branchName)
+            BETA, RELEASE -> BugattiHttpUtil.jenkinsCIRelease(this.myProject!!, branchName, version, snapshotVersion)
+        }
 
         val bugattiAction = BugattiAction()
         bugattiAction.templatePresentation.text = this.buildGoBugattiMsg
@@ -207,30 +193,16 @@ class PackagePage : JDialog {
     }
 
     private fun init() {
-        //分支列表
-        this.branchList = BugattiHttpUtil.getBranchList(this.myProject!!)
-            .stream()
-            .map { branch -> branch.name }
-            .collect(Collectors.toList())
-
-        initSnapshot()
-
+        //初始化snapshot
+        this.initSnapshot()
         //tab点击事件
-        tabPanel!!.addChangeListener {
-            when ((it.source as JTabbedPane).selectedIndex) {
-                0 -> initSnapshot()
-                1 -> initBeta()
-                2 -> initRelease()
-            }
-        }
-
+        this.initTabSwitch()
+        //分支处理
+        this.initBranchHandler()
         //构建打包按钮
-        initBuildButton()
-
-        // call close() on ESCAPE
-        contentPanel!!.registerKeyboardAction({ this.dispose() },
-            KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0),
-            JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT)
+        this.initBuildButton()
+        //初始化esc退出事件
+        this.initEscEvent()
     }
 
     private fun initBuildButton() {
@@ -254,24 +226,49 @@ class PackagePage : JDialog {
         }
     }
 
-    private fun branchHandler(selected: JComboBox<String>?, buildType: BuildType): String {
+    /**
+     * esc键关闭窗口
+     */
+    private fun initEscEvent() {
+        contentPanel!!.registerKeyboardAction({ this.dispose() },
+            KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0),
+            JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT)
+    }
+
+    private fun initTabSwitch() {
+        tabPanel!!.addChangeListener {
+            when ((it.source as JTabbedPane).selectedIndex) {
+                0 -> initSnapshot()
+                1 -> initBeta()
+                2 -> initRelease()
+            }
+        }
+    }
+
+    private fun initBranchHandler() {
+        //分支列表
+        val branchList = BugattiHttpUtil.getBranchList(this.myProject!!).stream().map { branch -> branch.name }
+            .collect(Collectors.toList())
         //填充分支
-        branchList.forEach { branchName -> selected!!.addItem(branchName) }
+        branchList.forEach { branchName ->
+            this.snapshotGitBranchSelected!!.addItem(branchName)
+            this.betaGitBranchSelected!!.addItem(branchName)
+            this.releaseGitBranchSelected!!.addItem(branchName)
+        }
         //当前分支
         val currentBranch = GitUtil.getCurrentBranchName(project!!)
 
-        //默认选中分支
-        if (this.branchList.contains(currentBranch)) {
-            selected!!.selectedItem = currentBranch
+        //beta分支选择器
+        this.betaGitBranchSelected!!.addItemListener {
+            updateBetaVersionInfo(this.betaGitBranchSelected!!.selectedItem as String)
         }
 
-        //选中分支监听器
-        if (buildType == BETA) {
-            selected!!.addItemListener {
-                updateBetaVersionInfo(this.betaGitBranchSelected!!.selectedItem as String)
-            }
+        //默认选中分支
+        if (branchList.contains(currentBranch)) {
+            this.snapshotGitBranchSelected!!.selectedItem = currentBranch
+            this.betaGitBranchSelected!!.selectedItem = currentBranch
+            this.releaseGitBranchSelected!!.selectedItem = currentBranch
         }
-        return Optional.ofNullable(selected!!.selectedItem).map { toString() }.orElse("")
     }
 
     /**
@@ -286,6 +283,9 @@ class PackagePage : JDialog {
         if (versionInfo !== null) {
             this.betaVersionText!!.text = versionInfo.version
             this.betaSnapshotVersionText!!.text = versionInfo.sVersion
+        } else {
+            this.betaVersionText!!.text = ""
+            this.betaSnapshotVersionText!!.text = ""
         }
     }
 

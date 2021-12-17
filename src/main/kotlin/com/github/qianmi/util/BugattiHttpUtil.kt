@@ -41,6 +41,7 @@ object BugattiHttpUtil {
                 NotifyUtil.notifyErrorWithAction(project, "登录Bugatti失败！账号或密码错误~", settingAction)
             } else {
                 BugattiCookie.getInstance().cookie = "SESSION=${httpResponse.getCookie("SESSION")}"
+                NotifyUtil.notifyInfo(project, "登录成功，已与Bugatti建立连接~")
             }
             return httpResponse
         } catch (_: Exception) {

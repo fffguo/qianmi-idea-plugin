@@ -1,14 +1,14 @@
 # qianmi-idea-plugin
 
 ![Build](https://github.com/fffguo/qianmi-idea-plugin/workflows/Build/badge.svg)
-[![Version](https://img.shields.io/jetbrains/plugin/v/PLUGIN_ID.svg)](https://plugins.jetbrains.com/plugin/PLUGIN_ID)
-[![Downloads](https://img.shields.io/jetbrains/plugin/d/PLUGIN_ID.svg)](https://plugins.jetbrains.com/plugin/PLUGIN_ID)
+[![Version](https://img.shields.io/jetbrains/plugin/v/17958-qianmi-tools.svg)](https://plugins.jetbrains.com/plugin/17958-qianmi-tools)
+[![Downloads](https://img.shields.io/jetbrains/plugin/d/17958-qianmi-tools.svg)](https://plugins.jetbrains.com/plugin/17958-qianmi-tools)
 
 <!-- Plugin description -->
 
 <a href="https://github.com/fffguo/qianmi-idea-plugin">GitHub</a>
 <p>please give me a star, thank you very much! (*╹▽╹*)</p>
-<p>请求给我个star、非常感谢~</p>
+<p>如果感觉这个插件还不错，给个star以资鼓励吧~</p>
 
 <h3>This plug-in provides a more immersive development method for Qianmi developers and provides some practical
 functions to improve employee work efficiency.</h3>

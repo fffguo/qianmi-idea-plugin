@@ -1,6 +1,6 @@
 package com.github.qianmi.domain.project.link
 
-import com.github.qianmi.domain.project.AllProject
+import com.github.qianmi.storage.EnvConfig
 
 class RocketMq(
     /**
@@ -15,7 +15,7 @@ class RocketMq(
 ) {
     companion object {
         fun defaultRocketMq(): RocketMq {
-            return RocketMq(true, AllProject.defaultEnv.rocketMq.url)
+            return RocketMq(true, EnvConfig.getInstance().env.rocketMq.url)
         }
     }
 }

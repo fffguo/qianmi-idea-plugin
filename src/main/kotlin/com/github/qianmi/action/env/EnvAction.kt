@@ -1,7 +1,7 @@
 package com.github.qianmi.action.env
 
 import com.github.qianmi.domain.enums.EnvEnum
-import com.github.qianmi.domain.project.AllProject
+import com.github.qianmi.storage.EnvConfig
 import com.intellij.openapi.actionSystem.AnActionEvent
 import com.intellij.openapi.actionSystem.DefaultActionGroup
 import com.intellij.openapi.actionSystem.ex.ComboBoxAction
@@ -25,6 +25,6 @@ class EnvAction : ComboBoxAction() {
     }
 
     override fun update(e: AnActionEvent) {
-        e.presentation.text = AllProject.currentProject(e).env.envName
+        e.presentation.text = EnvConfig.getInstance().env.envName
     }
 }

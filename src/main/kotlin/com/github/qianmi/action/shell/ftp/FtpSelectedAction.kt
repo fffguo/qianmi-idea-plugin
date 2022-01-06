@@ -1,8 +1,8 @@
 package com.github.qianmi.action.shell.ftp
 
 import com.github.qianmi.action.shell.ShellSelectedAction
-import com.github.qianmi.domain.project.AllProject
 import com.github.qianmi.domain.project.tools.ShellElement
+import com.github.qianmi.storage.EnvConfig
 import com.github.qianmi.storage.TempConfig
 import com.intellij.openapi.actionSystem.AnActionEvent
 import com.intellij.openapi.project.Project
@@ -20,8 +20,7 @@ class FtpSelectedAction(override var ele: ShellElement) : ShellSelectedAction() 
     override fun open(e: AnActionEvent) {
         val project = e.project!!
 
-        val myProject = AllProject.currentProject(project)
-        val ftpName = "${project.name}: ${myProject.env.envName}(${ele.group})"
+        val ftpName = "${project.name}: ${EnvConfig.getInstance().env.envName}(${ele.group})"
         //添加服务
         val serversConfigManager = GroupedServersConfigManager.getInstance(project)
         if (serversConfigManager.findServer(ele.ip) == null) {

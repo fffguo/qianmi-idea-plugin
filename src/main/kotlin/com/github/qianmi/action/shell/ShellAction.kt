@@ -2,6 +2,7 @@ package com.github.qianmi.action.shell
 
 import com.github.qianmi.domain.project.AllProject
 import com.github.qianmi.domain.project.tools.ShellElement
+import com.github.qianmi.storage.EnvConfig
 import com.github.qianmi.util.CollectionUtil.isNotNullOrEmpty
 import com.intellij.openapi.actionSystem.AnAction
 import com.intellij.openapi.actionSystem.AnActionEvent
@@ -17,7 +18,7 @@ abstract class ShellAction<T : ShellSelectedAction> : AnAction() {
     override fun actionPerformed(e: AnActionEvent) {
         val myProject = AllProject.currentProject(e)
 
-        val eleList = myProject.shell.eleMap[myProject.env].orEmpty()
+        val eleList = myProject.shell.eleMap[EnvConfig.getInstance().env].orEmpty()
         if (eleList.isNotNullOrEmpty()) {
             if (eleList.size == 1) {
                 instanceShellSelectedAction(eleList[0]).open(e)

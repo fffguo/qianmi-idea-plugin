@@ -25,7 +25,7 @@ class ShellElement {
     /**
      * 端口
      */
-    private fun getPort(): Int = ShellConfig.getInstance().port
+    private fun getPort(): Int = ShellConfig.getInstance().port.toInt()
 
     /**
      * 工作路径

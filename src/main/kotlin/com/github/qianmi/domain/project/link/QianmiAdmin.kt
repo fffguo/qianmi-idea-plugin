@@ -1,6 +1,6 @@
 package com.github.qianmi.domain.project.link
 
-import com.github.qianmi.domain.project.AllProject
+import com.github.qianmi.storage.EnvConfig
 
 class QianmiAdmin(
     /**
@@ -15,7 +15,7 @@ class QianmiAdmin(
 ) {
     companion object {
         fun defaultQianmiAdmin(): QianmiAdmin {
-            return QianmiAdmin(true, AllProject.defaultEnv.qianmiAdmin.url)
+            return QianmiAdmin(true, EnvConfig.getInstance().env.qianmiAdmin.url)
         }
     }
 }

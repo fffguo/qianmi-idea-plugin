@@ -1,8 +1,8 @@
 package com.github.qianmi.action.shell.jvm
 
 import com.github.qianmi.action.shell.ShellSelectedAction
-import com.github.qianmi.domain.project.AllProject
 import com.github.qianmi.domain.project.tools.ShellElement
+import com.github.qianmi.storage.EnvConfig
 import com.github.qianmi.storage.ShellConfig
 import com.github.qianmi.storage.TempConfig
 import com.intellij.execution.ExecutionManager
@@ -43,13 +43,12 @@ class RemoteSelectedAction(override var ele: ShellElement) : ShellSelectedAction
     }
 
     private fun buildConfig(project: Project): RunnerAndConfigurationSettingsImpl {
-        val myProject = AllProject.currentProject(project)
 
         val remoteConfig = RemoteConfigurationType.getInstance()
             .createTemplateConfiguration(project) as RemoteConfiguration
 
         remoteConfig.HOST = ele.ip
-        remoteConfig.PORT = ShellConfig.getInstance().jvmPort.toString()
+        remoteConfig.PORT = ShellConfig.getInstance().jvmPort
 
         val runnerSetting = RunnerAndConfigurationSettingsImpl(
             RunManagerImpl.getInstanceImpl(project),
@@ -57,7 +56,7 @@ class RemoteSelectedAction(override var ele: ShellElement) : ShellSelectedAction
             false,
             RunConfigurationLevel.PROJECT)
 
-        runnerSetting.name = " ${myProject.env.envName}(${ele.group}):${ele.ip}"
+        runnerSetting.name = " ${EnvConfig.getInstance().env.envName}(${ele.group}):${ele.ip}"
         return runnerSetting
     }
 

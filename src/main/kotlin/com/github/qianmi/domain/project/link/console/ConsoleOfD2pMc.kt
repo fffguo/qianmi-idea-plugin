@@ -1,6 +1,6 @@
 package com.github.qianmi.domain.project.link.console
 
-import com.github.qianmi.domain.project.AllProject
+import com.github.qianmi.storage.EnvConfig
 
 class ConsoleOfD2pMc(
     /**
@@ -15,7 +15,7 @@ class ConsoleOfD2pMc(
 ) {
     companion object {
         fun defaultConsoleOfD2pMc(): ConsoleOfD2pMc {
-            return ConsoleOfD2pMc(true, AllProject.defaultEnv.consoleOfD2pMc.url)
+            return ConsoleOfD2pMc(true, EnvConfig.getInstance().env.consoleOfD2pMc.url)
         }
     }
 }

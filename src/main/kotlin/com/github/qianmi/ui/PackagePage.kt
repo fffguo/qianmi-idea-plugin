@@ -14,13 +14,12 @@ import java.awt.event.KeyEvent
 import java.util.stream.Collectors
 import javax.swing.*
 
-class PackagePage : JDialog {
-    private var project: Project? = null
-    private var myProject: AllProject.MyProject? = null
+class PackagePage(private var project: Project) : JDialog() {
+    private var myProject: AllProject.MyProject
 
     //分支信息
-    private var mapBetaPreBranch: Map<String, BugattiLastVersionResult>? = null
-    private var releasePreBranch: BugattiLastVersionResult? = null
+    private lateinit var mapBetaPreBranch: Map<String, BugattiLastVersionResult>
+    private lateinit var releasePreBranch: BugattiLastVersionResult
 
     //默认文案
     private val buildSuccessMsg = "提交成功！jenkins 正在加急构建中  ヽ(￣д￣;)ノ"
@@ -28,140 +27,151 @@ class PackagePage : JDialog {
     private val buildFailMsg = "提交失败！ %s"
 
     //根容器
-    private var contentPanel: JPanel? = null
+    private lateinit var contentPanel: JPanel
 
     //tab容器
-    private var tabPanel: JTabbedPane? = null
-    private var snapshotTabPanel: JPanel? = null
-    private var betaTabPanel: JPanel? = null
-    private var releaseTabPanel: JPanel? = null
+    private lateinit var tabPanel: JTabbedPane
+    private lateinit var snapshotTabPanel: JPanel
+    private lateinit var betaTabPanel: JPanel
+    private lateinit var releaseTabPanel: JPanel
 
 
     /* snapshot */
-    private var snapshotContent: JPanel? = null
+    private lateinit var snapshotContent: JPanel
 
     //snapshot-项目名
-    private var snapshotJenkinsJLabel: JLabel? = null
-    private var snapshotJenkinsText: JTextField? = null
+    private lateinit var snapshotJenkinsJLabel: JLabel
+    private lateinit var snapshotJenkinsText: JTextField
 
     //snapshot-git地址
-    private var snapshotGitUrlJLabel: JLabel? = null
-    private var snapshotGitUrlText: JTextField? = null
+    private lateinit var snapshotGitUrlJLabel: JLabel
+    private lateinit var snapshotGitUrlText: JTextField
 
     //snapshot-git分支
-    private var snapshotGitBranchJLabel: JLabel? = null
-    private var snapshotGitBranchSelected: JComboBox<String>? = null
+    private lateinit var snapshotGitBranchJLabel: JLabel
+    private lateinit var snapshotGitBranchSelected: JComboBox<String>
 
     //snapshot-构建按钮
-    private var snapshotBuildButton: JButton? = null
+    private lateinit var snapshotBuildButton: JButton
 
 
     /* beta */
-    private var betaContent: JPanel? = null
+    private lateinit var betaContent: JPanel
 
     //beta-项目名
-    private var betaJenkinsJLabel: JLabel? = null
-    private var betaJenkinsText: JTextField? = null
+    private lateinit var betaJenkinsJLabel: JLabel
+    private lateinit var betaJenkinsText: JTextField
 
     //beta-git地址
-    private var betaGitUrlJLabel: JLabel? = null
-    private var betaGitUrlText: JTextField? = null
+    private lateinit var betaGitUrlJLabel: JLabel
+    private lateinit var betaGitUrlText: JTextField
 
     //beta-git分支
-    private var betaGitBranchLabel: JLabel? = null
-    private var betaGitBranchSelected: JComboBox<String>? = null
+    private lateinit var betaGitBranchLabel: JLabel
+    private lateinit var betaGitBranchSelected: JComboBox<String>
 
     //beta-发布版本号
-    private var betaVersionJLabel: JLabel? = null
-    private var betaVersionText: JTextField? = null
+    private lateinit var betaVersionJLabel: JLabel
+    private lateinit var betaVersionText: JTextField
 
     //beta-开发版本号
-    private var betaSnapshotVersionJLabel: JLabel? = null
-    private var betaSnapshotVersionText: JTextField? = null
+    private lateinit var betaSnapshotVersionJLabel: JLabel
+    private lateinit var betaSnapshotVersionText: JTextField
 
     //beta-构建按钮
-    private var betaBuildButton: JButton? = null
+    private lateinit var betaBuildButton: JButton
 
 
     /* release */
-    private var releaseContent: JPanel? = null
+    private lateinit var releaseContent: JPanel
 
     //release-项目名
-    private var releaseJenkinsJLabel: JLabel? = null
-    private var releaseJenkinsText: JTextField? = null
+    private lateinit var releaseJenkinsJLabel: JLabel
+    private lateinit var releaseJenkinsText: JTextField
 
     //release-git地址
-    private var releaseGitUrlJLabel: JLabel? = null
-    private var releaseGitUrlText: JTextField? = null
+    private lateinit var releaseGitUrlJLabel: JLabel
+    private lateinit var releaseGitUrlText: JTextField
 
     //release-git分支
-    private var releaseGitBranchLabel: JLabel? = null
-    private var releaseGitBranchSelected: JComboBox<String>? = null
+    private lateinit var releaseGitBranchLabel: JLabel
+    private lateinit var releaseGitBranchSelected: JComboBox<String>
 
     //beta-发布版本号
-    private var releaseVersionJLabel: JLabel? = null
-    private var releaseVersionText: JTextField? = null
+    private lateinit var releaseVersionJLabel: JLabel
+    private lateinit var releaseVersionText: JTextField
 
     //beta-开发版本号
-    private var releaseSnapshotVersionJLabel: JLabel? = null
-    private var releaseSnapshotVersionText: JTextField? = null
+    private lateinit var releaseSnapshotVersionJLabel: JLabel
+    private lateinit var releaseSnapshotVersionText: JTextField
 
     //release-构建按钮
-    private var releaseBuildButton: JButton? = null
+    private lateinit var releaseBuildButton: JButton
 
-
-    constructor(project: Project) {
+    init {
         contentPane = this.contentPanel
         modalityType = ModalityType.APPLICATION_MODAL
-        this.project = project
-        this.myProject = AllProject.currentProject(project)
-        init()
+        this.myProject = AllProject.currentProject(this.project)
+
+        //初始化tab
+        this.initSnapshot()
+        this.initBeta()
+        this.initRelease()
+        //分支处理
+        this.initBranchHandler()
+        //构建打包按钮
+        this.initBuildButton()
+        //初始化esc退出事件
+        this.initEscEvent()
     }
 
     private fun initSnapshot() {
         //项目名
-        this.snapshotJenkinsText!!.text = myProject!!.jenkins.projectName
+        this.snapshotJenkinsText.text = myProject.jenkins.projectName
         //git地址
-        this.snapshotGitUrlText!!.text = myProject!!.gitlab.url
+        this.snapshotGitUrlText.text = myProject.gitlab.url
     }
 
 
     private fun initBeta() {
         //项目名
-        this.betaJenkinsText!!.text = this.myProject!!.jenkins.projectName
+        this.betaJenkinsText.text = this.myProject.jenkins.projectName
         //git地址
-        this.betaGitUrlText!!.text = this.myProject!!.gitlab.url
+        this.betaGitUrlText.text = this.myProject.gitlab.url
+        //beta分支
+        this.mapBetaPreBranch = BugattiHttpUtil.mapLastBetaVersion(this.myProject)
     }
 
 
     private fun initRelease() {
         //项目名
-        this.releaseJenkinsText!!.text = this.myProject!!.jenkins.projectName
+        this.releaseJenkinsText.text = this.myProject.jenkins.projectName
         //git地址
-        this.releaseGitUrlText!!.text = this.myProject!!.gitlab.url
+        this.releaseGitUrlText.text = this.myProject.gitlab.url
+
+        //release版本
+        this.releasePreBranch = BugattiHttpUtil.getLastReleaseVersion(this.myProject)!!
+
         //默认版本信息
-        if (this.releasePreBranch == null) {
-            this.releasePreBranch = BugattiHttpUtil.getLastReleaseVersion(this.myProject!!)
-        }
-        this.releaseVersionText!!.text = this.releasePreBranch!!.version
-        this.releaseSnapshotVersionText!!.text = this.releasePreBranch!!.sVersion
+        this.releaseVersionText.text = this.releasePreBranch.version
+        this.releaseSnapshotVersionText.text = this.releasePreBranch.sVersion
 
     }
 
 
     private fun buildButtonListener(
-        selected: JComboBox<String>?,
+        selected: JComboBox<String>,
         buildType: BuildType,
         version: String,
         snapshotVersion: String,
     ) {
 
         //jenkins构建
-        val branchName = selected!!.selectedItem!!.toString()
+        val branchName = selected.selectedItem!!.toString()
 
         val ciResult = when (buildType) {
-            SNAPSHOT -> BugattiHttpUtil.jenkinsCIBuild(this.myProject!!, branchName)
-            BETA, RELEASE -> BugattiHttpUtil.jenkinsCIRelease(this.myProject!!, branchName, version, snapshotVersion)
+            SNAPSHOT -> BugattiHttpUtil.jenkinsCIBuild(this.myProject, branchName)
+            BETA, RELEASE -> BugattiHttpUtil.jenkinsCIRelease(this.myProject, branchName, version, snapshotVersion)
         }
 
         val bugattiAction = BugattiAction()
@@ -173,7 +183,7 @@ class PackagePage : JDialog {
         if (ciResult.success) {
             message = this.buildSuccessMsg
             //回调
-            PackageNotify(this.project!!, buildType, version, branchName)
+            PackageNotify(this.project, buildType, version, branchName)
         }
         //idea 通知
         NotifyUtil.notifyInfoWithAction(project, message, bugattiAction)
@@ -192,37 +202,24 @@ class PackagePage : JDialog {
         isVisible = true
     }
 
-    private fun init() {
-        //初始化snapshot
-        this.initSnapshot()
-        //tab点击事件
-        this.initTabSwitch()
-        //分支处理
-        this.initBranchHandler()
-        //构建打包按钮
-        this.initBuildButton()
-        //初始化esc退出事件
-        this.initEscEvent()
-    }
-
     private fun initBuildButton() {
         //构建按钮 snapshot
-        this.snapshotBuildButton!!.addActionListener {
+        this.snapshotBuildButton.addActionListener {
             buildButtonListener(this.snapshotGitBranchSelected, SNAPSHOT, "", "")
         }
         //构建按钮 beta
-        this.betaBuildButton!!.addActionListener {
+        this.betaBuildButton.addActionListener {
             buildButtonListener(this.betaGitBranchSelected,
                 BETA,
-                this.betaVersionText!!.text,
-                this.betaSnapshotVersionText!!.text)
+                this.betaVersionText.text,
+                this.betaSnapshotVersionText.text)
         }
         //构建按钮 release
-        this.releaseBuildButton!!.addActionListener {
+        this.releaseBuildButton.addActionListener {
             buildButtonListener(this.releaseGitBranchSelected,
                 BETA,
-                this.releaseVersionText!!.text,
-                this.releaseSnapshotVersionText!!.text)
+                this.releaseVersionText.text,
+                this.releaseSnapshotVersionText.text)
         }
     }
 
@@ -230,44 +227,34 @@ class PackagePage : JDialog {
      * esc键关闭窗口
      */
     private fun initEscEvent() {
-        contentPanel!!.registerKeyboardAction({ this.dispose() },
+        contentPanel.registerKeyboardAction({ this.dispose() },
             KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0),
             JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT)
     }
 
-    private fun initTabSwitch() {
-        tabPanel!!.addChangeListener {
-            when ((it.source as JTabbedPane).selectedIndex) {
-                0 -> initSnapshot()
-                1 -> initBeta()
-                2 -> initRelease()
-            }
-        }
-    }
-
     private fun initBranchHandler() {
         //分支列表
-        val branchList = BugattiHttpUtil.getBranchList(this.myProject!!).stream().map { branch -> branch.name }
+        val branchList = BugattiHttpUtil.getBranchList(this.myProject).stream().map { branch -> branch.name }
             .collect(Collectors.toList())
         //填充分支
         branchList.forEach { branchName ->
-            this.snapshotGitBranchSelected!!.addItem(branchName)
-            this.betaGitBranchSelected!!.addItem(branchName)
-            this.releaseGitBranchSelected!!.addItem(branchName)
+            this.snapshotGitBranchSelected.addItem(branchName)
+            this.betaGitBranchSelected.addItem(branchName)
+            this.releaseGitBranchSelected.addItem(branchName)
         }
         //当前分支
-        val currentBranch = GitUtil.getCurrentBranchName(project!!)
+        val currentBranch = GitUtil.getCurrentBranchName(project)
 
         //beta分支选择器
-        this.betaGitBranchSelected!!.addItemListener {
-            updateBetaVersionInfo(this.betaGitBranchSelected!!.selectedItem as String)
+        this.betaGitBranchSelected.addItemListener {
+            updateBetaVersionInfo(this.betaGitBranchSelected.selectedItem as String)
         }
 
         //默认选中分支
         if (branchList.contains(currentBranch)) {
-            this.snapshotGitBranchSelected!!.selectedItem = currentBranch
-            this.betaGitBranchSelected!!.selectedItem = currentBranch
-            this.releaseGitBranchSelected!!.selectedItem = currentBranch
+            this.snapshotGitBranchSelected.selectedItem = currentBranch
+            this.betaGitBranchSelected.selectedItem = currentBranch
+            this.releaseGitBranchSelected.selectedItem = currentBranch
         }
     }
 
@@ -276,16 +263,13 @@ class PackagePage : JDialog {
      */
     private fun updateBetaVersionInfo(versionName: String) {
         //默认版本信息
-        if (this.mapBetaPreBranch.isNullOrEmpty()) {
-            this.mapBetaPreBranch = BugattiHttpUtil.mapLastBetaVersion(this.myProject!!)
-        }
-        val versionInfo = this.mapBetaPreBranch!![versionName]
+        val versionInfo = this.mapBetaPreBranch[versionName]
         if (versionInfo !== null) {
-            this.betaVersionText!!.text = versionInfo.version
-            this.betaSnapshotVersionText!!.text = versionInfo.sVersion
+            this.betaVersionText.text = versionInfo.version
+            this.betaSnapshotVersionText.text = versionInfo.sVersion
         } else {
-            this.betaVersionText!!.text = ""
-            this.betaSnapshotVersionText!!.text = ""
+            this.betaVersionText.text = ""
+            this.betaSnapshotVersionText.text = ""
         }
     }
 

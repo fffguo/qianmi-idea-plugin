@@ -1,6 +1,6 @@
 package com.github.qianmi.domain.project.link
 
-import com.github.qianmi.domain.project.AllProject
+import com.github.qianmi.storage.EnvConfig
 
 class ActiveMq(
     /**
@@ -15,7 +15,7 @@ class ActiveMq(
 ) {
     companion object {
         fun defaultActiveMq(): ActiveMq {
-            return ActiveMq(true, AllProject.defaultEnv.activeMq.url)
+            return ActiveMq(true, EnvConfig.getInstance().env.activeMq.url)
         }
     }
 }

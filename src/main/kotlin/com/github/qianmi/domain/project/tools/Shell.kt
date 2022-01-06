@@ -1,7 +1,7 @@
 package com.github.qianmi.domain.project.tools
 
 import com.github.qianmi.domain.enums.EnvEnum
-import com.github.qianmi.domain.project.AllProject
+import com.github.qianmi.storage.EnvConfig
 import java.nio.charset.Charset
 
 class Shell(
@@ -19,7 +19,7 @@ class Shell(
     ) {
     companion object {
         fun defaultShell(): Shell {
-            return Shell(isSupport = false, eleMap = hashMapOf(AllProject.defaultEnv to listOf()))
+            return Shell(false, hashMapOf(EnvConfig.getInstance().env to listOf()))
         }
     }
 

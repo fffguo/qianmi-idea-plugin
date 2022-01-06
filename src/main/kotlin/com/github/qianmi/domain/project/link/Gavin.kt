@@ -1,6 +1,6 @@
 package com.github.qianmi.domain.project.link
 
-import com.github.qianmi.domain.project.AllProject
+import com.github.qianmi.storage.EnvConfig
 
 class Gavin(
     /**
@@ -15,7 +15,7 @@ class Gavin(
 ) {
     companion object {
         fun defaultGavin(): Gavin {
-            return Gavin(true, AllProject.defaultEnv.gavin.url)
+            return Gavin(true, EnvConfig.getInstance().env.gavin.url)
         }
     }
 }

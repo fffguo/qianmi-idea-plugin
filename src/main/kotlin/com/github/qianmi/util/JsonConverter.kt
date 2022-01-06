@@ -1,6 +1,5 @@
 package com.github.qianmi.util
 
-import com.github.qianmi.domain.vo.KV
 import com.intellij.psi.PsiClass
 import com.intellij.psi.PsiEnumConstant
 import com.intellij.psi.PsiPrimitiveType
@@ -14,7 +13,7 @@ object JsonConverter {
 
     @JvmStatic
     fun classToJson(psiClass: PsiClass?): Any {
-        val kv: KV<String, Any> = KV.create()
+        val map: LinkedHashMap<String, Any> = LinkedHashMap()
         if (psiClass != null) {
 
             for (field in psiClass.allFields) {
@@ -26,16 +25,16 @@ object JsonConverter {
                 }
                 //primitive Type
                 if (type is PsiPrimitiveType) {
-                    kv[name] = PsiTypesUtil.getDefaultValue(type)
+                    map[name] = PsiTypesUtil.getDefaultValue(type)
                 } else {
                     //reference Type
                     val fieldTypeName = type.presentableText
                     //normal Type
                     if (MyPsiUtil.isNormalType(fieldTypeName)) {
                         if ("String" == fieldTypeName) {
-                            kv[name] = name
+                            map[name] = name
                         } else {
-                            MyPsiUtil.normalTypes[fieldTypeName]?.let { kv.set(name, it) }
+                            MyPsiUtil.normalTypes[fieldTypeName]?.let { map.set(name, it) }
                         }
                     }
                     //array type
@@ -50,7 +49,7 @@ object JsonConverter {
                         } else {
                             list.add(classToJson(PsiUtil.resolveClassInType(deepType)))
                         }
-                        kv[name] = list
+                        map[name] = list
                     }
                     //list type
                     else if (MyPsiUtil.isList(type)) {
@@ -66,11 +65,11 @@ object JsonConverter {
                                 list.add((argToJsonObj(iterableType)))
                             }
                         }
-                        kv[name] = list
+                        map[name] = list
                     }
                     //map type
                     else if (MyPsiUtil.isMap(type)) {
-                        kv[name] = mapOf("key" to "value")
+                        map[name] = mapOf("key" to "value")
                     }
                     //enum
                     else if (MyPsiUtil.isEnum(type)) {
@@ -81,14 +80,14 @@ object JsonConverter {
                                 value = fieldList[0].name
                             }
                         }
-                        kv[name] = value
+                        map[name] = value
                     } else {
-                        kv[name] = classToJson(PsiUtil.resolveClassInType(type))
+                        map[name] = classToJson(PsiUtil.resolveClassInType(type))
                     }
                 }
             }
         }
-        return kv
+        return map
     }
 
 
@@ -136,7 +135,8 @@ object JsonConverter {
         //map type
         else if (MyPsiUtil.isMap(psiType)) {
             return mapOf("key" to "value")
-        }                 //primitive Type
+        }
+        //primitive Type
         else {
             return classToJson(PsiUtil.resolveClassInType(psiType))
         }

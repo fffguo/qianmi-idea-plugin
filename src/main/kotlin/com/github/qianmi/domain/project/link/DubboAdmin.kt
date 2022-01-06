@@ -1,6 +1,6 @@
 package com.github.qianmi.domain.project.link
 
-import com.github.qianmi.domain.project.AllProject
+import com.github.qianmi.storage.EnvConfig
 
 class DubboAdmin(
     /**
@@ -20,7 +20,7 @@ class DubboAdmin(
 
     companion object {
         fun defaultDubboAdmin(): DubboAdmin {
-            return DubboAdmin(true, DubboTypeEnum.NONE, AllProject.defaultEnv.dubboAdmin.url)
+            return DubboAdmin(true, DubboTypeEnum.NONE, EnvConfig.getInstance().env.dubboAdmin.url)
         }
     }
 

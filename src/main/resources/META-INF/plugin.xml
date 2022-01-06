@@ -23,6 +23,7 @@
         <applicationService serviceImplementation="com.github.qianmi.storage.DomainConfig"/>
         <applicationService serviceImplementation="com.github.qianmi.storage.ShellConfig"/>
         <applicationService serviceImplementation="com.github.qianmi.storage.BugattiCookie"/>
+        <applicationService serviceImplementation="com.github.qianmi.storage.EnvConfig"/>
     </extensions>
 
     <applicationListeners>

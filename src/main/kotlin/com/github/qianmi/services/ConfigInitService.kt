@@ -4,6 +4,7 @@ import com.github.qianmi.domain.enums.BugattiProjectEnum
 import com.github.qianmi.domain.enums.EnvEnum
 import com.github.qianmi.domain.project.AllProject
 import com.github.qianmi.services.vo.BugattiProjectInfoResult
+import com.github.qianmi.storage.EnvConfig
 import com.github.qianmi.util.BugattiHttpUtil
 import com.github.qianmi.util.CollectionUtil.isNotNullOrEmpty
 import com.github.qianmi.util.StringUtil
@@ -57,7 +58,7 @@ class ConfigInitService(var project: Project) {
             myProject.shell.eleMap[envEnum] = shellEleList
         }
         //当前环境存在shell节点
-        if (myProject.shell.eleMap[myProject.env].isNotNullOrEmpty()) {
+        if (myProject.shell.eleMap[EnvConfig.getInstance().env].isNotNullOrEmpty()) {
             myProject.shell.isSupport = true
         }
 

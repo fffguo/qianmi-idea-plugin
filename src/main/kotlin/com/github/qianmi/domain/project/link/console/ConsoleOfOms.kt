@@ -1,6 +1,6 @@
 package com.github.qianmi.domain.project.link.console
 
-import com.github.qianmi.domain.project.AllProject
+import com.github.qianmi.storage.EnvConfig
 
 class ConsoleOfOms(
     /**
@@ -15,7 +15,7 @@ class ConsoleOfOms(
 ) {
     companion object {
         fun defaultConsoleOfOms(): ConsoleOfOms {
-            return ConsoleOfOms(true, AllProject.defaultEnv.consoleOfOms.url)
+            return ConsoleOfOms(true, EnvConfig.getInstance().env.consoleOfOms.url)
         }
     }
 }

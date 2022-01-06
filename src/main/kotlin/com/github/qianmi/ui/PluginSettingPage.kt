@@ -10,70 +10,67 @@ import com.intellij.openapi.options.Configurable
 import com.intellij.openapi.project.Project
 import javax.swing.*
 
-class PluginSettingPage : Configurable {
-    private var project: Project? = null
-    private var domainConfig: DomainConfig
-    private var shellConfig: ShellConfig
+class PluginSettingPage(private var project: Project) : Configurable {
+
+    private var domainConfig: DomainConfig = DomainConfig.getInstance()
+    private var shellConfig: ShellConfig = ShellConfig.getInstance()
 
     //根容器
-    private var contentPanel: JPanel? = null
+    private lateinit var contentPanel: JPanel
 
     //tab容器
-    private var tabPanel: JTabbedPane? = null
+    private lateinit var tabPanel: JTabbedPane
 
     //域账号容器
-    private var domainTabPanel: JPanel? = null
+    private lateinit var domainTabPanel: JPanel
 
     /* 域账号 */
     //域账号-用户名
-    private var domainAccountPanel: JPanel? = null
-    private var domainAccountJLabel: JLabel? = null
-    private var domainAccountText: JTextField? = null
+    private lateinit var domainAccountPanel: JPanel
+    private lateinit var domainAccountJLabel: JLabel
+    private lateinit var domainAccountText: JTextField
 
     //域账号-密码
-    private var domainPasswordPanel: JPanel? = null
-    private var domainPasswordJLabel: JLabel? = null
-    private var domainPasswordText: JPasswordField? = null
+    private lateinit var domainPasswordPanel: JPanel
+    private lateinit var domainPasswordJLabel: JLabel
+    private lateinit var domainPasswordText: JPasswordField
 
     //域账号-测试连接
-    private var domainTestLink: JButton? = null
+    private lateinit var domainTestLink: JButton
 
 
     /* shell账号 */
     //shell账号容器
-    private var shellTabPanel: JPanel? = null
+    private lateinit var shellTabPanel: JPanel
 
     //shell账号-用户
-    private var shellAccountPanel: JPanel? = null
-    private var shellAccountJLabel: JLabel? = null
-    private var shellAccountText: JTextField? = null
+    private lateinit var shellAccountPanel: JPanel
+    private lateinit var shellAccountJLabel: JLabel
+    private lateinit var shellAccountText: JTextField
 
     //shell账号-密码
-    private var shellPasswordPanel: JPanel? = null
-    private var shellPasswordJLabel: JLabel? = null
-    private var shellPasswordText: JPasswordField? = null
+    private lateinit var shellPasswordPanel: JPanel
+    private lateinit var shellPasswordJLabel: JLabel
+    private lateinit var shellPasswordText: JPasswordField
 
     //shell账号-端口
-    private var shellPortPanel: JPanel? = null
-    private var shellPortJLabel: JLabel? = null
-    private var shellPortText: JTextField? = null
+    private lateinit var shellPortPanel: JPanel
+    private lateinit var shellPortJLabel: JLabel
+    private lateinit var shellPortText: JTextField
 
     //shell账号-jvm端口
-    private var shellJvmPortPanel: JPanel? = null
-    private var shellJvmPortJLabel: JLabel? = null
-    private var shellJvmPortText: JTextField? = null
+    private lateinit var shellJvmPortPanel: JPanel
+    private lateinit var shellJvmPortJLabel: JLabel
+    private lateinit var shellJvmPortText: JTextField
 
     //shell账号-工作目录
-    private var shellDirPanel: JPanel? = null
-    private var shellDirJLabel: JLabel? = null
-    private var shellDirText: JTextField? = null
+    private lateinit var shellDirPanel: JPanel
+    private lateinit var shellDirJLabel: JLabel
+    private lateinit var shellDirText: JTextField
 
 
-    constructor(project: Project) {
-        this.project = project
-        this.domainConfig = DomainConfig.getInstance()
-        this.shellConfig = ShellConfig.getInstance()
-        this.domainTestLink!!.addActionListener { testLinkListener() }
+    init {
+        this.domainTestLink.addActionListener { testLinkListener() }
     }
 
 
@@ -87,14 +84,14 @@ class PluginSettingPage : Configurable {
     /**
      * 焦点位置
      */
-    override fun getPreferredFocusedComponent(): JComponent? {
+    override fun getPreferredFocusedComponent(): JComponent {
         return domainAccountText
     }
 
     /**
      * 创建视图
      */
-    override fun createComponent(): JComponent? {
+    override fun createComponent(): JComponent {
         return contentPanel
     }
 
@@ -103,14 +100,14 @@ class PluginSettingPage : Configurable {
      */
     override fun isModified(): Boolean {
         //域账号
-        val domainModified = domainConfig.userName != this.domainAccountText!!.text
-                || domainConfig.passwd != String(this.domainPasswordText!!.password)
+        val domainModified = domainConfig.userName != this.domainAccountText.text
+                || domainConfig.passwd != String(this.domainPasswordText.password)
         //shell账号
-        val linuxModified = shellConfig.userName != this.shellAccountText!!.text
-                || shellConfig.passwd != String(this.shellPasswordText!!.password)
-                || shellConfig.port.toString() != this.shellPortText!!.text
-                || shellConfig.jvmPort.toString() != this.shellJvmPortText!!.text
-                || shellConfig.dir != this.shellDirText!!.text
+        val linuxModified = shellConfig.userName != this.shellAccountText.text
+                || shellConfig.passwd != String(this.shellPasswordText.password)
+                || shellConfig.port != this.shellPortText.text
+                || shellConfig.jvmPort != this.shellJvmPortText.text
+                || shellConfig.dir != this.shellDirText.text
         return domainModified || linuxModified
     }
 
@@ -119,19 +116,19 @@ class PluginSettingPage : Configurable {
      */
     override fun apply() {
         //域账号
-        domainConfig.userName = this.domainAccountText!!.text
-        domainConfig.passwd = String(this.domainPasswordText!!.password)
+        domainConfig.userName = this.domainAccountText.text
+        domainConfig.passwd = String(this.domainPasswordText.password)
         //shell账号
-        shellConfig.userName = this.shellAccountText!!.text
-        shellConfig.passwd = String(this.shellPasswordText!!.password)
-        shellConfig.port = Integer.valueOf(this.shellPortText!!.text)
-        shellConfig.jvmPort = Integer.valueOf(this.shellJvmPortText!!.text)
-        shellConfig.dir = this.shellDirText!!.text
+        shellConfig.userName = this.shellAccountText.text
+        shellConfig.passwd = String(this.shellPasswordText.password)
+        shellConfig.port = this.shellPortText.text
+        shellConfig.jvmPort = this.shellJvmPortText.text
+        shellConfig.dir = this.shellDirText.text
 
         //清空cookie
         BugattiHttpUtil.clearCookie()
         //刷新配置
-        project!!.getService(ConfigInitService::class.java).init()
+        project.getService(ConfigInitService::class.java).init()
     }
 
     /**
@@ -139,19 +136,19 @@ class PluginSettingPage : Configurable {
      */
     override fun reset() {
         //域账号
-        this.domainAccountText!!.text = domainConfig.userName
-        this.domainPasswordText!!.text = domainConfig.passwd
+        this.domainAccountText.text = domainConfig.userName
+        this.domainPasswordText.text = domainConfig.passwd
         //shell账号
-        this.shellAccountText!!.text = shellConfig.userName
-        this.shellPasswordText!!.text = shellConfig.passwd
-        this.shellPortText!!.text = shellConfig.port.toString()
-        this.shellJvmPortText!!.text = shellConfig.jvmPort.toString()
-        this.shellDirText!!.text = shellConfig.dir
+        this.shellAccountText.text = shellConfig.userName
+        this.shellPasswordText.text = shellConfig.passwd
+        this.shellPortText.text = shellConfig.port
+        this.shellJvmPortText.text = shellConfig.jvmPort
+        this.shellDirText.text = shellConfig.dir
     }
 
     private fun testLinkListener() {
         val httpResponse =
-            BugattiHttpUtil.login(this.domainAccountText!!.text, String(this.domainPasswordText!!.password))
+            BugattiHttpUtil.login(this.domainAccountText.text, String(this.domainPasswordText.password))
 
         if (httpResponse.isOk()) {
             JMessageUtil.showTrue("测试结果", "success")

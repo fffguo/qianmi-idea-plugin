@@ -1,6 +1,6 @@
 package com.github.qianmi.domain.project.link
 
-import com.github.qianmi.domain.project.AllProject
+import com.github.qianmi.storage.EnvConfig
 
 class Trace(
     /**
@@ -15,7 +15,7 @@ class Trace(
 ) {
     companion object {
         fun defaultTrace(): Trace {
-            return Trace(true, AllProject.defaultEnv.trace.url)
+            return Trace(true, EnvConfig.getInstance().env.trace.url)
         }
     }
 }

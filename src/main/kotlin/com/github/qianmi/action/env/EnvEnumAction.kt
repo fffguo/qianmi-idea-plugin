@@ -15,7 +15,6 @@ class EnvEnumAction(var env: EnvEnum) : AnAction() {
     override fun actionPerformed(e: AnActionEvent) {
         val myProject = AllProject.currentProject(e)
 
-        myProject.env = env
         //bugatti
         myProject.bugatti.envCode = env.bugatti.envCode
 

@@ -1,6 +1,6 @@
 package com.github.qianmi.domain.project.link.console
 
-import com.github.qianmi.domain.project.AllProject
+import com.github.qianmi.storage.EnvConfig
 
 class ConsoleOfPc(
     /**
@@ -15,7 +15,7 @@ class ConsoleOfPc(
 ) {
     companion object {
         fun defaultConsoleOfPc(): ConsoleOfPc {
-            return ConsoleOfPc(true, AllProject.defaultEnv.consoleOfPc.url)
+            return ConsoleOfPc(true, EnvConfig.getInstance().env.consoleOfPc.url)
         }
     }
 }

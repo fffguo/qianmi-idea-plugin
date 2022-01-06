@@ -1,6 +1,6 @@
 package com.github.qianmi.domain.project.link
 
-import com.github.qianmi.domain.project.AllProject
+import com.github.qianmi.storage.EnvConfig
 
 
 class Bugatti(
@@ -34,7 +34,7 @@ class Bugatti(
         const val domainUrl = "http://bugatti.dev.qianmi.com"
 
         fun defaultBugatti(): Bugatti {
-            return Bugatti(false, "", "", AllProject.defaultEnv.bugatti.envCode, "")
+            return Bugatti(false, "", "", EnvConfig.getInstance().env.bugatti.envCode, "")
         }
     }
 

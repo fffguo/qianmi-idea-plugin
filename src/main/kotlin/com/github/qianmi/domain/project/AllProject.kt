@@ -1,6 +1,5 @@
 package com.github.qianmi.domain.project
 
-import com.github.qianmi.domain.enums.EnvEnum
 import com.github.qianmi.domain.project.link.*
 import com.github.qianmi.domain.project.link.console.ConsoleOfD2pMc
 import com.github.qianmi.domain.project.link.console.ConsoleOfOms
@@ -14,8 +13,6 @@ import com.intellij.openapi.project.Project
 object AllProject {
 
     private var projectMap: HashMap<String, MyProject> = HashMap()
-
-    val defaultEnv = EnvEnum.TEST1
 
     fun currentProject(e: AnActionEvent): MyProject {
         return currentProject(e.project)
@@ -45,11 +42,6 @@ object AllProject {
          * 项目名称
          */
         var name: String = ""
-
-        /**
-         * 项目环境
-         */
-        var env: EnvEnum = defaultEnv
 
         var dubboAdmin: DubboAdmin = DubboAdmin.defaultDubboAdmin()
         var bugatti: Bugatti = Bugatti.defaultBugatti()

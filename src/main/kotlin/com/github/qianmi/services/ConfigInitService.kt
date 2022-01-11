@@ -23,7 +23,7 @@ class ConfigInitService(var project: Project) {
         }
 
         //登录失败直接返回
-        val login = BugattiHttpUtil.login(project)
+        val login = BugattiHttpUtil.login(project, false)
         if (!BugattiHttpUtil.isLoginSuccess(login)) {
             return
         }

@@ -1,28 +1,37 @@
 package com.github.qianmi.services.vo
 
-class BugattiCIBuildResult(
-    var changes: String = "",
-    var dependency: Boolean = false,
-    var id: Int = 0,
+class BugattiCIBuildResult {
+
+    lateinit var changes: String
+    var dependency: Boolean = false
+    var id: Int = 0
+
     //jenkins项目名
-    var jenkins: String = "",
+    lateinit var jenkins: String
+
     //发起人
-    var jobNo: String = "",
+    lateinit var jobNo: String
+
     //是否合并master
-    var mergeMaster: Boolean = false,
+    var mergeMaster: Boolean = false
+
     //bugatti项目名
-    var project: String = "",
+    lateinit var project: String
+
     //bugatti项目code
-    var projectId: Int = 0,
+    var projectId: Int = 0
+
     //队列ID
-    var queueId: Int = 0,
+    var queueId: Int = 0
+
     //状态 queue run success fail
-    var state: String = "queue",
+    lateinit var state: String
+
     //步骤 build
-    var step: String = "",
+    lateinit var step: String
+
     //版本号
-    var version: String = "",
-) {
+    lateinit var version: String
 
     fun running(): Boolean {
         return queue == state || run == state

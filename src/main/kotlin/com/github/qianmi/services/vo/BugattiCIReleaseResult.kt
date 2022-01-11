@@ -1,14 +1,13 @@
 package com.github.qianmi.services.vo
 
-class BugattiCIReleaseResult(
+class BugattiCIReleaseResult {
     /**
      * 0 成功，
      */
-    var rs: Int,
+    var rs: Int = 0
+
     /**
      * SUCCESS
      */
-    var data: String,
-) {
-
+    lateinit var data: String
 }

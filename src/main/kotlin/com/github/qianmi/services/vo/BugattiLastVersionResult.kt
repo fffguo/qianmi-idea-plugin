@@ -1,23 +1,23 @@
 package com.github.qianmi.services.vo
 
-class BugattiLastVersionResult(
-
+class BugattiLastVersionResult {
     /**
      * 分支名称
      */
-    var branch: String,
+    lateinit var branch: String
+
     /**
      * 是否合并master
      */
-    var mergeMaster: Boolean,
+    var mergeMaster: Boolean = false
+
     /**
      * 发布版本号
      */
-    var version: String,
+    lateinit var version: String
+
     /**
      * 开发版本号
      */
-    var sVersion: String,
-) {
-
+    lateinit var sVersion: String
 }

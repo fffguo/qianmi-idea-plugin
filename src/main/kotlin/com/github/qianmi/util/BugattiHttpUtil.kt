@@ -1,5 +1,6 @@
 package com.github.qianmi.util
 
+import cn.hutool.json.JSONUtil
 import com.github.qianmi.action.SettingAction
 import com.github.qianmi.domain.enums.EnvEnum
 import com.github.qianmi.domain.project.AllProject
@@ -16,7 +17,6 @@ import com.github.qianmi.util.HttpUtil.isOk
 import com.github.qianmi.util.JsonUtil.toBean
 import com.github.qianmi.util.JsonUtil.toJsonString
 import com.github.qianmi.util.JsonUtil.toList
-import com.google.gson.JsonObject
 import com.intellij.openapi.project.Project
 import org.jetbrains.annotations.NotNull
 import org.jetbrains.annotations.Nullable
@@ -27,25 +27,35 @@ object BugattiHttpUtil {
 
     private const val bugattiUrl = Bugatti.domainUrl
 
+    /**
+     * @param silent 静默模式
+     */
     @JvmStatic
     @Nullable
-    fun login(project: Project?): HttpResponse<String>? {
+    fun login(project: Project?, silent: Boolean): HttpResponse<String>? {
         try {
             val httpResponse = login(
                 DomainConfig.getInstance().userName,
                 DomainConfig.getInstance().passwd
             )
             if (httpResponse.statusCode() == 406) {
-                val settingAction = SettingAction()
-                settingAction.templatePresentation.text = "配置域账号"
-                NotifyUtil.notifyErrorWithAction(project, "登录Bugatti失败！账号或密码错误~", settingAction)
+                if (!silent) {
+                    val settingAction = SettingAction()
+                    settingAction.templatePresentation.text = "配置域账号"
+                    NotifyUtil.notifyErrorWithAction(project, "登录Bugatti失败！账号或密码错误~", settingAction)
+                }
+
             } else {
                 BugattiCookie.getInstance().cookie = "SESSION=${httpResponse.getCookie("SESSION")}"
-                NotifyUtil.notifyInfo(project, "登录成功，已与Bugatti建立连接~")
+                if (!silent) {
+                    NotifyUtil.notifyInfo(project, "登录成功，已与Bugatti建立连接~")
+                }
             }
             return httpResponse
         } catch (_: Exception) {
-            NotifyUtil.notifyError(project, "登录Bugatti失败！请检查网络(VPN)是否通畅~")
+            if (!silent) {
+                NotifyUtil.notifyError(project, "登录Bugatti失败！请检查网络(VPN)是否通畅~")
+            }
         }
         return null
     }
@@ -120,16 +130,17 @@ object BugattiHttpUtil {
         ).body()
         val shellEleList = ArrayList<ShellElement>()
 
+        val hostList = JSONUtil.parse(result).getByPath(".host")
 
-        for (ele in JsonUtil.parse(result).asJsonObject.getAsJsonArray("host").toList()) {
-            val eleObj = ele as JsonObject
 
-            if (eleObj.get("show") == null) {
+        for (ele in JSONUtil.parseArray(hostList).iterator()) {
+            val eleObj = JSONUtil.parse(ele)
+            if (eleObj.getByPath(".show") == null) {
                 shellEleList.add(
                     ShellElement.instanceOf(BugattiShellInfoResult(
-                        Optional.ofNullable(eleObj.get("group")).map { it.asString }.orElse(""),
-                        Optional.ofNullable(eleObj.get("ip")).map { it.asString }.orElse(""),
-                        Optional.ofNullable(eleObj.get("version")).map { it.asString }.orElse(""),
+                        Optional.ofNullable(eleObj.getByPath(".group")).map { it as String }.orElse(""),
+                        Optional.ofNullable(eleObj.getByPath(".ip")).map { it as String }.orElse(""),
+                        Optional.ofNullable(eleObj.getByPath(".version")).map { it as String }.orElse(""),
                     )))
             }
         }
@@ -209,7 +220,7 @@ object BugattiHttpUtil {
         if (StringUtil.isNotBlank(storage.cookie)) {
             return storage.cookie
         }
-        val login = login(null)
+        val login = login(null, false)
         val loginSuccess = isLoginSuccess(login)
         if (loginSuccess) {
             return storage.cookie
@@ -217,8 +228,8 @@ object BugattiHttpUtil {
         return ""
     }
 
-    fun refreshCookie(project: Project?) {
-        login(project)
+    fun refreshCookie(project: Project?, silent: Boolean) {
+        login(project, silent)
     }
 
     init {
@@ -226,7 +237,7 @@ object BugattiHttpUtil {
         val time = 7200000L
         Timer().schedule(object : TimerTask() {
             override fun run() {
-                refreshCookie(null)
+                refreshCookie(null, true)
             }
         }, time, time)
     }

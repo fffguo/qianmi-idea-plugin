@@ -11,11 +11,13 @@
 - refactor: rebuild code
 - add：The environment configuration supports persistence to the local, so there is no need to switch the environment
   frequently every time
+- optimize：Log in regularly to refresh cookies, and no longer prompt message notifications frequently
 
-### 中文
+### Chinese
 
 - 重构: 重构代码
 - 新增：环境配置支持持久化到本地，不用每次都要频繁切换环境了
+- 优化：定时登录刷新cookie，不再频繁提示消息通知
 
 ## [1.6.0-RELEASE]
 

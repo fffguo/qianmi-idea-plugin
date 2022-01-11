@@ -1,15 +1,14 @@
 package com.github.qianmi.services.vo
 
-class BugattiProjectBranchResult(
-    var developersCanMerge: Boolean,
-    var developersCanPush: Boolean,
-    var merged: Boolean,
+class BugattiProjectBranchResult {
+
+    var developersCanMerge: Boolean = false
+    var developersCanPush: Boolean = false
+    var merged: Boolean = false
+
     /**
      * 分支名称
      */
-    var name: String,
-    var protected: Boolean,
-) {
-
-
+    lateinit var name: String
+    var protected: Boolean = false
 }

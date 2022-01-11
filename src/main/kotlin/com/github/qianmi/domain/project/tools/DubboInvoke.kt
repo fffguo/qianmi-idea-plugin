@@ -31,7 +31,7 @@ class DubboAdminInvoke(
                 .replace("{argJson}", argList.values
                     .stream()
                     .map { arg ->
-                        JsonUtil.zipPrettyJson(arg.jTextArea.text)
+                        JsonUtil.zipJson(arg.jTextArea.text)
                     }
                     .collect(Collectors.joining(",")))
         }

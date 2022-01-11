@@ -1,27 +1,30 @@
 package com.github.qianmi.services.vo
 
-class BugattiProjectInfoResult(
+class BugattiProjectInfoResult {
+
     /**
      * 项目ID
      */
-    var projectId: String,
+    lateinit var projectId: String
+
     /**
      * 布加迪项目名称
      */
-    var projectName: String,
+    lateinit var projectName: String
+
     /**
      * git 地址
      */
-    var git: String,
+    lateinit var git: String
+
     /**
      * jenkins 项目名称
      */
-    var jenkins: String,
+    lateinit var jenkins: String
+
     /**
      * 项目描述
      */
-    var description: String,
-) {
-
+    lateinit var description: String
 
 }

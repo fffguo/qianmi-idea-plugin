@@ -1,9 +1,7 @@
 package com.github.qianmi.services.vo
 
-class BugattiResult(
-    var success: Boolean,
-    var errMsg: String,
-) {
+data class BugattiResult(var success: Boolean, var errMsg: String) {
+
     companion object {
         const val SUCCESS = "SUCCESS"
 

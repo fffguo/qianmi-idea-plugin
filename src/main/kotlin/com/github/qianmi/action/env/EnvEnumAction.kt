@@ -2,6 +2,7 @@ package com.github.qianmi.action.env
 
 import com.github.qianmi.domain.enums.EnvEnum
 import com.github.qianmi.domain.project.AllProject
+import com.github.qianmi.storage.EnvConfig
 import com.github.qianmi.util.CollectionUtil.isNotNullOrEmpty
 import com.github.qianmi.util.StringUtil
 import com.intellij.openapi.actionSystem.AnAction
@@ -14,6 +15,8 @@ class EnvEnumAction(var env: EnvEnum) : AnAction() {
 
     override fun actionPerformed(e: AnActionEvent) {
         val myProject = AllProject.currentProject(e)
+
+        EnvConfig.getInstance().env = env
 
         //bugatti
         myProject.bugatti.envCode = env.bugatti.envCode

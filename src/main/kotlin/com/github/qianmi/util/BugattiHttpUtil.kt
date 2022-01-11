@@ -17,6 +17,7 @@ import com.github.qianmi.util.HttpUtil.isOk
 import com.github.qianmi.util.JsonUtil.toBean
 import com.github.qianmi.util.JsonUtil.toJsonString
 import com.github.qianmi.util.JsonUtil.toList
+import com.github.qianmi.util.StringUtil.isNotBlank
 import com.intellij.openapi.project.Project
 import org.jetbrains.annotations.NotNull
 import org.jetbrains.annotations.Nullable
@@ -217,7 +218,7 @@ object BugattiHttpUtil {
 
     private fun getCookie(): String {
         val storage = BugattiCookie.getInstance()
-        if (StringUtil.isNotBlank(storage.cookie)) {
+        if (storage.cookie.isNotBlank()) {
             return storage.cookie
         }
         val login = login(null, false)

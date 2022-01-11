@@ -3,8 +3,8 @@ package com.github.qianmi.action.env
 import com.github.qianmi.domain.enums.EnvEnum
 import com.github.qianmi.domain.project.AllProject
 import com.github.qianmi.storage.EnvConfig
-import com.github.qianmi.util.CollectionUtil.isNotNullOrEmpty
-import com.github.qianmi.util.StringUtil
+import com.github.qianmi.util.CollectionUtil.isNotEmpty
+import com.github.qianmi.util.StringUtil.isNotBlank
 import com.intellij.openapi.actionSystem.AnAction
 import com.intellij.openapi.actionSystem.AnActionEvent
 
@@ -22,42 +22,42 @@ class EnvEnumAction(var env: EnvEnum) : AnAction() {
         myProject.bugatti.envCode = env.bugatti.envCode
 
         //shell
-        myProject.shell.isSupport = myProject.shell.eleMap[env].isNotNullOrEmpty()
+        myProject.shell.isSupport = myProject.shell.eleMap[env].isNotEmpty()
 
         //activeMq
-        myProject.activeMq.isSupport = StringUtil.isNotBlank(env.activeMq.url)
+        myProject.activeMq.isSupport = env.activeMq.url.isNotBlank()
         myProject.activeMq.url = env.activeMq.url
 
         //rocketMq
-        myProject.rocketMq.isSupport = StringUtil.isNotBlank(env.rocketMq.url)
+        myProject.rocketMq.isSupport = env.rocketMq.url.isNotBlank()
         myProject.rocketMq.url = env.rocketMq.url
 
         //dubboAdmin
-        myProject.dubboAdmin.isSupport = StringUtil.isNotBlank(env.dubboAdmin.url)
+        myProject.dubboAdmin.isSupport = env.dubboAdmin.url.isNotBlank()
         myProject.dubboAdmin.url = env.dubboAdmin.url
 
         //gavin
-        myProject.gavin.isSupport = StringUtil.isNotBlank(env.gavin.url)
+        myProject.gavin.isSupport = env.gavin.url.isNotBlank()
         myProject.gavin.url = env.gavin.url
 
         //trace
-        myProject.trace.isSupport = StringUtil.isNotBlank(env.trace.url)
+        myProject.trace.isSupport = env.trace.url.isNotBlank()
         myProject.trace.url = env.trace.url
 
         //qianmi admin
-        myProject.qianmiAdmin.isSupport = StringUtil.isNotBlank(env.qianmiAdmin.url)
+        myProject.qianmiAdmin.isSupport = env.qianmiAdmin.url.isNotBlank()
         myProject.qianmiAdmin.url = env.qianmiAdmin.url
 
         //console d2p mc
-        myProject.consoleOfD2pMc.isSupport = StringUtil.isNotBlank(env.consoleOfD2pMc.url)
+        myProject.consoleOfD2pMc.isSupport = env.consoleOfD2pMc.url.isNotBlank()
         myProject.consoleOfD2pMc.url = env.consoleOfD2pMc.url
 
         //console pc
-        myProject.consoleOfPc.isSupport = StringUtil.isNotBlank(env.consoleOfPc.url)
+        myProject.consoleOfPc.isSupport = env.consoleOfPc.url.isNotBlank()
         myProject.consoleOfPc.url = env.consoleOfPc.url
 
         //console oms
-        myProject.consoleOfOms.isSupport = StringUtil.isNotBlank(env.consoleOfOms.url)
+        myProject.consoleOfOms.isSupport = env.consoleOfOms.url.isNotBlank()
         myProject.consoleOfOms.url = env.consoleOfOms.url
 
     }

@@ -6,8 +6,8 @@ import com.github.qianmi.domain.project.AllProject
 import com.github.qianmi.services.vo.BugattiProjectInfoResult
 import com.github.qianmi.storage.EnvConfig
 import com.github.qianmi.util.BugattiHttpUtil
-import com.github.qianmi.util.CollectionUtil.isNotNullOrEmpty
-import com.github.qianmi.util.StringUtil
+import com.github.qianmi.util.CollectionUtil.isNotEmpty
+import com.github.qianmi.util.StringUtil.isNotBlank
 import com.intellij.openapi.project.Project
 
 
@@ -58,14 +58,14 @@ class ConfigInitService(var project: Project) {
             myProject.shell.eleMap[envEnum] = shellEleList
         }
         //当前环境存在shell节点
-        if (myProject.shell.eleMap[EnvConfig.getInstance().env].isNotNullOrEmpty()) {
+        if (myProject.shell.eleMap[EnvConfig.getInstance().env].isNotEmpty()) {
             myProject.shell.isSupport = true
         }
 
     }
 
     private fun updateAttrWithGitLab(myProject: AllProject.MyProject, result: BugattiProjectInfoResult) {
-        if (StringUtil.isNotBlank(result.git)) {
+        if (result.git.isNotBlank()) {
             myProject.gitlab.isSupport = true
             myProject.gitlab.url = result.git
         } else {
@@ -81,7 +81,7 @@ class ConfigInitService(var project: Project) {
 
     private fun updateAttrWithJenkins(myProject: AllProject.MyProject, result: BugattiProjectInfoResult) {
         myProject.jenkins.projectName = result.jenkins
-        myProject.jenkins.isSupport = StringUtil.isNotBlank(result.jenkins)
+        myProject.jenkins.isSupport = result.jenkins.isNotBlank()
     }
 
     private fun updateAttrWithJPackage(myProject: AllProject.MyProject) {

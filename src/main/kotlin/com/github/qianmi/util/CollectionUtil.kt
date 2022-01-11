@@ -1,20 +1,18 @@
 package com.github.qianmi.util
 
-import com.intellij.util.containers.isNullOrEmpty
+import cn.hutool.core.collection.CollectionUtil.getFirst
+import cn.hutool.core.collection.CollectionUtil.isNotEmpty
 
 object CollectionUtil {
 
-    inline fun <reified T> List<T>?.isNotNullOrEmpty(): Boolean {
-        return !this.isNullOrEmpty()
+    inline fun <reified T> List<T>?.isNotEmpty(): Boolean {
+        return isNotEmpty(this)
     }
 
     /**
      * 取list第一个值，如果list值为空，则取默认值
      */
     inline fun <reified T> List<T>?.firstDefault(default: T): T {
-        if (this.isNotNullOrEmpty()) {
-            return this!![0]
-        }
-        return default
+        return getFirst(this) ?: return default
     }
 }

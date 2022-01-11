@@ -220,7 +220,6 @@ object MyPsiUtil {
      */
     @JvmStatic
     private fun getMethodParameterDefault(psiMethod: PsiMethod): String {
-        // Experimental API method JvmField.getName() is invoked in Action.arthas.ArthasOgnlStaticCommandAction.actionPerformed().
         // This method can be changed in a future release leading to incompatibilities
         val methodName = getMethodName(psiMethod)
         val builder = StringBuilder(methodName).append("(")
@@ -287,7 +286,6 @@ object MyPsiUtil {
             return result
         }
         //Class<XXX> x
-        //java.lang.Class<com.wangji92.arthas.plugin.demo.controller.user>
         if (canonicalText.startsWith("java.lang.Class")) {
             result =
                 "@" + canonicalText.substring(canonicalText.indexOf("<") + 1, canonicalText.length - 1) + "@class"
@@ -325,7 +323,7 @@ object MyPsiUtil {
     }
 
     /**
-     * 当前是psi 的这个几种类型？ psiElement instanceof JvmMember 兼容性不好 修改为这个 Experimental API interface JvmElement is. This interface can be changed in a future release leading to incompatibilities
+     * 当前是psi 的这个几种类型？ psiElement instanceOf JvmMember 兼容性不好 修改为这个 Experimental API interface JvmElement is. This interface can be changed in a future release leading to incompatibilities
      *
      * @param psiElement
      * @return

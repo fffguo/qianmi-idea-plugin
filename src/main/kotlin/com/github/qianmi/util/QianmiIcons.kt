@@ -8,6 +8,9 @@ object QianmiIcons {
     val qianmi = IconLoader.getIcon("/icons/qianmi.svg", javaClass)
 
     @JvmField
+    val qianmiEvn = IconLoader.getIcon("/icons/qianmi-env.svg", javaClass)
+
+    @JvmField
     val bugatti = IconLoader.getIcon("/icons/bugatti.svg", javaClass)
 
     @JvmField

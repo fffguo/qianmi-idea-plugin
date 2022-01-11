@@ -27,4 +27,5 @@ class EnvAction : ComboBoxAction() {
     override fun update(e: AnActionEvent) {
         e.presentation.text = EnvConfig.getInstance().env.envName
     }
+
 }

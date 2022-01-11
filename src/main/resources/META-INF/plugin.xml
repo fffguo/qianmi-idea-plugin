@@ -34,8 +34,8 @@
     <actions>
         <!--切换千米环境-->
         <action id="com.github.qianmi.action.env.EnvAction" class="com.github.qianmi.action.env.EnvAction"
-                text="Qianmi Env">
-            <add-to-group group-id="NavBarToolBar" anchor="first"/>
+                text="Qianmi Env" icon="com.github.qianmi.util.QianmiIcons.qianmiEvn">
+            <add-to-group group-id="NavBarToolBar" anchor="last"/>
         </action>
 
         <!--域账号配置-->

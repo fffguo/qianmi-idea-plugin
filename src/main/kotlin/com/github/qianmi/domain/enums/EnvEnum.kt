@@ -17,14 +17,14 @@ enum class EnvEnum(
     val consoleOfOms: ConsoleOfOmsEnum,
 ) {
     //  @formatter:off
-    LAKALA("lakala", BugattiEnvEnum.LAKALA, DubboAdminEnum.LAKALA, RocketMqEnum.LAKALA, ActiveMqEnum.LAKALA, GavinEnum.LAKALA, TraceEnum.LAKALA, QianmiAdminEnum.LAKALA, ConsoleOfPcEnum.LAKALA,ConsoleOfD2pMcEnum.LAKALA, ConsoleOfOmsEnum.LAKALA),
-    TEST0("test0", BugattiEnvEnum.TEST0, DubboAdminEnum.TEST0, RocketMqEnum.TEST0, ActiveMqEnum.TEST0, GavinEnum.TEST0, TraceEnum.TEST0, QianmiAdminEnum.TEST0, ConsoleOfPcEnum.TEST0,ConsoleOfD2pMcEnum.TEST0, ConsoleOfOmsEnum.TEST0),
-    TEST1("test1", BugattiEnvEnum.TEST1, DubboAdminEnum.TEST1, RocketMqEnum.TEST1, ActiveMqEnum.TEST1, GavinEnum.TEST1, TraceEnum.TEST1, QianmiAdminEnum.TEST1, ConsoleOfPcEnum.TEST1,ConsoleOfD2pMcEnum.TEST1, ConsoleOfOmsEnum.TEST1),
-    TEST2("test2", BugattiEnvEnum.TEST2, DubboAdminEnum.TEST2, RocketMqEnum.TEST2, ActiveMqEnum.TEST2, GavinEnum.TEST2, TraceEnum.TEST2, QianmiAdminEnum.TEST2, ConsoleOfPcEnum.TEST2,ConsoleOfD2pMcEnum.TEST2, ConsoleOfOmsEnum.TEST2),
-    TEST4("test4", BugattiEnvEnum.TEST4, DubboAdminEnum.TEST4, RocketMqEnum.TEST4, ActiveMqEnum.TEST4, GavinEnum.TEST4, TraceEnum.TEST4, QianmiAdminEnum.TEST4, ConsoleOfPcEnum.TEST4,ConsoleOfD2pMcEnum.TEST4, ConsoleOfOmsEnum.TEST4),
-    TEST5("test5", BugattiEnvEnum.TEST5, DubboAdminEnum.TEST5, RocketMqEnum.TEST5, ActiveMqEnum.TEST5, GavinEnum.TEST5, TraceEnum.TEST5, QianmiAdminEnum.TEST5, ConsoleOfPcEnum.TEST5,ConsoleOfD2pMcEnum.TEST5, ConsoleOfOmsEnum.TEST5),
-    DEV("dev", BugattiEnvEnum.DEV, DubboAdminEnum.DEV, RocketMqEnum.DEV, ActiveMqEnum.DEV, GavinEnum.DEV,TraceEnum.DEV,QianmiAdminEnum.DEV,ConsoleOfPcEnum.DEV,ConsoleOfD2pMcEnum.DEV,ConsoleOfOmsEnum.DEV),
-    PROD("prod", BugattiEnvEnum.PROD, DubboAdminEnum.PROD, RocketMqEnum.PROD, ActiveMqEnum.PROD, GavinEnum.PROD,TraceEnum.PROD,QianmiAdminEnum.PROD,ConsoleOfPcEnum.PROD,ConsoleOfD2pMcEnum.PROD,ConsoleOfOmsEnum.PROD);
+    LAKALA("Lakala", BugattiEnvEnum.LAKALA, DubboAdminEnum.LAKALA, RocketMqEnum.LAKALA, ActiveMqEnum.LAKALA, GavinEnum.LAKALA, TraceEnum.LAKALA, QianmiAdminEnum.LAKALA, ConsoleOfPcEnum.LAKALA,ConsoleOfD2pMcEnum.LAKALA, ConsoleOfOmsEnum.LAKALA),
+    TEST0("Test0", BugattiEnvEnum.TEST0, DubboAdminEnum.TEST0, RocketMqEnum.TEST0, ActiveMqEnum.TEST0, GavinEnum.TEST0, TraceEnum.TEST0, QianmiAdminEnum.TEST0, ConsoleOfPcEnum.TEST0,ConsoleOfD2pMcEnum.TEST0, ConsoleOfOmsEnum.TEST0),
+    TEST1("Test1", BugattiEnvEnum.TEST1, DubboAdminEnum.TEST1, RocketMqEnum.TEST1, ActiveMqEnum.TEST1, GavinEnum.TEST1, TraceEnum.TEST1, QianmiAdminEnum.TEST1, ConsoleOfPcEnum.TEST1,ConsoleOfD2pMcEnum.TEST1, ConsoleOfOmsEnum.TEST1),
+    TEST2("Test2", BugattiEnvEnum.TEST2, DubboAdminEnum.TEST2, RocketMqEnum.TEST2, ActiveMqEnum.TEST2, GavinEnum.TEST2, TraceEnum.TEST2, QianmiAdminEnum.TEST2, ConsoleOfPcEnum.TEST2,ConsoleOfD2pMcEnum.TEST2, ConsoleOfOmsEnum.TEST2),
+    TEST4("Test4", BugattiEnvEnum.TEST4, DubboAdminEnum.TEST4, RocketMqEnum.TEST4, ActiveMqEnum.TEST4, GavinEnum.TEST4, TraceEnum.TEST4, QianmiAdminEnum.TEST4, ConsoleOfPcEnum.TEST4,ConsoleOfD2pMcEnum.TEST4, ConsoleOfOmsEnum.TEST4),
+    TEST5("Test5", BugattiEnvEnum.TEST5, DubboAdminEnum.TEST5, RocketMqEnum.TEST5, ActiveMqEnum.TEST5, GavinEnum.TEST5, TraceEnum.TEST5, QianmiAdminEnum.TEST5, ConsoleOfPcEnum.TEST5,ConsoleOfD2pMcEnum.TEST5, ConsoleOfOmsEnum.TEST5),
+    DEV("Dev", BugattiEnvEnum.DEV, DubboAdminEnum.DEV, RocketMqEnum.DEV, ActiveMqEnum.DEV, GavinEnum.DEV,TraceEnum.DEV,QianmiAdminEnum.DEV,ConsoleOfPcEnum.DEV,ConsoleOfD2pMcEnum.DEV,ConsoleOfOmsEnum.DEV),
+    PROD("Prod", BugattiEnvEnum.PROD, DubboAdminEnum.PROD, RocketMqEnum.PROD, ActiveMqEnum.PROD, GavinEnum.PROD,TraceEnum.PROD,QianmiAdminEnum.PROD,ConsoleOfPcEnum.PROD,ConsoleOfD2pMcEnum.PROD,ConsoleOfOmsEnum.PROD);
     //  @formatter:on
 
 

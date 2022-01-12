@@ -34,7 +34,7 @@
     <actions>
         <!--切换千米环境-->
         <action id="com.github.qianmi.action.env.EnvAction" class="com.github.qianmi.action.env.EnvAction"
-                text="Qianmi Env" icon="com.github.qianmi.util.QianmiIcons.qianmiEvn">
+                text="Qianmi Env" icon="com.github.qianmi.util.QianmiIcons.qianmi">
             <add-to-group group-id="NavBarToolBar" anchor="last"/>
         </action>
 

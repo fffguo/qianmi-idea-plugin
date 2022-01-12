@@ -1,9 +1,10 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="16px" height="16px" viewBox="0 0 2048 2048">
-    <circle fill-opacity="0" r="0" cx="1024" cy="1024" fill="#ffffff"></circle>
-    <g transform="scale(0.77)">
-        <path fill-opacity="1" transform="translate(62.49000000000001, 2068) rotate(180) scale(-1, 1)" fill="#499c54"
+    <circle fill-opacity="0.8" r="1024" cx="1024" cy="1024" fill="#f1c40f"
+            style="stroke: rgb(243, 156, 18); stroke-width: 25.6px; stroke-opacity: 1;"></circle>
+    <g transform="scale(0.71)">
+        <path fill-opacity="1" transform="translate(164.89, 2170.4) rotate(180) scale(-1, 1)" fill="#000000"
               d="M655 -27q-7 0 -20 -1t-21 -1q-250 0 -373.5 192t-123.5 582q0 391 123.5 583t375.5 192q253 0 376.5 -192t123.5 -583q0 -294 -68.5 -473.5t-207.5 -251.5l200 -190l-151 -100zM905 745q0 329 -67.5 470t-221.5 141q-153 0 -220.5 -141t-67.5 -470q0 -328 67.5 -469 t220.5 -141q154 0 221.5 140.5t67.5 469.5z"></path>
-        <path fill-opacity="1" transform="translate(1295.49, 2068) rotate(180) scale(-1, 1)" fill="#499c54"
+        <path fill-opacity="1" transform="translate(1397.8899999999999, 2170.4) rotate(180) scale(-1, 1)" fill="#000000"
               d="M36 1488h270l258 -758l260 758h271v-1488h-187v1315l-266 -784h-153l-267 784v-1315h-186v1488z"></path>
     </g>
 </svg>

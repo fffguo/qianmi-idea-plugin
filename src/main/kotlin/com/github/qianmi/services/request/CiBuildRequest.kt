@@ -1,7 +1,7 @@
 package com.github.qianmi.services.request
 
-import com.github.qianmi.domain.project.AllProject
-import com.github.qianmi.util.JsonUtil.toJsonString
+import com.github.qianmi.infrastructure.domain.project.AllProject
+import com.github.qianmi.infrastructure.extend.JsonExtend.toJsonString
 import org.jetbrains.annotations.NotNull
 
 class CiBuildRequest(
@@ -14,7 +14,10 @@ class CiBuildRequest(
     companion object {
 
         @NotNull
-        fun instanceOf(myProject: AllProject.MyProject, branchName: String): CiBuildRequest {
+        fun instanceOf(
+            myProject: AllProject.MyProject,
+            branchName: String,
+        ): CiBuildRequest {
             val param = mapOf("branch" to branchName)
             return CiBuildRequest(
                 myProject.jenkins.projectName,

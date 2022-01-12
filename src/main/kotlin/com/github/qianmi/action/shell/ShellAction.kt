@@ -1,9 +1,9 @@
 package com.github.qianmi.action.shell
 
-import com.github.qianmi.domain.project.AllProject
-import com.github.qianmi.domain.project.tools.ShellElement
-import com.github.qianmi.storage.EnvConfig
-import com.github.qianmi.util.CollectionUtil.isNotEmpty
+import com.github.qianmi.infrastructure.domain.project.AllProject
+import com.github.qianmi.infrastructure.domain.project.tools.ShellElement
+import com.github.qianmi.infrastructure.extend.CollectionExtend.isNotEmpty
+import com.github.qianmi.infrastructure.storage.EnvConfig
 import com.intellij.openapi.actionSystem.AnAction
 import com.intellij.openapi.actionSystem.AnActionEvent
 import com.intellij.openapi.actionSystem.DefaultActionGroup

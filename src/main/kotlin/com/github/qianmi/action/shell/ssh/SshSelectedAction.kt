@@ -1,8 +1,8 @@
 package com.github.qianmi.action.shell.ssh
 
 import com.github.qianmi.action.shell.ShellSelectedAction
-import com.github.qianmi.domain.project.tools.ShellElement
-import com.github.qianmi.storage.EnvConfig
+import com.github.qianmi.infrastructure.domain.project.tools.ShellElement
+import com.github.qianmi.infrastructure.storage.EnvConfig
 import com.intellij.openapi.actionSystem.AnActionEvent
 import com.jetbrains.plugins.remotesdk.console.SshConsoleOptionsProvider
 import com.jetbrains.plugins.remotesdk.console.SshTerminalCachingRunner

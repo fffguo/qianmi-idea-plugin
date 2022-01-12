@@ -1,7 +1,7 @@
 package com.github.qianmi.action.env
 
-import com.github.qianmi.domain.enums.EnvEnum
-import com.github.qianmi.storage.EnvConfig
+import com.github.qianmi.infrastructure.domain.enums.EnvEnum
+import com.github.qianmi.infrastructure.storage.EnvConfig
 import com.intellij.openapi.actionSystem.AnActionEvent
 import com.intellij.openapi.actionSystem.DefaultActionGroup
 import com.intellij.openapi.actionSystem.ex.ComboBoxAction

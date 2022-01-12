@@ -1,10 +1,9 @@
 package com.github.qianmi.action.env
 
-import com.github.qianmi.domain.enums.EnvEnum
-import com.github.qianmi.domain.project.AllProject
-import com.github.qianmi.storage.EnvConfig
-import com.github.qianmi.util.CollectionUtil.isNotEmpty
-import com.github.qianmi.util.StringUtil.isNotBlank
+import com.github.qianmi.infrastructure.domain.enums.EnvEnum
+import com.github.qianmi.infrastructure.extend.CollectionExtend.isNotEmpty
+import com.github.qianmi.infrastructure.extend.StringExtend.isNotBlank
+import com.github.qianmi.infrastructure.storage.EnvConfig
 import com.intellij.openapi.actionSystem.AnAction
 import com.intellij.openapi.actionSystem.AnActionEvent
 
@@ -14,7 +13,7 @@ import com.intellij.openapi.actionSystem.AnActionEvent
 class EnvEnumAction(var env: EnvEnum) : AnAction() {
 
     override fun actionPerformed(e: AnActionEvent) {
-        val myProject = AllProject.currentProject(e)
+        val myProject = com.github.qianmi.infrastructure.domain.project.AllProject.currentProject(e)
 
         EnvConfig.getInstance().env = env
 

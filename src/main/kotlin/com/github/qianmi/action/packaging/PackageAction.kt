@@ -1,6 +1,6 @@
 package com.github.qianmi.action.packaging
 
-import com.github.qianmi.domain.project.AllProject
+import com.github.qianmi.infrastructure.domain.project.AllProject
 import com.github.qianmi.ui.PackagePage
 import com.intellij.openapi.actionSystem.AnAction
 import com.intellij.openapi.actionSystem.AnActionEvent

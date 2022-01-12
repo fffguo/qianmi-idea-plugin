@@ -1,9 +1,9 @@
 package com.github.qianmi.action.shell.ftp
 
 import com.github.qianmi.action.shell.ShellSelectedAction
-import com.github.qianmi.domain.project.tools.ShellElement
-import com.github.qianmi.storage.EnvConfig
-import com.github.qianmi.storage.TempConfig
+import com.github.qianmi.infrastructure.domain.project.tools.ShellElement
+import com.github.qianmi.infrastructure.storage.EnvConfig
+import com.github.qianmi.infrastructure.storage.TempConfig
 import com.intellij.openapi.actionSystem.AnActionEvent
 import com.intellij.openapi.project.Project
 import com.intellij.ssh.config.unified.SshConfigManager

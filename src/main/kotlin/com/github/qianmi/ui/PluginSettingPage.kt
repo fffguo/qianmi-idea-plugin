@@ -1,11 +1,11 @@
 package com.github.qianmi.ui
 
+import com.github.qianmi.infrastructure.extend.HttpExtend.isOk
+import com.github.qianmi.infrastructure.storage.DomainConfig
+import com.github.qianmi.infrastructure.storage.ShellConfig
+import com.github.qianmi.infrastructure.util.BugattiHttpUtil
+import com.github.qianmi.infrastructure.util.JMessageUtil
 import com.github.qianmi.services.ConfigInitService
-import com.github.qianmi.storage.DomainConfig
-import com.github.qianmi.storage.ShellConfig
-import com.github.qianmi.util.BugattiHttpUtil
-import com.github.qianmi.util.HttpUtil.isOk
-import com.github.qianmi.util.JMessageUtil
 import com.intellij.openapi.options.Configurable
 import com.intellij.openapi.project.Project
 import javax.swing.*

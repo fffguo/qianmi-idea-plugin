@@ -1,7 +1,7 @@
 package com.github.qianmi.listeners
 
+import com.github.qianmi.infrastructure.storage.TempConfig
 import com.github.qianmi.services.ConfigInitService
-import com.github.qianmi.storage.TempConfig
 import com.intellij.execution.RunManager
 import com.intellij.openapi.diagnostic.logger
 import com.intellij.openapi.project.Project

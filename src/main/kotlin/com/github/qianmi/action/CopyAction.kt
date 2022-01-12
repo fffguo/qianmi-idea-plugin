@@ -1,6 +1,6 @@
 package com.github.qianmi.action
 
-import com.github.qianmi.util.CopyUtil
+import com.github.qianmi.infrastructure.util.CopyUtil
 import com.intellij.openapi.actionSystem.AnAction
 import com.intellij.openapi.actionSystem.AnActionEvent
 

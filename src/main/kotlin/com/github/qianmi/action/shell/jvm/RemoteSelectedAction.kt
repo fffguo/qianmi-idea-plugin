@@ -1,10 +1,10 @@
 package com.github.qianmi.action.shell.jvm
 
 import com.github.qianmi.action.shell.ShellSelectedAction
-import com.github.qianmi.domain.project.tools.ShellElement
-import com.github.qianmi.storage.EnvConfig
-import com.github.qianmi.storage.ShellConfig
-import com.github.qianmi.storage.TempConfig
+import com.github.qianmi.infrastructure.domain.project.tools.ShellElement
+import com.github.qianmi.infrastructure.storage.EnvConfig
+import com.github.qianmi.infrastructure.storage.ShellConfig
+import com.github.qianmi.infrastructure.storage.TempConfig
 import com.intellij.execution.ExecutionManager
 import com.intellij.execution.ExecutorRegistry
 import com.intellij.execution.ExecutorRegistryImpl

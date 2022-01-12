@@ -17,13 +17,13 @@
 
         <!-- 项目级-->
         <projectService serviceImplementation="com.github.qianmi.services.ConfigInitService"/>
-        <projectService serviceImplementation="com.github.qianmi.storage.TempConfig"/>
+        <projectService serviceImplementation="com.github.qianmi.infrastructure.storage.TempConfig"/>
 
         <!-- app级 配置存储-->
-        <applicationService serviceImplementation="com.github.qianmi.storage.DomainConfig"/>
-        <applicationService serviceImplementation="com.github.qianmi.storage.ShellConfig"/>
-        <applicationService serviceImplementation="com.github.qianmi.storage.BugattiCookie"/>
-        <applicationService serviceImplementation="com.github.qianmi.storage.EnvConfig"/>
+        <applicationService serviceImplementation="com.github.qianmi.infrastructure.storage.DomainConfig"/>
+        <applicationService serviceImplementation="com.github.qianmi.infrastructure.storage.ShellConfig"/>
+        <applicationService serviceImplementation="com.github.qianmi.infrastructure.storage.BugattiCookie"/>
+        <applicationService serviceImplementation="com.github.qianmi.infrastructure.storage.EnvConfig"/>
     </extensions>
 
     <applicationListeners>
@@ -34,7 +34,7 @@
     <actions>
         <!--切换千米环境-->
         <action id="com.github.qianmi.action.env.EnvAction" class="com.github.qianmi.action.env.EnvAction"
-                text="Qianmi Env" icon="com.github.qianmi.util.QianmiIcons.qianmi">
+                text="Qianmi Env" icon="com.github.qianmi.infrastructure.QianmiIcons.qianmi">
             <add-to-group group-id="NavBarToolBar" anchor="last"/>
         </action>
 
@@ -43,78 +43,75 @@
 
         <action id="com.github.qianmi.action.shell.ssh.SshAction"
                 class="com.github.qianmi.action.shell.ssh.SshAction"
-                icon="com.github.qianmi.util.QianmiIcons.shell"
+                icon="com.github.qianmi.infrastructure.QianmiIcons.shell"
                 text="SSH Terminal">
-        </action>
-
-        <action id="com.github.qianmi.action.EsBuilderAction"
-                class="com.github.qianmi.action.EsBuilderAction"
-                icon="com.github.qianmi.util.QianmiIcons.es"
-                text="Es Builder">
         </action>
 
         <action id="com.github.qianmi.action.packaging.PackageAction"
                 class="com.github.qianmi.action.packaging.PackageAction"
-                text="Package" icon="com.github.qianmi.util.QianmiIcons.jenkinsPackage">
+                text="Package" icon="com.github.qianmi.infrastructure.QianmiIcons.jenkinsPackage">
         </action>
 
         <action id="com.github.qianmi.action.dubboinvoke.DubboInvokeAction"
                 class="com.github.qianmi.action.dubboinvoke.DubboInvokeAction"
-                text="Dubbo Invoke" icon="com.github.qianmi.util.QianmiIcons.dubboInvoke">
+                text="Dubbo Invoke" icon="com.github.qianmi.infrastructure.QianmiIcons.dubboInvoke">
         </action>
 
-        <action id="com.github.qianmi.action.BugattiAction"
-                class="com.github.qianmi.action.BugattiAction"
+        <action id="com.github.qianmi.action.link.BugattiAction"
+                class="com.github.qianmi.action.link.BugattiAction"
                 text="Bugatti">
         </action>
 
-        <action id="com.github.qianmi.action.GitlabAction"
-                class="com.github.qianmi.action.GitlabAction"
+        <action id="com.github.qianmi.action.link.GitlabAction"
+                class="com.github.qianmi.action.link.GitlabAction"
                 text="Gitlab">
         </action>
 
-        <action id="com.github.qianmi.action.DubboAdminAction" class="com.github.qianmi.action.DubboAdminAction"
+        <action id="com.github.qianmi.action.link.DubboAdminAction"
+                class="com.github.qianmi.action.link.DubboAdminAction"
                 text="Dubbo Admin">
         </action>
 
-        <action id="com.github.qianmi.action.RocketMqAction" class="com.github.qianmi.action.RocketMqAction"
+        <action id="com.github.qianmi.action.link.RocketMqAction" class="com.github.qianmi.action.link.RocketMqAction"
                 text="Rocket MQ">
         </action>
 
-        <action id="com.github.qianmi.action.ActiveMqAction" class="com.github.qianmi.action.ActiveMqAction"
+        <action id="com.github.qianmi.action.link.ActiveMqAction" class="com.github.qianmi.action.link.ActiveMqAction"
                 text="Active MQ">
         </action>
 
-        <action id="com.github.qianmi.action.GavinAction" class="com.github.qianmi.action.GavinAction"
+        <action id="com.github.qianmi.action.link.GavinAction" class="com.github.qianmi.action.link.GavinAction"
                 text="Gavin">
         </action>
 
-        <action id="com.github.qianmi.action.TraceAction" class="com.github.qianmi.action.TraceAction"
+        <action id="com.github.qianmi.action.link.TraceAction" class="com.github.qianmi.action.link.TraceAction"
                 text="Trace">
         </action>
 
-        <action id="com.github.qianmi.action.QianmiAdminAction" class="com.github.qianmi.action.QianmiAdminAction"
+        <action id="com.github.qianmi.action.link.QianmiAdminAction"
+                class="com.github.qianmi.action.link.QianmiAdminAction"
                 text="Qianmi Admin">
         </action>
 
-        <action id="com.github.qianmi.action.ApmDashboardAction" class="com.github.qianmi.action.ApmDashboardAction"
+        <action id="com.github.qianmi.action.link.ApmDashboardAction"
+                class="com.github.qianmi.action.link.ApmDashboardAction"
                 text="Apm Dashboard">
         </action>
 
-        <action id="com.github.qianmi.action.MongoDBManagerAction"
-                class="com.github.qianmi.action.MongoDBManagerAction"
+        <action id="com.github.qianmi.action.link.MongoDBManagerAction"
+                class="com.github.qianmi.action.link.MongoDBManagerAction"
                 text="MongoDB Manager">
         </action>
 
-        <action id="com.github.qianmi.action.WikiAction" class="com.github.qianmi.action.WikiAction"
+        <action id="com.github.qianmi.action.link.WikiAction" class="com.github.qianmi.action.link.WikiAction"
                 text="Wiki">
         </action>
 
-        <action id="com.github.qianmi.action.JenkinsAction" class="com.github.qianmi.action.JenkinsAction"
+        <action id="com.github.qianmi.action.link.JenkinsAction" class="com.github.qianmi.action.link.JenkinsAction"
                 text="Jenkins">
         </action>
 
-        <action id="com.github.qianmi.action.GitBookAction" class="com.github.qianmi.action.GitBookAction"
+        <action id="com.github.qianmi.action.link.GitBookAction" class="com.github.qianmi.action.link.GitBookAction"
                 text="Git Book">
         </action>
 
@@ -136,32 +133,32 @@
         <action id="com.github.qianmi.action.CopyAction" class="com.github.qianmi.action.CopyAction"/>
 
         <action id="com.github.qianmi.action.shell.ftp.FtpAction" class="com.github.qianmi.action.shell.ftp.FtpAction"
-                text="SFTP Directory" icon="com.github.qianmi.util.QianmiIcons.sftp"/>
+                text="SFTP Directory" icon="com.github.qianmi.infrastructure.QianmiIcons.sftp"/>
 
         <action id="com.github.qianmi.action.shell.jvm.RemoteJVMAction"
                 class="com.github.qianmi.action.shell.jvm.RemoteJVMAction"
-                text="Remote JVM" icon="com.github.qianmi.util.QianmiIcons.remoteJvmDebug"/>
+                text="Remote JVM" icon="com.github.qianmi.infrastructure.QianmiIcons.remoteJvmDebug"/>
 
         <!-- 千米 超链接 -->
         <group id="com.github.qianmi.group.QianmiLinkGroup" class="com.github.qianmi.group.QianmiLinkGroup"
-               icon="com.github.qianmi.util.QianmiIcons.qianmi"
+               icon="com.github.qianmi.infrastructure.QianmiIcons.qianmi"
                popup="true"
                text="Qianmi Links"
                description="Qianmi group">
             <add-to-group group-id="EditorPopupMenu" anchor="first"/>
-            <reference ref="com.github.qianmi.action.BugattiAction"/>
-            <reference ref="com.github.qianmi.action.GitlabAction"/>
-            <reference ref="com.github.qianmi.action.DubboAdminAction"/>
-            <reference ref="com.github.qianmi.action.RocketMqAction"/>
-            <reference ref="com.github.qianmi.action.ActiveMqAction"/>
-            <reference ref="com.github.qianmi.action.GavinAction"/>
-            <reference ref="com.github.qianmi.action.TraceAction"/>
-            <reference ref="com.github.qianmi.action.QianmiAdminAction"/>
-            <reference ref="com.github.qianmi.action.ApmDashboardAction"/>
-            <reference ref="com.github.qianmi.action.MongoDBManagerAction"/>
-            <reference ref="com.github.qianmi.action.WikiAction"/>
-            <reference ref="com.github.qianmi.action.JenkinsAction"/>
-            <reference ref="com.github.qianmi.action.GitBookAction"/>
+            <reference ref="com.github.qianmi.action.link.BugattiAction"/>
+            <reference ref="com.github.qianmi.action.link.GitlabAction"/>
+            <reference ref="com.github.qianmi.action.link.DubboAdminAction"/>
+            <reference ref="com.github.qianmi.action.link.RocketMqAction"/>
+            <reference ref="com.github.qianmi.action.link.ActiveMqAction"/>
+            <reference ref="com.github.qianmi.action.link.GavinAction"/>
+            <reference ref="com.github.qianmi.action.link.TraceAction"/>
+            <reference ref="com.github.qianmi.action.link.QianmiAdminAction"/>
+            <reference ref="com.github.qianmi.action.link.ApmDashboardAction"/>
+            <reference ref="com.github.qianmi.action.link.MongoDBManagerAction"/>
+            <reference ref="com.github.qianmi.action.link.WikiAction"/>
+            <reference ref="com.github.qianmi.action.link.JenkinsAction"/>
+            <reference ref="com.github.qianmi.action.link.GitBookAction"/>
             <reference ref="com.github.qianmi.action.console.ConsoleOfD2pMcAction"/>
             <reference ref="com.github.qianmi.action.console.ConsoleOfOmsAction"/>
             <reference ref="com.github.qianmi.action.console.ConsoleOfPcAction"/>
@@ -169,16 +166,14 @@
 
         <!--千米 工具-->
         <group id="com.github.qianmi.group.QianmiToolGroup" class="com.github.qianmi.group.QianmiToolGroup"
-               icon="com.github.qianmi.util.QianmiIcons.qianmi"
+               icon="com.github.qianmi.infrastructure.QianmiIcons.qianmi"
                popup="true"
                text="Qianmi Tools">
             <add-to-group group-id="EditorPopupMenu" anchor="first"/>
-
             <reference ref="com.github.qianmi.action.packaging.PackageAction"/>
             <reference ref="com.github.qianmi.action.shell.ssh.SshAction"/>
             <reference ref="com.github.qianmi.action.shell.ftp.FtpAction"/>
             <reference ref="com.github.qianmi.action.shell.jvm.RemoteJVMAction"/>
-            <reference ref="com.github.qianmi.action.EsBuilderAction"/>
             <reference ref="com.github.qianmi.action.dubboinvoke.DubboInvokeAction"/>
         </group>
 

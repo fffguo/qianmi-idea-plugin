@@ -1,13 +1,12 @@
 package com.github.qianmi.services
 
-import com.github.qianmi.domain.enums.BugattiProjectEnum
-import com.github.qianmi.domain.enums.EnvEnum
-import com.github.qianmi.domain.project.AllProject
+import com.github.qianmi.infrastructure.domain.enums.BugattiProjectEnum
+import com.github.qianmi.infrastructure.domain.enums.EnvEnum
+import com.github.qianmi.infrastructure.domain.project.AllProject
+import com.github.qianmi.infrastructure.extend.CollectionExtend.isNotEmpty
+import com.github.qianmi.infrastructure.storage.EnvConfig
+import com.github.qianmi.infrastructure.util.BugattiHttpUtil
 import com.github.qianmi.services.vo.BugattiProjectInfoResult
-import com.github.qianmi.storage.EnvConfig
-import com.github.qianmi.util.BugattiHttpUtil
-import com.github.qianmi.util.CollectionUtil.isNotEmpty
-import com.github.qianmi.util.StringUtil.isNotBlank
 import com.intellij.openapi.project.Project
 
 

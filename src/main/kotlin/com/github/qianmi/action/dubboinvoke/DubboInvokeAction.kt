@@ -1,6 +1,6 @@
 package com.github.qianmi.action.dubboinvoke
 
-import com.github.qianmi.domain.project.AllProject
+import com.github.qianmi.infrastructure.domain.project.AllProject
 import com.intellij.lang.java.JavaLanguage
 import com.intellij.openapi.actionSystem.AnAction
 import com.intellij.openapi.actionSystem.AnActionEvent

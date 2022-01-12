@@ -1,7 +1,7 @@
 package com.github.qianmi.action.shell.ssh
 
 import com.github.qianmi.action.shell.ShellAction
-import com.github.qianmi.domain.project.tools.ShellElement
+import com.github.qianmi.infrastructure.domain.project.tools.ShellElement
 
 
 class SshAction : ShellAction<SshSelectedAction>() {

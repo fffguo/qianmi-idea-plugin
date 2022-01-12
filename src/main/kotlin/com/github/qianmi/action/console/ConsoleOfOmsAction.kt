@@ -1,6 +1,6 @@
 package com.github.qianmi.action.console
 
-import com.github.qianmi.domain.project.AllProject
+import com.github.qianmi.infrastructure.domain.project.AllProject
 import com.intellij.ide.BrowserUtil
 import com.intellij.openapi.actionSystem.AnAction
 import com.intellij.openapi.actionSystem.AnActionEvent

@@ -1,13 +1,13 @@
 package com.github.qianmi.ui
 
-import com.github.qianmi.action.BugattiAction
+import com.github.qianmi.action.link.BugattiAction
 import com.github.qianmi.action.packaging.PackageNotify
-import com.github.qianmi.domain.project.AllProject
+import com.github.qianmi.infrastructure.domain.project.AllProject
+import com.github.qianmi.infrastructure.util.BugattiHttpUtil
+import com.github.qianmi.infrastructure.util.GitUtil
+import com.github.qianmi.infrastructure.util.NotifyUtil
 import com.github.qianmi.services.vo.BugattiLastVersionResult
 import com.github.qianmi.ui.PackagePage.BuildType.*
-import com.github.qianmi.util.BugattiHttpUtil
-import com.github.qianmi.util.GitUtil
-import com.github.qianmi.util.NotifyUtil
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.wm.WindowManager
 import java.awt.event.KeyEvent
@@ -15,7 +15,7 @@ import java.util.stream.Collectors
 import javax.swing.*
 
 class PackagePage(private var project: Project) : JDialog() {
-    private var myProject: AllProject.MyProject
+    private var myProject: com.github.qianmi.infrastructure.domain.project.AllProject.MyProject
 
     //分支信息
     private lateinit var mapBetaPreBranch: Map<String, BugattiLastVersionResult>

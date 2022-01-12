@@ -1,11 +1,11 @@
 package com.github.qianmi.action.packaging
 
-import com.github.qianmi.action.BugattiAction
 import com.github.qianmi.action.CopyAction
-import com.github.qianmi.domain.project.AllProject
+import com.github.qianmi.action.link.BugattiAction
+import com.github.qianmi.infrastructure.domain.project.AllProject
+import com.github.qianmi.infrastructure.util.BugattiHttpUtil
+import com.github.qianmi.infrastructure.util.NotifyUtil
 import com.github.qianmi.ui.PackagePage
-import com.github.qianmi.util.BugattiHttpUtil
-import com.github.qianmi.util.NotifyUtil
 import com.intellij.openapi.project.Project
 import java.util.*
 

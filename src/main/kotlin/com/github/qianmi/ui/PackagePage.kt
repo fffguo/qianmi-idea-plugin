@@ -112,13 +112,12 @@ class PackagePage(private var project: Project) : JDialog() {
         contentPane = this.contentPanel
         modalityType = ModalityType.APPLICATION_MODAL
         this.myProject = AllProject.currentProject(this.project)
-
+        //分支处理
+        this.initBranchHandler()
         //初始化tab
         this.initSnapshot()
         this.initBeta()
         this.initRelease()
-        //分支处理
-        this.initBranchHandler()
         //构建打包按钮
         this.initBuildButton()
         //初始化esc退出事件
@@ -140,6 +139,8 @@ class PackagePage(private var project: Project) : JDialog() {
         this.betaGitUrlText.text = this.myProject.gitlab.url
         //beta分支
         this.mapBetaPreBranch = BugattiHttpUtil.mapLastBetaVersion(this.myProject)
+        //版本
+        updateBetaVersionInfo(GitUtil.getCurrentBranchName(project))
     }
 
 

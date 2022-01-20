@@ -4,6 +4,19 @@
 
 ## [Unreleased]
 
+## [1.8.0-RELEASE]
+
+### English
+
+- BUG: Fix the bug that the plugin logo does not display
+- BUG: Fix pack Beta version by default does not display the version number of bugs
+
+### Chinese
+
+- BUG: 修复插件logo不展示BUG
+- BUG: 修复打包Beta版本默认不展示版本号bug
+-
+
 ## [1.7.0-RELEASE]
 
 ### English

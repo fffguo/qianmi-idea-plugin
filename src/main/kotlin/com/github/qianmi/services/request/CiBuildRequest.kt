@@ -1,6 +1,6 @@
 package com.github.qianmi.services.request
 
-import com.github.qianmi.infrastructure.domain.project.AllProject
+import com.github.qianmi.infrastructure.domain.project.IdeaProject
 import com.github.qianmi.infrastructure.extend.JsonExtend.toJsonString
 import org.jetbrains.annotations.NotNull
 
@@ -15,15 +15,15 @@ class CiBuildRequest(
 
         @NotNull
         fun instanceOf(
-            myProject: AllProject.MyProject,
+            myProject: IdeaProject.MyProject,
             branchName: String,
         ): CiBuildRequest {
             val param = mapOf("branch" to branchName)
             return CiBuildRequest(
-                myProject.jenkins.projectName,
+                myProject.projectInfo.jenkins,
                 param.toJsonString(),
-                myProject.bugatti.projectName,
-                myProject.bugatti.projectCode,
+                myProject.bugattiLink.name,
+                myProject.bugattiLink.code,
                 "build"
             )
         }

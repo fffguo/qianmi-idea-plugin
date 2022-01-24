@@ -2,9 +2,11 @@ package com.github.qianmi.infrastructure.util
 
 import cn.hutool.json.JSONUtil
 import com.github.qianmi.action.SettingAction
+import com.github.qianmi.infrastructure.domain.enums.BugattiProjectEnum
 import com.github.qianmi.infrastructure.domain.enums.EnvEnum
-import com.github.qianmi.infrastructure.domain.project.AllProject
-import com.github.qianmi.infrastructure.domain.project.link.Bugatti
+import com.github.qianmi.infrastructure.domain.project.IdeaProject
+import com.github.qianmi.infrastructure.domain.project.link.BugattiLink
+import com.github.qianmi.infrastructure.domain.project.link.GitlabLink
 import com.github.qianmi.infrastructure.domain.project.tools.ShellElement
 import com.github.qianmi.infrastructure.extend.CollectionExtend.firstDefault
 import com.github.qianmi.infrastructure.extend.HttpExtend.getCookie
@@ -12,8 +14,10 @@ import com.github.qianmi.infrastructure.extend.HttpExtend.isOk
 import com.github.qianmi.infrastructure.extend.JsonExtend.toBean
 import com.github.qianmi.infrastructure.extend.JsonExtend.toJsonString
 import com.github.qianmi.infrastructure.extend.JsonExtend.toList
+import com.github.qianmi.infrastructure.extend.StringExtend.isNotBlank
 import com.github.qianmi.infrastructure.storage.BugattiCookie
 import com.github.qianmi.infrastructure.storage.DomainConfig
+import com.github.qianmi.infrastructure.storage.EnvConfig
 import com.github.qianmi.services.request.CiBuildReleaseRequest
 import com.github.qianmi.services.request.CiBuildRequest
 import com.github.qianmi.services.vo.*
@@ -25,7 +29,7 @@ import java.util.*
 
 object BugattiHttpUtil {
 
-    private const val bugattiUrl = Bugatti.domainUrl
+    private const val domainUrl = BugattiLink.domain
 
     /**
      * @param silent 静默模式
@@ -71,27 +75,21 @@ object BugattiHttpUtil {
         val body: MutableMap<String, Any> = HashMap(8)
         body["userName"] = userName
         body["password"] = password
-        return HttpUtil.postJson("$bugattiUrl/login", body.toJsonString())
+        return HttpUtil.postJson("$domainUrl/login", body.toJsonString())
     }
 
     @NotNull
     @JvmStatic
-    fun getProjectInfo(myProject: AllProject.MyProject): BugattiProjectInfoResult {
-        val result = HttpUtil.get(
-            "$bugattiUrl/project/${myProject.bugatti.projectCode}/${myProject.bugatti.envCode}",
-            getCookie()
-        ).body()
-        return result.toBean()!!
+    fun getProjectInfo(project: BugattiProjectEnum): BugattiProjectInfoResult {
+        val url = "$domainUrl/project/${project.code}/${EnvConfig.getInstance().env.bugattiEnvCode}"
+        return HttpUtil.get(url, getCookie()).body().toBean()!!
     }
 
     @NotNull
     @JvmStatic
-    fun getBranchList(myProject: AllProject.MyProject): List<BugattiProjectBranchResult> {
-        val result = HttpUtil.get(
-            "$bugattiUrl/ci/branchs?gitUrl=${myProject.gitlab.url}",
-            getCookie()
-        ).body()
-        return result.toList()
+    fun getBranchList(project: Project): List<BugattiProjectBranchResult> {
+        val url = "$domainUrl/ci/branchs?gitUrl=${GitlabLink.getInstance().getBrowserUrl(project)}"
+        return HttpUtil.get(url, getCookie()).body().toList()
     }
 
     /**
@@ -99,9 +97,9 @@ object BugattiHttpUtil {
      */
     @NotNull
     @JvmStatic
-    fun mapLastBetaVersion(myProject: AllProject.MyProject): Map<String, BugattiLastVersionResult> {
+    fun mapLastBetaVersion(myProject: IdeaProject.MyProject): Map<String, BugattiLastVersionResult> {
         val result = HttpUtil.get(
-            "$bugattiUrl/project/${myProject.bugatti.projectCode}/versoin/lastbetaversion",
+            "$domainUrl/project/${myProject.bugattiLink.code}/versoin/lastbetaversion",
             getCookie()
         ).body()
         return result.toList<BugattiLastVersionResult>().associateBy { it.branch }
@@ -109,25 +107,24 @@ object BugattiHttpUtil {
 
     @NotNull
     @JvmStatic
-    fun getLastReleaseVersion(myProject: AllProject.MyProject): BugattiLastVersionResult? {
+    fun getLastReleaseVersion(myProject: IdeaProject.MyProject): BugattiLastVersionResult? {
         val result = HttpUtil.get(
-            "$bugattiUrl/project/${myProject.bugatti.projectCode}/versoin/lastrelaseversion",
+            "$domainUrl/project/${myProject.bugattiLink.code}/versoin/lastrelaseversion",
             getCookie()
         ).body()
         return result.toList<BugattiLastVersionResult>().firstOrNull()
     }
 
     @JvmStatic
-    fun getShellElementList(bugattiProjectCode: String, env: EnvEnum): List<ShellElement> {
+    @NotNull
+    fun getShellElementList(bugattiProjectCode: String): List<ShellElement> {
+        val env = EnvConfig.getInstance().env
         //屏蔽生产环境
         if (EnvEnum.PROD == env) {
             return Collections.emptyList()
         }
-
-        val result = HttpUtil.get(
-            "$bugattiUrl/task/clusters?envId=${env.bugatti.envCode}&projectId=$bugattiProjectCode",
-            getCookie()
-        ).body()
+        val url = "$domainUrl/task/clusters?envId=${env.bugattiEnvCode}&projectId=$bugattiProjectCode"
+        val result = HttpUtil.get(url, getCookie()).body()
         val shellEleList = ArrayList<ShellElement>()
 
         val hostList = JSONUtil.parse(result).getByPath(".host")
@@ -147,13 +144,23 @@ object BugattiHttpUtil {
         return shellEleList
     }
 
+    @JvmStatic
+    fun getBugattiProjectAnyIp(project: BugattiProjectEnum): String {
+        return getShellElementList(project.code)
+            .stream()
+            .map { ele -> ele.ip }
+            .filter { ip -> ip.isNotBlank() }
+            .findAny()
+            .orElse("")
+    }
+
 
     @NotNull
     @JvmStatic
-    fun jenkinsCIBuild(myProject: AllProject.MyProject, branchName: String): BugattiResult {
+    fun jenkinsCIBuild(myProject: IdeaProject.MyProject, branchName: String): BugattiResult {
 
         val result = HttpUtil.putJson(
-            "$bugattiUrl/ci/build",
+            "$domainUrl/ci/build",
             CiBuildRequest.instanceOf(myProject, branchName).toJsonString(),
             getCookie()
         ).body()
@@ -168,14 +175,14 @@ object BugattiHttpUtil {
     @NotNull
     @JvmStatic
     fun jenkinsCIRelease(
-        myProject: AllProject.MyProject,
+        myProject: IdeaProject.MyProject,
         branchName: String,
         version: String,
         snapshotVersion: String,
     ): BugattiResult {
 
         val result = HttpUtil.putJson(
-            "$bugattiUrl/ci/release?force=true",
+            "$domainUrl/ci/release?force=true",
             CiBuildReleaseRequest.instanceOf(myProject, branchName, version, snapshotVersion).toJsonString(),
             getCookie()
         ).body()
@@ -191,9 +198,9 @@ object BugattiHttpUtil {
 
     @NotNull
     @JvmStatic
-    fun ciBuildResult(myProject: AllProject.MyProject): BugattiCIBuildResult {
+    fun ciBuildResult(myProject: IdeaProject.MyProject): BugattiCIBuildResult {
         val result = HttpUtil.get(
-            "$bugattiUrl/ci/builds?projectId=${myProject.bugatti.projectCode}&page=0&pageSize=1",
+            "$domainUrl/ci/builds?projectId=${myProject.projectInfo.projectId}&page=0&pageSize=1",
             getCookie()
         ).body()
 
@@ -202,9 +209,9 @@ object BugattiHttpUtil {
 
     @NotNull
     @JvmStatic
-    fun ciReleaseResult(myProject: AllProject.MyProject, version: String, branchName: String): BugattiCIBuildResult {
+    fun ciReleaseResult(myProject: IdeaProject.MyProject, version: String, branchName: String): BugattiCIBuildResult {
         val result = HttpUtil.get(
-            "$bugattiUrl/ci/releases?projectId=${myProject.bugatti.projectCode}&page=0&pageSize=1&version=${version}&user=&tag=${branchName}",
+            "$domainUrl/ci/releases?projectId=${myProject.bugattiLink.code}&page=0&pageSize=1&version=${version}&user=&tag=${branchName}",
             getCookie()
         ).body()
         return result.toList<BugattiCIBuildResult>().firstDefault(BugattiCIBuildResult())

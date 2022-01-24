@@ -1,6 +1,7 @@
 package com.github.qianmi.infrastructure.util
 
 import cn.hutool.json.JSONUtil
+import com.github.qianmi.infrastructure.extend.StringExtend.isBlank
 
 
 object JsonUtil {
@@ -10,6 +11,9 @@ object JsonUtil {
      */
     @JvmStatic
     fun prettyJson(jsonObj: Any): String {
+        if (jsonObj is String && jsonObj.isBlank()) {
+            return ""
+        }
         return JSONUtil.toJsonPrettyStr(jsonObj)
     }
 

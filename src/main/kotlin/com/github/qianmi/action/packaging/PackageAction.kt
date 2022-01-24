@@ -1,6 +1,6 @@
 package com.github.qianmi.action.packaging
 
-import com.github.qianmi.infrastructure.domain.project.AllProject
+import com.github.qianmi.infrastructure.domain.project.link.JenkinsLink
 import com.github.qianmi.ui.PackagePage
 import com.intellij.openapi.actionSystem.AnAction
 import com.intellij.openapi.actionSystem.AnActionEvent
@@ -15,6 +15,6 @@ class PackageAction : AnAction() {
     }
 
     override fun update(e: AnActionEvent) {
-        e.presentation.isEnabled = AllProject.currentProject(e).jPackage.isSupport
+        e.presentation.isEnabled = JenkinsLink.getInstance().isSupport
     }
 }

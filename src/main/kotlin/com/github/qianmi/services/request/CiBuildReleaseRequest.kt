@@ -1,6 +1,6 @@
 package com.github.qianmi.services.request
 
-import com.github.qianmi.infrastructure.domain.project.AllProject
+import com.github.qianmi.infrastructure.domain.project.IdeaProject
 import com.github.qianmi.infrastructure.extend.JsonExtend.toJsonString
 import org.jetbrains.annotations.NotNull
 
@@ -20,7 +20,7 @@ class CiBuildReleaseRequest(
 
         @NotNull
         fun instanceOf(
-            myProject: AllProject.MyProject,
+            myProject: IdeaProject.MyProject,
             branchName: String,
             version: String,
             snapshotVersion: String,
@@ -33,11 +33,11 @@ class CiBuildReleaseRequest(
                 ).toJsonString()
             )
             return CiBuildReleaseRequest(
-                myProject.jenkins.projectName,
-                myProject.jenkins.projectName,
+                myProject.projectInfo.jenkins,
+                myProject.projectInfo.jenkins,
                 param.toJsonString(),
-                myProject.bugatti.projectName,
-                myProject.bugatti.projectCode,
+                myProject.bugattiLink.name,
+                myProject.bugattiLink.code,
                 "release"
             )
         }

@@ -1,18 +1,12 @@
 package com.github.qianmi.action.link
 
-import com.github.qianmi.infrastructure.domain.project.AllProject
-import com.intellij.ide.BrowserUtil
-import com.intellij.openapi.actionSystem.AnAction
-import com.intellij.openapi.actionSystem.AnActionEvent
+import com.github.qianmi.infrastructure.domain.project.link.BaseLink
+import com.github.qianmi.infrastructure.domain.project.link.GitlabLink
 
-class GitlabAction : AnAction() {
+class GitlabAction : BaseLinkAction() {
 
-    override fun actionPerformed(e: AnActionEvent) {
-        BrowserUtil.open(AllProject.currentProject(e).gitlab.url)
-    }
-
-    override fun update(e: AnActionEvent) {
-        e.presentation.isEnabled = AllProject.currentProject(e).gitlab.isSupport
+    override fun getLinkProject(): BaseLink {
+        return GitlabLink.getInstance()
     }
 
 }

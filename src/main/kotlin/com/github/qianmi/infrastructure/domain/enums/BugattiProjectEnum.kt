@@ -5,7 +5,7 @@ import com.intellij.util.containers.stream
 /**
  * bugatti项目枚举
  */
-enum class BugattiProjectEnum(val projectName: String, val bugattiProjectCode: String) {
+enum class BugattiProjectEnum(val projectName: String, val code: String) {
     NONE("NONE", ""),
     PLUG_DEMO("plugin-demo", "1403"),
     PURCHASE_WX_BFF("purchase-wx-bff", "1403"),
@@ -40,6 +40,7 @@ enum class BugattiProjectEnum(val projectName: String, val bugattiProjectCode: S
     MC_FACADE("mc-facade", "1191"),
     MC_PLUGIN("mc-plugin", "1422"),
     OMS("oms", "646"),
+    OMS_CONSOLE("oms", "656"),
     OMS_COMMON_UTILS("oms-common-utils", "1114"),
     PC_ADMIN_BFF("pc-admin-bff", "813"),
     PC_ADMIN_TASK("pc-admin-task", "841"),
@@ -51,6 +52,7 @@ enum class BugattiProjectEnum(val projectName: String, val bugattiProjectCode: S
     PC_MICRO_ITEM("pc-micro-item", "767"),
     PC_MICRO_PRICE("pc-micro-price", "561"),
     PC_MICRO_STOCK("pc-micro-stock", "551"),
+    PC_MS("pc-ms", "202"),
     PRODUCT_CENTER_NEW("product-center-new", "10"),
     PURCHASE_VIEW("purchase-view", "1262"),
     QM_ASSISTANT("qm-assistant", "1101"),
@@ -89,15 +91,20 @@ enum class BugattiProjectEnum(val projectName: String, val bugattiProjectCode: S
     //数据库
     DB_QIANMI("qm-qianmi", "100"),
 
+    //基础组件
+    DUBBO_ADMIN("DUBBO_ADMIN", "38"),
+    ROCKET_MQ_ADMIN("ROCKET_MQ_ADMIN", "922"),
+    ACTIVE_MQ_ADMIN("ACTIVE_MQ_ADMIN", "250"),
+    GAVIN_ADMIN("GAVIN_ADMIN", "84"),
     ;
 
 
     companion object {
-        fun instanceOf(projectName: String): com.github.qianmi.infrastructure.domain.enums.BugattiProjectEnum {
+        fun instanceOf(projectName: String): BugattiProjectEnum {
             return values()
                 .stream()
                 .filter { project -> project.projectName == projectName }
-                .findFirst().orElse(com.github.qianmi.infrastructure.domain.enums.BugattiProjectEnum.NONE)
+                .findFirst().orElse(NONE)
         }
     }
 }

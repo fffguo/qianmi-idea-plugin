@@ -7,6 +7,9 @@ import com.intellij.openapi.application.ApplicationManager
 import com.intellij.openapi.application.ModalityState
 import com.intellij.openapi.options.ShowSettingsUtil
 
+/**
+ * 打开设置对话框
+ */
 class SettingAction : AnAction() {
 
     override fun actionPerformed(e: AnActionEvent) {

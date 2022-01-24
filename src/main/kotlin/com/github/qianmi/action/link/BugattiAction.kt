@@ -1,24 +1,37 @@
 package com.github.qianmi.action.link
 
-import com.github.qianmi.infrastructure.domain.project.AllProject
-import com.intellij.ide.BrowserUtil
-import com.intellij.openapi.actionSystem.AnAction
-import com.intellij.openapi.actionSystem.AnActionEvent
+import com.github.qianmi.MyBundle
+import com.github.qianmi.infrastructure.domain.enums.BugattiProjectEnum
+import com.github.qianmi.infrastructure.domain.project.link.BaseLink
+import com.github.qianmi.infrastructure.domain.project.link.BugattiLink
 
-class BugattiAction : AnAction() {
+class BugattiAction : BaseLinkAction() {
 
-    override fun actionPerformed(e: AnActionEvent) {
-        BrowserUtil.open(AllProject.currentProject(e).bugatti.getBugattiUrl())
+    var bugattiLink: BugattiLink? = null
+
+    override fun getLinkProject(): BaseLink {
+        return BugattiLink.getInstance()
     }
 
-    override fun update(e: AnActionEvent) {
-        e.presentation.isEnabled = AllProject.currentProject(e).bugatti.isSupport
-    }
 
     companion object {
-        fun instanceOf(presentText: String): BugattiAction {
+
+        /**
+         * 跳转到当前bugatti项目
+         */
+        fun defaultAction(): BugattiAction {
             val bugattiAction = BugattiAction()
-            bugattiAction.templatePresentation.text = presentText
+            bugattiAction.templatePresentation.text = MyBundle.getGoBugattiText()
+            return bugattiAction
+        }
+
+        /**
+         * 跳转到指定bugatti项目
+         */
+        fun actionOf(project: BugattiProjectEnum): BugattiAction {
+            val bugattiAction = BugattiAction()
+            bugattiAction.templatePresentation.text = MyBundle.getGoBugattiText()
+            bugattiAction.bugattiLink = BugattiLink.instanceOfBugattiProject(project)
             return bugattiAction
         }
     }

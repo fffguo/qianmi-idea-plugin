@@ -2,7 +2,8 @@ package com.github.qianmi.ui
 
 import com.github.qianmi.action.link.BugattiAction
 import com.github.qianmi.action.packaging.PackageNotify
-import com.github.qianmi.infrastructure.domain.project.AllProject
+import com.github.qianmi.infrastructure.domain.project.IdeaProject
+import com.github.qianmi.infrastructure.domain.project.link.GitlabLink
 import com.github.qianmi.infrastructure.util.BugattiHttpUtil
 import com.github.qianmi.infrastructure.util.GitUtil
 import com.github.qianmi.infrastructure.util.NotifyUtil
@@ -15,7 +16,7 @@ import java.util.stream.Collectors
 import javax.swing.*
 
 class PackagePage(private var project: Project) : JDialog() {
-    private var myProject: com.github.qianmi.infrastructure.domain.project.AllProject.MyProject
+    private var myProject: IdeaProject.MyProject
 
     //分支信息
     private lateinit var mapBetaPreBranch: Map<String, BugattiLastVersionResult>
@@ -23,7 +24,6 @@ class PackagePage(private var project: Project) : JDialog() {
 
     //默认文案
     private val buildSuccessMsg = "提交成功！jenkins 正在加急构建中  ヽ(￣д￣;)ノ"
-    private val buildGoBugattiMsg = "Go Bugatti Look Look"
     private val buildFailMsg = "提交失败！ %s"
 
     //根容器
@@ -111,7 +111,7 @@ class PackagePage(private var project: Project) : JDialog() {
     init {
         contentPane = this.contentPanel
         modalityType = ModalityType.APPLICATION_MODAL
-        this.myProject = AllProject.currentProject(this.project)
+        this.myProject = IdeaProject.getInstance(this.project)
         //分支处理
         this.initBranchHandler()
         //初始化tab
@@ -126,17 +126,17 @@ class PackagePage(private var project: Project) : JDialog() {
 
     private fun initSnapshot() {
         //项目名
-        this.snapshotJenkinsText.text = myProject.jenkins.projectName
+        this.snapshotJenkinsText.text = myProject.projectInfo.jenkins
         //git地址
-        this.snapshotGitUrlText.text = myProject.gitlab.url
+        this.snapshotGitUrlText.text = GitlabLink.getInstance().getBrowserUrl(this.project)
     }
 
 
     private fun initBeta() {
         //项目名
-        this.betaJenkinsText.text = this.myProject.jenkins.projectName
+        this.betaJenkinsText.text = this.myProject.projectInfo.projectName
         //git地址
-        this.betaGitUrlText.text = this.myProject.gitlab.url
+        this.betaGitUrlText.text = this.myProject.projectInfo.git
         //beta分支
         this.mapBetaPreBranch = BugattiHttpUtil.mapLastBetaVersion(this.myProject)
         //版本
@@ -146,9 +146,9 @@ class PackagePage(private var project: Project) : JDialog() {
 
     private fun initRelease() {
         //项目名
-        this.releaseJenkinsText.text = this.myProject.jenkins.projectName
+        this.releaseJenkinsText.text = this.myProject.projectInfo.projectName
         //git地址
-        this.releaseGitUrlText.text = this.myProject.gitlab.url
+        this.releaseGitUrlText.text = this.myProject.projectInfo.git
 
         //release版本
         this.releasePreBranch = BugattiHttpUtil.getLastReleaseVersion(this.myProject)!!
@@ -175,9 +175,6 @@ class PackagePage(private var project: Project) : JDialog() {
             BETA, RELEASE -> BugattiHttpUtil.jenkinsCIRelease(this.myProject, branchName, version, snapshotVersion)
         }
 
-        val bugattiAction = BugattiAction()
-        bugattiAction.templatePresentation.text = this.buildGoBugattiMsg
-
         var message = String.format(this.buildFailMsg, ciResult.errMsg)
 
         //success
@@ -187,7 +184,7 @@ class PackagePage(private var project: Project) : JDialog() {
             PackageNotify(this.project, buildType, version, branchName)
         }
         //idea 通知
-        NotifyUtil.notifyInfoWithAction(project, message, bugattiAction)
+        NotifyUtil.notifyInfoWithAction(project, message, BugattiAction.defaultAction())
         isVisible = false
     }
 
@@ -235,7 +232,7 @@ class PackagePage(private var project: Project) : JDialog() {
 
     private fun initBranchHandler() {
         //分支列表
-        val branchList = BugattiHttpUtil.getBranchList(this.myProject).stream().map { branch -> branch.name }
+        val branchList = BugattiHttpUtil.getBranchList(this.project).stream().map { branch -> branch.name }
             .collect(Collectors.toList())
         //填充分支
         branchList.forEach { branchName ->

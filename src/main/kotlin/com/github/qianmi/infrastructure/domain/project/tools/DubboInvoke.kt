@@ -1,6 +1,6 @@
 package com.github.qianmi.infrastructure.domain.project.tools
 
-import com.github.qianmi.action.dubboinvoke.InvokeDialog
+import com.github.qianmi.action.dubbo.DubboInvokeDialog
 import com.github.qianmi.infrastructure.util.JsonUtil
 import com.github.qianmi.infrastructure.util.MyPsiUtil
 import com.intellij.psi.PsiMethod
@@ -22,7 +22,7 @@ class DubboAdminInvoke(
 
         private const val formatUrl = "invoke {packageName}.{className}.{methodName} ({argJson})"
 
-        fun getInvokeCommand(methodPsi: PsiMethod, argList: Map<String, InvokeDialog.Arg>): String {
+        fun getInvokeCommand(methodPsi: PsiMethod, argList: Map<String, DubboInvokeDialog.Arg>): String {
             val psiJavaFile = MyPsiUtil.getContainingPsiJavaFile(methodPsi)
             return formatUrl
                 .replace("{packageName}", psiJavaFile.packageName)

@@ -15,4 +15,10 @@ object MyBundle : DynamicBundle(BUNDLE) {
     @JvmStatic
     fun getValue(key: String) = getMessage(key)
 
+    @JvmStatic
+    fun getAuthor(): String = getMessage("author")
+
+    @JvmStatic
+    fun getGoBugattiText(): String = getMessage("goBugattiText")
+
 }

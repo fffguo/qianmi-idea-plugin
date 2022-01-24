@@ -52,8 +52,8 @@
                 text="Package" icon="com.github.qianmi.infrastructure.QianmiIcons.jenkinsPackage">
         </action>
 
-        <action id="com.github.qianmi.action.dubboinvoke.DubboInvokeAction"
-                class="com.github.qianmi.action.dubboinvoke.DubboInvokeAction"
+        <action id="com.github.qianmi.action.dubbo.DubboInvokeAction"
+                class="com.github.qianmi.action.dubbo.DubboInvokeAction"
                 text="Dubbo Invoke" icon="com.github.qianmi.infrastructure.QianmiIcons.dubboInvoke">
         </action>
 
@@ -115,18 +115,18 @@
                 text="Git Book">
         </action>
 
-        <action id="com.github.qianmi.action.console.ConsoleOfD2pMcAction"
-                class="com.github.qianmi.action.console.ConsoleOfD2pMcAction"
+        <action id="com.github.qianmi.action.link.console.D2pMcConsoleAction"
+                class="com.github.qianmi.action.link.console.D2pMcConsoleAction"
                 text="Console D2P MC">
         </action>
 
-        <action id="com.github.qianmi.action.console.ConsoleOfOmsAction"
-                class="com.github.qianmi.action.console.ConsoleOfOmsAction"
+        <action id="com.github.qianmi.action.link.console.OmsConsoleAction"
+                class="com.github.qianmi.action.link.console.OmsConsoleAction"
                 text="Console OMS">
         </action>
 
-        <action id="com.github.qianmi.action.console.ConsoleOfPcAction"
-                class="com.github.qianmi.action.console.ConsoleOfPcAction"
+        <action id="com.github.qianmi.action.link.console.PcMsConsoleAction"
+                class="com.github.qianmi.action.link.console.PcMsConsoleAction"
                 text="Console PC">
         </action>
 
@@ -159,9 +159,9 @@
             <reference ref="com.github.qianmi.action.link.WikiAction"/>
             <reference ref="com.github.qianmi.action.link.JenkinsAction"/>
             <reference ref="com.github.qianmi.action.link.GitBookAction"/>
-            <reference ref="com.github.qianmi.action.console.ConsoleOfD2pMcAction"/>
-            <reference ref="com.github.qianmi.action.console.ConsoleOfOmsAction"/>
-            <reference ref="com.github.qianmi.action.console.ConsoleOfPcAction"/>
+            <reference ref="com.github.qianmi.action.link.console.D2pMcConsoleAction"/>
+            <reference ref="com.github.qianmi.action.link.console.OmsConsoleAction"/>
+            <reference ref="com.github.qianmi.action.link.console.PcMsConsoleAction"/>
         </group>
 
         <!--千米 工具-->
@@ -174,7 +174,7 @@
             <reference ref="com.github.qianmi.action.shell.ssh.SshAction"/>
             <reference ref="com.github.qianmi.action.shell.ftp.FtpAction"/>
             <reference ref="com.github.qianmi.action.shell.jvm.RemoteJVMAction"/>
-            <reference ref="com.github.qianmi.action.dubboinvoke.DubboInvokeAction"/>
+            <reference ref="com.github.qianmi.action.dubbo.DubboInvokeAction"/>
         </group>
 
     </actions>

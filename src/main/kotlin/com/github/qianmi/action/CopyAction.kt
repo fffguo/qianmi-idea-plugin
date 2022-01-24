@@ -4,6 +4,9 @@ import com.github.qianmi.infrastructure.util.CopyUtil
 import com.intellij.openapi.actionSystem.AnAction
 import com.intellij.openapi.actionSystem.AnActionEvent
 
+/**
+ * 复制剪贴板
+ */
 class CopyAction : AnAction() {
     //剪贴板文案
     var pasteText: String = ""

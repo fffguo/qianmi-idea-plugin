@@ -7,4 +7,8 @@ object StringExtend {
     fun String.isNotBlank(): Boolean {
         return StrUtil.isNotBlank(this)
     }
+
+    fun String.isBlank(): Boolean {
+        return StrUtil.isBlank(this)
+    }
 }

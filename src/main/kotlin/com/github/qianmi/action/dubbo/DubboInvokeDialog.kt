@@ -1,4 +1,4 @@
-package com.github.qianmi.action.dubboinvoke
+package com.github.qianmi.action.dubbo
 
 import com.github.qianmi.infrastructure.domain.project.tools.DubboAdminInvoke
 import com.github.qianmi.infrastructure.extend.JsonExtend.isJsonString
@@ -21,7 +21,7 @@ import javax.swing.event.DocumentEvent
  * @author lfg
  * @version 1.0
  */
-class InvokeDialog(var project: Project?, var psiMethod: PsiMethod) : DialogWrapper(project) {
+class DubboInvokeDialog(var project: Project?, var psiMethod: PsiMethod) : DialogWrapper(project) {
 
     private val jTextMaxRow = 20
     private val jTextDefaultColumn = 85

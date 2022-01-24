@@ -1,4 +1,4 @@
-package com.github.qianmi.listeners
+package com.github.qianmi.infrastructure
 
 import com.github.qianmi.infrastructure.storage.TempConfig
 import com.github.qianmi.services.ConfigInitService

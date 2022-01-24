@@ -27,7 +27,7 @@
     </extensions>
 
     <applicationListeners>
-        <listener class="com.github.qianmi.listeners.MyProjectManagerListener"
+        <listener class="com.github.qianmi.infrastructure.MyProjectManagerListener"
                   topic="com.intellij.openapi.project.ProjectManagerListener"/>
     </applicationListeners>
 

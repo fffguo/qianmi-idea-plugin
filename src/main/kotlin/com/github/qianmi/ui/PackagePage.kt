@@ -1,14 +1,19 @@
 package com.github.qianmi.ui
 
+import cn.hutool.core.thread.ThreadUtil
+import cn.hutool.core.util.NumberUtil
+import com.github.qianmi.action.CopyAction
 import com.github.qianmi.action.link.BugattiAction
-import com.github.qianmi.action.packaging.PackageNotify
 import com.github.qianmi.infrastructure.domain.project.IdeaProject
 import com.github.qianmi.infrastructure.domain.project.link.GitlabLink
 import com.github.qianmi.infrastructure.util.BugattiHttpUtil
 import com.github.qianmi.infrastructure.util.GitUtil
 import com.github.qianmi.infrastructure.util.NotifyUtil
+import com.github.qianmi.services.vo.BugattiCIBuildResult
 import com.github.qianmi.services.vo.BugattiLastVersionResult
 import com.github.qianmi.ui.PackagePage.BuildType.*
+import com.intellij.openapi.progress.ProgressIndicator
+import com.intellij.openapi.progress.Task
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.wm.WindowManager
 import java.awt.event.KeyEvent
@@ -161,33 +166,96 @@ class PackagePage(private var project: Project) : JDialog() {
 
 
     private fun buildButtonListener(
-        selected: JComboBox<String>,
-        buildType: BuildType,
-        version: String,
-        snapshotVersion: String,
+        comBox: JComboBox<String>, buildType: BuildType,
+        version: String, snapshotVersion: String,
     ) {
-
         //jenkins构建
-        val branchName = selected.selectedItem!!.toString()
+        val branchName = comBox.selectedItem!!.toString()
 
         val ciResult = when (buildType) {
             SNAPSHOT -> BugattiHttpUtil.jenkinsCIBuild(this.myProject, branchName)
             BETA, RELEASE -> BugattiHttpUtil.jenkinsCIRelease(this.myProject, branchName, version, snapshotVersion)
         }
-
-        var message = String.format(this.buildFailMsg, ciResult.errMsg)
-
         //success
         if (ciResult.success) {
-            message = this.buildSuccessMsg
-            //回调
-            PackageNotify(this.project, buildType, version, branchName)
+            this.goPackage(buildType, version, branchName)
+        } else {
+            val message = String.format(this.buildFailMsg, ciResult.errMsg)
+            NotifyUtil.notifyInfoWithAction(project, message, BugattiAction.defaultAction())
         }
-        //idea 通知
-        NotifyUtil.notifyInfoWithAction(project, message, BugattiAction.defaultAction())
         isVisible = false
     }
 
+    /**
+     * 打包进度条
+     */
+    private fun goPackage(buildType: BuildType, version: String, branchName: String) {
+        val myProject = this.myProject
+
+        object : Task.Backgroundable(this.project, "Package: 正在打包，请稍后", false, DEAF) {
+            override fun run(indicator: ProgressIndicator) {
+
+                for (i in 1..999) {
+
+                    indicator.checkCanceled()
+                    indicator.text = "打包已消耗 $i 秒"
+                    indicator.text2 = version
+                    ThreadUtil.sleep(1000L)
+
+                    //前120秒展示进度条
+                    if (i <= 120) {
+                        indicator.fraction = NumberUtil.div(i, 120, 2).toDouble()
+                    } else {
+                        indicator.isIndeterminate = true
+                    }
+
+                    //每3秒查询一次打包结果
+                    if (i % 3 != 0) {
+                        continue
+                    }
+
+                    //打包
+                    val ciBuildResult = when (buildType) {
+                        SNAPSHOT -> {
+                            BugattiHttpUtil.ciBuildResult(myProject)
+                        }
+                        BETA, RELEASE -> {
+                            BugattiHttpUtil.ciReleaseResult(myProject, version, branchName)
+                        }
+                    }
+
+                    if (ciBuildResult.running()) {
+                        continue
+                    }
+                    //回调通知
+                    goPackageResultNotify(ciBuildResult)
+                    break
+                }
+            }
+        }.queue()
+    }
+
+
+    private fun goPackageResultNotify(ciBuildResult: BugattiCIBuildResult) {
+        val myProject = IdeaProject.getInstance(project)
+        if (ciBuildResult.isSuccess()) {
+            //idea 通知
+            NotifyUtil.notifyInfoWithAction(project,
+                "构建成功啦，当前版本号：${ciBuildResult.version}",
+                listOf(BugattiAction.defaultAction(), CopyAction.instanceOf("复制版本信息",
+                    "以下项目有最新版本了：" +
+                            "\n----------------------------------------" +
+                            "\n\t项目名：${myProject.projectInfo.projectName}" +
+                            "\n\t版本号：${ciBuildResult.version}" +
+                            "\n----------------------------------------" +
+                            "\n变更内容：" +
+                            "\n1. ")))
+        } else {
+            //idea 通知
+            NotifyUtil.notifyInfoWithAction(project, "构建失败，出了点问题~", BugattiAction.defaultAction())
+        }
+
+    }
 
     /**
      * 打开窗口

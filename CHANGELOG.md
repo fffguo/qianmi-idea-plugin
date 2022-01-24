@@ -8,14 +8,17 @@
 
 ### English
 
-- BUG: Fix the bug that the plugin logo does not display
-- BUG: Fix pack Beta version by default does not display the version number of bugs
+- Bug: Fix the bug that the plugin logo does not display
+- Bug: Fix pack Beta version by default does not display the version number of bugs
+- Refactor: Code structure refactoring, abstract refactoring
+- Feat：Use progress bar to optimize packaging progress display
 
 ### Chinese
 
-- BUG: 修复插件logo不展示BUG
-- BUG: 修复打包Beta版本默认不展示版本号bug
--
+- Bug: 修复插件logo不展示BUG
+- Bug: 修复打包Beta版本默认不展示版本号bug
+- Refactor: 代码结构重构、抽象重构
+- Feat: 使用进度条，优化打包进度展示
 
 ## [1.7.0-RELEASE]
 

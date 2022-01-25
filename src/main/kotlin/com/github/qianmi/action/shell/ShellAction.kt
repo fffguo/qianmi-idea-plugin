@@ -32,7 +32,8 @@ abstract class ShellAction<T : ShellSelectedAction> : AnAction() {
         val actionList = eleList.stream()
             .map { ele -> instanceShellSelectedAction(ele) }
             .peek { action ->
-                action.templatePresentation.text = "${action.ele.group}: \n \n${action.ele.ip}(${action.ele.version})"
+                action.templatePresentation.text =
+                    "${action.ele.group}:  ${action.ele.ip}(${action.ele.version})  ${action.ele.tag}"
             }
             .collect(Collectors.toList())
         //创建popup

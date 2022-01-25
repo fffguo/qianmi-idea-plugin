@@ -42,12 +42,18 @@ class ShellElement {
      */
     var version: String = ""
 
+    /**
+     * 标签
+     */
+    var tag: String = ""
+
     companion object {
         fun instanceOf(result: BugattiShellInfoResult): ShellElement {
             val element = ShellElement()
             element.ip = result.ip
             element.group = result.group
             element.version = result.version
+            element.tag = result.tag
             return element
         }
     }

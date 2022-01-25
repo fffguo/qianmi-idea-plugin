@@ -12,6 +12,7 @@
 - Bug: Fix pack Beta version by default does not display the version number of bugs
 - Refactor: Code structure refactoring, abstract refactoring
 - Feat：Use progress bar to optimize packaging progress display
+- Feat：Shell multi-node selection box, support for displaying tags
 
 ### Chinese
 
@@ -19,6 +20,7 @@
 - Bug: 修复打包Beta版本默认不展示版本号bug
 - Refactor: 代码结构重构、抽象重构
 - Feat: 使用进度条，优化打包进度展示
+- Feat: shell多节点选择框，支持展示tag标签
 
 ## [1.7.0-RELEASE]
 

@@ -1,12 +1,18 @@
 package com.github.qianmi.infrastructure.domain.project.tools
 
+import com.github.qianmi.infrastructure.domain.vo.BugattiShellInfoResult
 import com.github.qianmi.infrastructure.storage.ShellConfig
-import com.github.qianmi.services.vo.BugattiShellInfoResult
 import com.intellij.remote.AuthType
 import com.intellij.ssh.config.unified.SshConfig
 import com.intellij.ssh.ui.unified.SshUiData
 
 class ShellElement {
+
+    /**
+     * hostId
+     */
+    var id: String = ""
+
     /**
      * ip 地址
      */
@@ -50,6 +56,7 @@ class ShellElement {
     companion object {
         fun instanceOf(result: BugattiShellInfoResult): ShellElement {
             val element = ShellElement()
+            element.id = result.id
             element.ip = result.ip
             element.group = result.group
             element.version = result.version

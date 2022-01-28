@@ -1,18 +1,18 @@
 package com.github.qianmi.ui
 
+import com.github.qianmi.infrastructure.ConfigInitService
 import com.github.qianmi.infrastructure.extend.HttpExtend.isOk
-import com.github.qianmi.infrastructure.storage.DomainConfig
+import com.github.qianmi.infrastructure.storage.AccountConfig
 import com.github.qianmi.infrastructure.storage.ShellConfig
 import com.github.qianmi.infrastructure.util.BugattiHttpUtil
 import com.github.qianmi.infrastructure.util.JMessageUtil
-import com.github.qianmi.services.ConfigInitService
 import com.intellij.openapi.options.Configurable
 import com.intellij.openapi.project.Project
 import javax.swing.*
 
 class PluginSettingPage(private var project: Project) : Configurable {
 
-    private var domainConfig: DomainConfig = DomainConfig.getInstance()
+    private var accountConfig: AccountConfig = AccountConfig.getInstance()
     private var shellConfig: ShellConfig = ShellConfig.getInstance()
 
     //根容器
@@ -100,8 +100,8 @@ class PluginSettingPage(private var project: Project) : Configurable {
      */
     override fun isModified(): Boolean {
         //域账号
-        val domainModified = domainConfig.userName != this.domainAccountText.text
-                || domainConfig.passwd != String(this.domainPasswordText.password)
+        val domainModified = accountConfig.userName != this.domainAccountText.text
+                || accountConfig.passwd != String(this.domainPasswordText.password)
         //shell账号
         val linuxModified = shellConfig.userName != this.shellAccountText.text
                 || shellConfig.passwd != String(this.shellPasswordText.password)
@@ -116,8 +116,8 @@ class PluginSettingPage(private var project: Project) : Configurable {
      */
     override fun apply() {
         //域账号
-        domainConfig.userName = this.domainAccountText.text
-        domainConfig.passwd = String(this.domainPasswordText.password)
+        accountConfig.userName = this.domainAccountText.text
+        accountConfig.passwd = String(this.domainPasswordText.password)
         //shell账号
         shellConfig.userName = this.shellAccountText.text
         shellConfig.passwd = String(this.shellPasswordText.password)
@@ -136,8 +136,8 @@ class PluginSettingPage(private var project: Project) : Configurable {
      */
     override fun reset() {
         //域账号
-        this.domainAccountText.text = domainConfig.userName
-        this.domainPasswordText.text = domainConfig.passwd
+        this.domainAccountText.text = accountConfig.userName
+        this.domainPasswordText.text = accountConfig.passwd
         //shell账号
         this.shellAccountText.text = shellConfig.userName
         this.shellPasswordText.text = shellConfig.passwd

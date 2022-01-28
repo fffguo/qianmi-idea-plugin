@@ -16,11 +16,11 @@
                              instance="com.github.qianmi.ui.PluginSettingPage" displayName="千米网"/>
 
         <!-- 项目级-->
-        <projectService serviceImplementation="com.github.qianmi.services.ConfigInitService"/>
+        <projectService serviceImplementation="com.github.qianmi.infrastructure.ConfigInitService"/>
         <projectService serviceImplementation="com.github.qianmi.infrastructure.storage.TempConfig"/>
 
         <!-- app级 配置存储-->
-        <applicationService serviceImplementation="com.github.qianmi.infrastructure.storage.DomainConfig"/>
+        <applicationService serviceImplementation="com.github.qianmi.infrastructure.storage.AccountConfig"/>
         <applicationService serviceImplementation="com.github.qianmi.infrastructure.storage.ShellConfig"/>
         <applicationService serviceImplementation="com.github.qianmi.infrastructure.storage.BugattiCookie"/>
         <applicationService serviceImplementation="com.github.qianmi.infrastructure.storage.EnvConfig"/>
@@ -50,6 +50,11 @@
         <action id="com.github.qianmi.action.packaging.PackageAction"
                 class="com.github.qianmi.action.packaging.PackageAction"
                 text="Package" icon="com.github.qianmi.infrastructure.QianmiIcons.jenkinsPackage">
+        </action>
+
+        <action id="com.github.qianmi.action.publish.PublishAction"
+                class="com.github.qianmi.action.publish.PublishAction"
+                text="Publish" icon="com.github.qianmi.infrastructure.QianmiIcons.jenkinsPackage">
         </action>
 
         <action id="com.github.qianmi.action.dubbo.DubboInvokeAction"
@@ -171,6 +176,7 @@
                text="Qianmi Tools">
             <add-to-group group-id="EditorPopupMenu" anchor="first"/>
             <reference ref="com.github.qianmi.action.packaging.PackageAction"/>
+            <reference ref="com.github.qianmi.action.publish.PublishAction"/>
             <reference ref="com.github.qianmi.action.shell.ssh.SshAction"/>
             <reference ref="com.github.qianmi.action.shell.ftp.FtpAction"/>
             <reference ref="com.github.qianmi.action.shell.jvm.RemoteJVMAction"/>

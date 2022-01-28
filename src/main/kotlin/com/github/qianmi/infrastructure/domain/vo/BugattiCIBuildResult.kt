@@ -1,4 +1,4 @@
-package com.github.qianmi.services.vo
+package com.github.qianmi.infrastructure.domain.vo
 
 class BugattiCIBuildResult {
 

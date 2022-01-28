@@ -1,6 +1,12 @@
-package com.github.qianmi.services.vo
+package com.github.qianmi.infrastructure.domain.vo
 
 class BugattiShellInfoResult {
+
+    /**
+     * hostId
+     */
+    var id: String
+
     /**
      * 分组名称
      */
@@ -21,7 +27,8 @@ class BugattiShellInfoResult {
      */
     var tag: String
 
-    constructor(group: String, ip: String, version: String, tag: String) {
+    constructor(id: String, group: String, ip: String, version: String, tag: String) {
+        this.id = id
         this.group = group
         this.ip = ip
         this.version = version

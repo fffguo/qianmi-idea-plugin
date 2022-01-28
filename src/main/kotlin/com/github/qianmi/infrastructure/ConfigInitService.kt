@@ -1,4 +1,4 @@
-package com.github.qianmi.services
+package com.github.qianmi.infrastructure
 
 import com.github.qianmi.infrastructure.domain.enums.BugattiProjectEnum
 import com.github.qianmi.infrastructure.domain.project.IdeaProject

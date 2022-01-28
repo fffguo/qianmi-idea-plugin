@@ -10,22 +10,22 @@ import com.intellij.util.xmlb.XmlSerializerUtil
  * 域账号配置
  */
 @State(name = "qianmiDomainConfig", storages = [Storage("qianmiConfig.xml")])
-class DomainConfig : PersistentStateComponent<DomainConfig> {
+class AccountConfig : PersistentStateComponent<AccountConfig> {
 
     var userName: String = ""
     var passwd: String = ""
 
-    override fun getState(): DomainConfig {
+    override fun getState(): AccountConfig {
         return this
     }
 
-    override fun loadState(state: DomainConfig) {
+    override fun loadState(state: AccountConfig) {
         XmlSerializerUtil.copyBean(state, this)
     }
 
     companion object {
-        fun getInstance(): DomainConfig {
-            return ApplicationManager.getApplication().getService(DomainConfig::class.java)
+        fun getInstance(): AccountConfig {
+            return ApplicationManager.getApplication().getService(AccountConfig::class.java)
         }
     }
 }

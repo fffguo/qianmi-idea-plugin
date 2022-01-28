@@ -2,7 +2,7 @@ package com.github.qianmi.infrastructure.domain.project
 
 import com.github.qianmi.infrastructure.domain.project.link.BugattiLink
 import com.github.qianmi.infrastructure.domain.project.tools.DubboAdminInvoke
-import com.github.qianmi.services.vo.BugattiProjectInfoResult
+import com.github.qianmi.infrastructure.domain.vo.BugattiProjectInfoResult
 import com.intellij.openapi.actionSystem.AnActionEvent
 import com.intellij.openapi.project.Project
 

@@ -4,11 +4,11 @@ import cn.hutool.core.util.StrUtil
 
 object StringExtend {
 
-    fun String.isNotBlank(): Boolean {
+    fun CharSequence.isNotBlank(): Boolean {
         return StrUtil.isNotBlank(this)
     }
 
-    fun String.isBlank(): Boolean {
+    fun CharSequence.isBlank(): Boolean {
         return StrUtil.isBlank(this)
     }
 }

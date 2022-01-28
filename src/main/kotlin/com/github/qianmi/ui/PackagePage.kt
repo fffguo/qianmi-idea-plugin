@@ -6,11 +6,11 @@ import com.github.qianmi.action.CopyAction
 import com.github.qianmi.action.link.BugattiAction
 import com.github.qianmi.infrastructure.domain.project.IdeaProject
 import com.github.qianmi.infrastructure.domain.project.link.GitlabLink
+import com.github.qianmi.infrastructure.domain.vo.BugattiCIBuildResult
+import com.github.qianmi.infrastructure.domain.vo.BugattiLastVersionResult
 import com.github.qianmi.infrastructure.util.BugattiHttpUtil
 import com.github.qianmi.infrastructure.util.GitUtil
 import com.github.qianmi.infrastructure.util.NotifyUtil
-import com.github.qianmi.services.vo.BugattiCIBuildResult
-import com.github.qianmi.services.vo.BugattiLastVersionResult
 import com.github.qianmi.ui.PackagePage.BuildType.*
 import com.intellij.openapi.progress.ProgressIndicator
 import com.intellij.openapi.progress.Task
@@ -28,7 +28,6 @@ class PackagePage(private var project: Project) : JDialog() {
     private lateinit var releasePreBranch: BugattiLastVersionResult
 
     //默认文案
-    private val buildSuccessMsg = "提交成功！jenkins 正在加急构建中  ヽ(￣д￣;)ノ"
     private val buildFailMsg = "提交失败！ %s"
 
     //根容器
@@ -117,12 +116,13 @@ class PackagePage(private var project: Project) : JDialog() {
         contentPane = this.contentPanel
         modalityType = ModalityType.APPLICATION_MODAL
         this.myProject = IdeaProject.getInstance(this.project)
-        //分支处理
-        this.initBranchHandler()
+
         //初始化tab
         this.initSnapshot()
         this.initBeta()
         this.initRelease()
+        //分支处理
+        this.initBranchHandler()
         //构建打包按钮
         this.initBuildButton()
         //初始化esc退出事件
@@ -201,9 +201,9 @@ class PackagePage(private var project: Project) : JDialog() {
                     indicator.text = "打包已消耗 $i 秒"
                     indicator.text2 = version
                     ThreadUtil.sleep(1000L)
-
                     //前120秒展示进度条
                     if (i <= 120) {
+                        indicator.isIndeterminate = false
                         indicator.fraction = NumberUtil.div(i, 120, 2).toDouble()
                     } else {
                         indicator.isIndeterminate = true

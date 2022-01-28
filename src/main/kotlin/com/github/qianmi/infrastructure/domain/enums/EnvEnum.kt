@@ -5,7 +5,7 @@ package com.github.qianmi.infrastructure.domain.enums
  */
 enum class EnvEnum(
     val envName: String,
-    val bugattiEnvCode: String,
+    val envCode: String,
 ) {
     LAKALA("Lakala", "68"),
     TEST0("Test0", "17"),
@@ -14,7 +14,8 @@ enum class EnvEnum(
     TEST4("Test4", "24"),
     TEST5("Test5", "37"),
     TEST6("Test6", "69"),
-    TEST7("Test6", "70"),
+    TEST7("Test7", "70"),
     DEV("Dev", "12"),
-    PROD("Prod", "11")
+    PROD("Prod", "11"),
+
 }

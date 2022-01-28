@@ -25,6 +25,19 @@ object HttpUtil {
     }
 
     @JvmStatic
+    fun postJson(url: String, body: String, cookie: String): HttpResponse<String> {
+        val request = HttpRequest.newBuilder()
+            .uri(URI(url))
+            .POST(HttpRequest.BodyPublishers.ofString(body))
+            .header("Content-Type", "application/json")
+            .header("Cookie", cookie)
+            .timeout(Duration.ofSeconds(3))
+            .build()
+
+        return httpClient.send(request, HttpResponse.BodyHandlers.ofString())
+    }
+
+    @JvmStatic
     fun get(url: String, cookie: String): HttpResponse<String> {
         val request = HttpRequest.newBuilder()
             .uri(URI(url))

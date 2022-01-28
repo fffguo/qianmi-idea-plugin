@@ -18,9 +18,10 @@ plugins {
 }
 
 dependencies {
-    implementation("cn.hutool:hutool-core:5.7.19")
+    implementation("cn.hutool:hutool-core:5.7.20")
 //    implementation("cn.hutool:hutool-http:5.7.18")
-    implementation("cn.hutool:hutool-json:5.7.19")
+    implementation("cn.hutool:hutool-json:5.7.20")
+    implementation("cn.hutool:hutool-socket:5.7.20")
 }
 
 group = properties("pluginGroup")

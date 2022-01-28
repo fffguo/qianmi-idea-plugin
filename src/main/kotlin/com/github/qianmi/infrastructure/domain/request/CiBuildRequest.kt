@@ -1,4 +1,4 @@
-package com.github.qianmi.services.request
+package com.github.qianmi.infrastructure.domain.request
 
 import com.github.qianmi.infrastructure.domain.project.IdeaProject
 import com.github.qianmi.infrastructure.extend.JsonExtend.toJsonString

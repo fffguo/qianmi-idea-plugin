@@ -2,6 +2,7 @@ package com.github.qianmi.infrastructure.domain.project.link
 
 import com.github.qianmi.infrastructure.domain.enums.BugattiProjectEnum
 import com.github.qianmi.infrastructure.storage.EnvConfig
+import com.github.qianmi.infrastructure.util.BugattiHttpUtil
 import com.intellij.openapi.project.Project
 
 
@@ -13,7 +14,6 @@ class BugattiLink(
 
     companion object {
 
-        const val domain = "http://bugatti.dev.qianmi.com"
 
         private var bugattiLink: BugattiLink = BugattiLink(false, "", "")
 
@@ -27,7 +27,7 @@ class BugattiLink(
     }
 
     override fun getBrowserUrl(project: Project): String {
-        return "${domain}/#/list/${EnvConfig.getInstance().env.bugattiEnvCode}/info/${code}?txt=${name}"
+        return "${BugattiHttpUtil.httpDomainUrl}/#/list/${EnvConfig.getInstance().env.envCode}/info/${code}?txt=${name}"
     }
 
     override fun getLinkName(): String {

@@ -10,6 +10,7 @@ import com.github.qianmi.infrastructure.domain.vo.BugattiProjectVersionResult
 import com.github.qianmi.infrastructure.domain.vo.BugattiWebSocketMsgResult
 import com.github.qianmi.infrastructure.extend.CollectionExtend.isNotEmpty
 import com.github.qianmi.infrastructure.extend.JsonExtend.toBean
+import com.github.qianmi.infrastructure.extend.JsonExtend.toJsonString
 import com.github.qianmi.infrastructure.storage.AccountConfig
 import com.github.qianmi.infrastructure.storage.EnvConfig
 import com.github.qianmi.infrastructure.util.BugattiHttpUtil
@@ -40,8 +41,8 @@ class PublishPage(var project: Project) : JDialog() {
     private var iProject: IdeaProject.MyProject
     private lateinit var eleList: List<ShellElement>
 
-    //选中的ip列表
-    private lateinit var selectedIpList: MutableList<String>
+    //发布中的hostId列表
+    private lateinit var publishingHostIds: MutableList<String>
 
     //版本列表
     private lateinit var versionList: List<BugattiProjectVersionResult>
@@ -96,15 +97,10 @@ class PublishPage(var project: Project) : JDialog() {
     private fun publish() {
         isVisible = false
 
-//        //顺序发布
-//        if (this.publishWayRadioByOrder.isSelected) {
-//
-//        }
-//
-//        //同时发布
-//        if (this.publishWayRadioBySameTime.isSelected) {
-//
-//        }
+        val versionId = getCurrentSelectVersion().id
+        val env = getCurrentSelectEnv()
+
+
         val startTime = Date()
         val eleList = mutableListOf<ShellElement>()
 
@@ -116,28 +112,42 @@ class PublishPage(var project: Project) : JDialog() {
                 eleList.add(this.eleList.first { it.ip == ip })
             }
         }
-        val versionId = getCurrentSelectVersion().id
-        val env = getCurrentSelectEnv()
 
-        object : Task.Backgroundable(this.project, "Publish: 正在发布中[1/${eleList.size}]", true, DEAF) {
 
-            override fun run(indicator: ProgressIndicator) {
-                val webSocket = createWebSocket(indicator, env, eleList)
-
-                ThreadUtil.sleep(600_000L)
-//                for (idx in 0 until eleList.size) {
+        //        //顺序发布
+//        if (this.publishWayRadioByOrder.isSelected) {
 //
-////                    indicator.text = "Install：正在安装${eleList[idx].ip}"
-//                    val taskId = BugattiHttpUtil.taskOfInstall(iProject, eleList[idx].id, env, versionId)
-//                }
-                webSocket.sendClose(WebSocket.NORMAL_CLOSURE, "ok").join()
+//        }
+//
+//        //同时发布
+        if (this.publishWayRadioBySameTime.isSelected) {
+
+            eleList.forEach { ele ->
+                //进度条
+                object : Task.Backgroundable(this.project, "Publish: 正在发布中[1/${eleList.size}]", true, DEAF) {
+
+                    override fun run(indicator: ProgressIndicator) {
+                        val webSocket = createWebSocket(indicator, env, ele)
+
+                        while (publishingHostIds.isNotEmpty()) {
+                            println("正在轮询发布任务，当前正在发布节点：${publishingHostIds.toJsonString()}")
+                            ThreadUtil.sleep(1000L)
+                        }
+                        webSocket.sendClose(WebSocket.NORMAL_CLOSURE, "ok").join()
+                    }
+                }.queue()
+
+                BugattiHttpUtil.taskOfInstall(iProject, it.id, env, versionId)
+                publishingHostIds.add(it.id)
+
 
             }
-        }.queue()
+        }
+
 
     }
 
-    private fun createWebSocket(indicator: ProgressIndicator, env: EnvEnum, eleList: List<ShellElement>): WebSocket {
+    private fun createWebSocket(indicator: ProgressIndicator, env: EnvEnum, ele: ShellElement): WebSocket {
         val jobNo = AccountConfig.getInstance().userName.lowercase(Locale.getDefault())
         val projectCode = iProject.bugattiLink.code
         val randomInt = RandomUtil.randomInt(1, 999)
@@ -154,38 +164,31 @@ class PublishPage(var project: Project) : JDialog() {
                 println()
                 println(data)
 
-                //消息key
-                val list = eleList.asSequence().map { it.id }
-                    .map { "${env.envCode}_${iProject.bugattiLink.code}_$it" }
-                    .filter {
-                        val isJson = JSONUtil.isJson(data.toString())
-                        if (!isJson) {
-                            println("nojson--------" + data.toString())
-                        }
-                        isJson
-                    }
-                    .map { JSONUtil.parse(data.toString()).getByPath(".${it}") }
-                    .filter { it != null }
-                    .map { it.toString() }
-                    .map { it.toBean<BugattiWebSocketMsgResult>() }
-                    .toList()
-
-
-                if (list.isNotEmpty()) {
-                    indicator.text = list[0]?.command?.sls
+                val isJson = JSONUtil.isJson(data.toString())
+                if (!isJson) {
+                    println("noJson--------" + data.toString())
+                    return null
                 }
 
+                //发布进度
+                val ingKey = "${env.envCode}_${iProject.bugattiLink.code}_$ele.id"
+                val ingMsg = JSONUtil.parse(data.toString()).getByPath(".$ingKey").toString()
+                val result = ingMsg.toBean<BugattiWebSocketMsgResult>()
+                indicator.text = result?.command?.sls
+
+                //发布结束移除任务
+                val endKey = "${env.envCode}_${iProject.bugattiLink.code}_${ele.id}_last"
+                val endMsg = JSONUtil.parse(data.toString()).getByPath(".$endKey")
+                if (endMsg != null) {
+                    publishingHostIds.remove(ele.id)
+                }
                 return null
             }
 
-            override fun onError(webSocket: WebSocket?, error: Throwable?) {
+            override fun onError(webSocket: WebSocket?, error: Throwable) {
                 super.onError(webSocket, error)
-
-                if (error != null) {
-                    NotifyUtil.notifyError(project, "插件异常:${error.message}")
-                    error.printStackTrace()
-                    println(error)
-                }
+                NotifyUtil.notifyError(project, "插件异常:${error.message}")
+                error.printStackTrace()
             }
         }).join()
     }

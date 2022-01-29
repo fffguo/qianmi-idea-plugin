@@ -53,6 +53,11 @@ class ShellElement {
      */
     var tag: String = ""
 
+    /**
+     * 状态
+     */
+    var state: String = ""
+
     companion object {
         fun instanceOf(result: BugattiShellInfoResult): ShellElement {
             val element = ShellElement()
@@ -61,6 +66,7 @@ class ShellElement {
             element.group = result.group
             element.version = result.version
             element.tag = result.tag
+            element.state = result.state
             return element
         }
     }

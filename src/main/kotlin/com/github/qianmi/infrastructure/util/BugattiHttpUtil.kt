@@ -188,7 +188,8 @@ object BugattiHttpUtil {
                         Optional.ofNullable(eleObj.getByPath(".group")).map { it as String }.orElse(""),
                         Optional.ofNullable(eleObj.getByPath(".ip")).map { it as String }.orElse(""),
                         Optional.ofNullable(eleObj.getByPath(".version")).map { it as String }.orElse(""),
-                        Optional.ofNullable(eleObj.getByPath(".tag")).map { it as String }.orElse("")
+                        Optional.ofNullable(eleObj.getByPath(".tag")).map { it as String }.orElse(""),
+                        Optional.ofNullable(eleObj.getByPath(".state")).map { it as String }.orElse("")
                     )))
             }
         }

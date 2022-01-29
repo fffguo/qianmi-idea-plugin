@@ -34,22 +34,20 @@ class BugattiCIBuildResult {
     lateinit var version: String
 
     fun running(): Boolean {
-        return queue == state || run == state
+        //质量检测，认为打包已结束
+        if (step == "sonar") {
+            return false
+        }
+        return "queue" == state || "run" == state
     }
 
     fun isSuccess(): Boolean {
-        return success == state
+        //质量检测也认为打包成功
+        return "success" == state || step == "sonar"
     }
 
     fun isFail(): Boolean {
-        return fail == state
-    }
-
-    companion object {
-        private const val success = "success"
-        private const val fail = "fail"
-        private const val queue = "queue"
-        private const val run = "run"
+        return "fail" == state
     }
 
 }

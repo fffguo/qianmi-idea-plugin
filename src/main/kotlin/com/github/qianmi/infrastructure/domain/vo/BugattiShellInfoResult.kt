@@ -27,11 +27,17 @@ class BugattiShellInfoResult {
      */
     var tag: String
 
-    constructor(id: String, group: String, ip: String, version: String, tag: String) {
+    /**
+     * 状态
+     */
+    var state: String
+
+    constructor(id: String, group: String, ip: String, version: String, tag: String, state: String) {
         this.id = id
         this.group = group
         this.ip = ip
         this.version = version
         this.tag = tag
+        this.state = state
     }
 }

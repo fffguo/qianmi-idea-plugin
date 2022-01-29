@@ -137,8 +137,8 @@ class PublishPage : JDialog {
         val webSocket = createWebSocket(env, eleList)
 
         //顺序发布
-        if (this.publishWayRadioByOrder.isSelected) {
-            Thread {
+        Thread {
+            if (this.publishWayRadioByOrder.isSelected) {
                 eleList.forEach { ele ->
                     //安装、启动
                     BugattiHttpUtil.taskOfInstall(iProject, ele.id, env, versionId)
@@ -152,25 +152,27 @@ class PublishPage : JDialog {
                 }
                 webSocket.sendClose(WebSocket.NORMAL_CLOSURE, "ok").join()
                 this.notifyPublishEnd()
-            }.start()
-        }
-
-        //同时发布
-        if (this.publishWayRadioBySameTime.isSelected) {
-
-            eleList.forEach { ele ->
-                //安装、启动
-                BugattiHttpUtil.taskOfInstall(iProject, ele.id, env, versionId)
-                BugattiHttpUtil.taskOfStart(iProject, ele.id, env, versionId)
-                publishingHostIds.add(ele.id)
-                //进度条
-                this.createProcessIndicator(ele)
             }
-            webSocket.sendClose(WebSocket.NORMAL_CLOSURE, "ok").join()
-            notifyPublishEnd()
-        }
+            if (this.publishWayRadioBySameTime.isSelected) {
+                //同时发布
 
+                eleList.forEach { ele ->
+                    //安装、启动
+                    BugattiHttpUtil.taskOfInstall(iProject, ele.id, env, versionId)
+                    BugattiHttpUtil.taskOfStart(iProject, ele.id, env, versionId)
+                    publishingHostIds.add(ele.id)
+                    //进度条
+                    this.createProcessIndicator(ele)
+                }
+                while (publishingHostIds.isNotEmpty()) {
+                    ThreadUtil.sleep(1000L)
+                }
+                webSocket.sendClose(WebSocket.NORMAL_CLOSURE, "ok").join()
+                notifyPublishEnd()
+            }
+        }.start()
     }
+
 
     private fun notifyPublishEnd() {
         val env = getCurrentSelectEnv()
@@ -316,7 +318,7 @@ class PublishPage : JDialog {
 
         val columns = arrayOf("勾选发布", "分组", "IP", "当前版本", "标签", "状态")
         val rows =
-            eleList.map { ele -> arrayOf(true, ele.group, ele.ip, ele.version, ele.tag, "正常") }
+            eleList.map { ele -> arrayOf(true, ele.group, ele.ip, ele.version, ele.tag, ele.state) }
                 .toArray(arrayOf())
 
         //填充数据

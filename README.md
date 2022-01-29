@@ -25,7 +25,8 @@ functions to improve employee work efficiency.</h3>
 
 <h3>中文：</h3>
 <ul>
-<li> Package：支持idea中直接打包，并直接打包结果回调</li>
+<li> Package：支持idea中直接打包/懒人发布，并展示打包进度及结果</li>
+<li> Publish：支持idea中一键发布，实时查看进度</li>
 <li> SSH：支持根据项目和环境，直接在终端SSH连接对应测试环境节点</li>
 <li> SFTP：支持根据项目和环境，直接SFTP连接对应测试环境节点</li>
 <li> Remote JVM Debug：支持根据项目和环境，直接远程JVM调试对应测试环境节点</li>

@@ -13,6 +13,8 @@
 - Refactor: Code structure refactoring, abstract refactoring
 - Feat：Use progress bar to optimize packaging progress display
 - Feat：Shell multi-node selection box, support for displaying tags
+- Feat: Support Bugatti publishing JAR package function
+- Feat: Support package, lazy package function
 
 ### Chinese
 
@@ -21,6 +23,8 @@
 - Refactor: 代码结构重构、抽象重构
 - Feat: 使用进度条，优化打包进度展示
 - Feat: shell多节点选择框，支持展示tag标签
+- Feat: 支持Bugatti发布jar包功能
+- Feat: 支持打包后，懒人发包功能
 
 ## [1.7.0-RELEASE]
 

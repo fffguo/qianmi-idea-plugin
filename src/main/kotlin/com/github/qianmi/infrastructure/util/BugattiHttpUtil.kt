@@ -1,8 +1,8 @@
 package com.github.qianmi.infrastructure.util
 
+import cn.hutool.json.JSONArray
 import cn.hutool.json.JSONUtil
 import com.github.qianmi.action.SettingAction
-import com.github.qianmi.infrastructure.domain.enums.BugattiProjectEnum
 import com.github.qianmi.infrastructure.domain.enums.EnvEnum
 import com.github.qianmi.infrastructure.domain.project.IdeaProject
 import com.github.qianmi.infrastructure.domain.project.link.GitlabLink
@@ -81,8 +81,8 @@ object BugattiHttpUtil {
 
     @NotNull
     @JvmStatic
-    fun getProjectInfo(project: BugattiProjectEnum): BugattiProjectInfoResult {
-        val url = "$httpDomainUrl/project/${project.code}/${EnvConfig.getInstance().env.envCode}"
+    fun getProjectInfo(projectCode: String): BugattiProjectInfoResult {
+        val url = "$httpDomainUrl/project/${projectCode}/${EnvConfig.getInstance().env.envCode}"
         return HttpUtil.get(url, getCookie()).body().toBean()!!
     }
 
@@ -128,13 +128,35 @@ object BugattiHttpUtil {
 
     @NotNull
     @JvmStatic
+    fun getTaskTemplateList(myProject: IdeaProject.MyProject): List<BugattiTaskTemplateResult> {
+        val url = "${httpDomainUrl}/task/templates?scriptVersion=master"
+        val body = HttpUtil.get(url, getCookie()).body()
+        val projectInfo = getProjectInfo(myProject.bugattiLink.code)
+        val template = JSONUtil.parse(body).getByPath(".${projectInfo.templateId}") as JSONArray
+        return template.toList(BugattiTaskTemplateResult::class.java)
+    }
+
+    @NotNull
+    @JvmStatic
     fun taskOfInstall(
         myProject: IdeaProject.MyProject, hostId: String,
         env: EnvEnum, versionId: String,
     ): String {
-        val request = BugattiTaskQueueRequest(hostId, env.envCode, myProject.bugattiLink.code, versionId, "248890")
+        val template = getTaskTemplateList(myProject).first { it.isInstall() }
+        val request = BugattiTaskQueueRequest(hostId, env.envCode, myProject.bugattiLink.code, versionId, template.id)
         return taskQueue(request)
     }
+
+//    @NotNull
+//    @JvmStatic
+//    fun getTemplateId(
+//        myProject: IdeaProject.MyProject, hostIds: List<String>,
+//        env: EnvEnum, groupId: String,
+//    ): String {
+//        val hostStr = hostIds.stream().collect(Collectors.joining(","))
+//        val url = "$httpDomainUrl/task/lastStatusSpecify?envId=${env.envCode}&projectId=${myProject.bugattiLink.code}&clusters=${groupId},${hostStr}"
+//        return HttpUtil.get(url, getCookie()).body().toList<BugattiLastVersionResult>().firstOrNull()
+//    }
 
 
     @NotNull
@@ -143,7 +165,8 @@ object BugattiHttpUtil {
         myProject: IdeaProject.MyProject, hostId: String,
         env: EnvEnum, versionId: String,
     ): String {
-        val request = BugattiTaskQueueRequest(hostId, env.envCode, myProject.bugattiLink.code, versionId, "248891")
+        val template = getTaskTemplateList(myProject).first { it.isStart() }
+        val request = BugattiTaskQueueRequest(hostId, env.envCode, myProject.bugattiLink.code, versionId, template.id)
         return taskQueue(request)
     }
 

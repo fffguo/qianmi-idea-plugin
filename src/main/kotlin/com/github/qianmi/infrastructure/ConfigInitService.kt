@@ -23,7 +23,7 @@ class ConfigInitService(var project: Project) {
             return
         }
         //获取项目信息
-        myProject.projectInfo = BugattiHttpUtil.getProjectInfo(bugattiProjectEnum)
+        myProject.projectInfo = BugattiHttpUtil.getProjectInfo(bugattiProjectEnum.code)
 
         myProject.bugattiLink.code = bugattiProjectEnum.code
         myProject.bugattiLink.name = bugattiProjectEnum.projectName

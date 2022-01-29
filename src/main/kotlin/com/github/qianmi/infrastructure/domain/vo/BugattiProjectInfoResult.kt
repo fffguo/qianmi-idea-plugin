@@ -27,4 +27,9 @@ class BugattiProjectInfoResult {
      */
     lateinit var description: String
 
+    /**
+     * 模板ID
+     */
+    lateinit var templateId: String
+
 }

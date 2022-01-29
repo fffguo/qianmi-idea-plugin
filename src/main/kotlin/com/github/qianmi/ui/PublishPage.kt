@@ -10,7 +10,6 @@ import com.github.qianmi.infrastructure.domain.vo.BugattiProjectVersionResult
 import com.github.qianmi.infrastructure.domain.vo.BugattiWebSocketMsgResult
 import com.github.qianmi.infrastructure.extend.CollectionExtend.isNotEmpty
 import com.github.qianmi.infrastructure.extend.JsonExtend.toBean
-import com.github.qianmi.infrastructure.extend.JsonExtend.toJsonString
 import com.github.qianmi.infrastructure.storage.AccountConfig
 import com.github.qianmi.infrastructure.storage.EnvConfig
 import com.github.qianmi.infrastructure.util.BugattiHttpUtil
@@ -41,8 +40,11 @@ class PublishPage(var project: Project) : JDialog() {
     private var iProject: IdeaProject.MyProject
     private lateinit var eleList: List<ShellElement>
 
+    //进度条，hostId->进度条
+    private var mapProgressIndicator: MutableMap<String, ProgressIndicator> = mutableMapOf()
+
     //发布中的hostId列表
-    private lateinit var publishingHostIds: MutableList<String>
+    private var publishingHostIds: MutableList<String> = mutableListOf()
 
     //版本列表
     private lateinit var versionList: List<BugattiProjectVersionResult>
@@ -94,16 +96,8 @@ class PublishPage(var project: Project) : JDialog() {
         initEscEvent()
     }
 
-    private fun publish() {
-        isVisible = false
-
-        val versionId = getCurrentSelectVersion().id
-        val env = getCurrentSelectEnv()
-
-
-        val startTime = Date()
+    private fun getTableSelectEleList(): MutableList<ShellElement> {
         val eleList = mutableListOf<ShellElement>()
-
         for (rowIdx in 0 until jTable.rowCount) {
 
             val value = jTable.getValueAt(rowIdx, 0)
@@ -112,42 +106,66 @@ class PublishPage(var project: Project) : JDialog() {
                 eleList.add(this.eleList.first { it.ip == ip })
             }
         }
+        return eleList
+    }
 
+    private fun publish() {
+        isVisible = false
+        val versionId = getCurrentSelectVersion().id
+        val env = getCurrentSelectEnv()
+        val eleList = getTableSelectEleList()
+        //创建webSocket链接
+        val webSocket = createWebSocket(env, eleList)
 
-        //        //顺序发布
-//        if (this.publishWayRadioByOrder.isSelected) {
-//
-//        }
-//
-//        //同时发布
+        //顺序发布
+        if (this.publishWayRadioByOrder.isSelected) {
+            Thread {
+                eleList.forEach { ele ->
+                    //安装、启动
+                    BugattiHttpUtil.taskOfInstall(iProject, ele.id, env, versionId)
+                    BugattiHttpUtil.taskOfStart(iProject, ele.id, env, versionId)
+                    publishingHostIds.add(ele.id)
+                    //进度条
+                    createProcessIndicator(ele)
+                    while (publishingHostIds.isNotEmpty()) {
+                        ThreadUtil.sleep(1000L)
+                    }
+                }
+                webSocket.sendClose(WebSocket.NORMAL_CLOSURE, "ok").join()
+            }.start()
+        }
+
+        //同时发布
         if (this.publishWayRadioBySameTime.isSelected) {
 
             eleList.forEach { ele ->
+                //安装、启动
+                BugattiHttpUtil.taskOfInstall(iProject, ele.id, env, versionId)
+                BugattiHttpUtil.taskOfStart(iProject, ele.id, env, versionId)
+                publishingHostIds.add(ele.id)
                 //进度条
-                object : Task.Backgroundable(this.project, "Publish: 正在发布中[1/${eleList.size}]", true, DEAF) {
-
-                    override fun run(indicator: ProgressIndicator) {
-                        val webSocket = createWebSocket(indicator, env, ele)
-
-                        while (publishingHostIds.isNotEmpty()) {
-                            println("正在轮询发布任务，当前正在发布节点：${publishingHostIds.toJsonString()}")
-                            ThreadUtil.sleep(1000L)
-                        }
-                        webSocket.sendClose(WebSocket.NORMAL_CLOSURE, "ok").join()
-                    }
-                }.queue()
-
-                BugattiHttpUtil.taskOfInstall(iProject, it.id, env, versionId)
-                publishingHostIds.add(it.id)
-
-
+                createProcessIndicator(ele)
             }
+            webSocket.sendClose(WebSocket.NORMAL_CLOSURE, "ok").join()
         }
-
 
     }
 
-    private fun createWebSocket(indicator: ProgressIndicator, env: EnvEnum, ele: ShellElement): WebSocket {
+    /**
+     * 创建进度条
+     */
+    private fun createProcessIndicator(ele: ShellElement) {
+        object : Task.Backgroundable(this.project, "Publish: 正在发布[${ele.ip}]", true, ALWAYS_BACKGROUND) {
+            override fun run(indicator: ProgressIndicator) {
+                mapProgressIndicator[ele.id] = indicator
+                while (publishingHostIds.isNotEmpty()) {
+                    ThreadUtil.sleep(1000L)
+                }
+            }
+        }.queue()
+    }
+
+    private fun createWebSocket(env: EnvEnum, eleList: List<ShellElement>): WebSocket {
         val jobNo = AccountConfig.getInstance().userName.lowercase(Locale.getDefault())
         val projectCode = iProject.bugattiLink.code
         val randomInt = RandomUtil.randomInt(1, 999)
@@ -171,17 +189,23 @@ class PublishPage(var project: Project) : JDialog() {
                 }
 
                 //发布进度
-                val ingKey = "${env.envCode}_${iProject.bugattiLink.code}_$ele.id"
-                val ingMsg = JSONUtil.parse(data.toString()).getByPath(".$ingKey").toString()
-                val result = ingMsg.toBean<BugattiWebSocketMsgResult>()
-                indicator.text = result?.command?.sls
+                eleList.asSequence()
+                    .map { "${env.envCode}_${iProject.bugattiLink.code}_${it.id}" }
+                    .map { JSONUtil.parse(data.toString()).getByPath(".${it}") }
+                    .filter { it != null }
+                    .map { it.toString() }
+                    .map { it.toBean<BugattiWebSocketMsgResult>() }
+                    .forEach { result ->
+                        if (result != null && mapProgressIndicator[result.hostId] != null) {
+                            mapProgressIndicator[result.hostId]!!.text = result.command?.sls
+                        }
+                    }
 
                 //发布结束移除任务
-                val endKey = "${env.envCode}_${iProject.bugattiLink.code}_${ele.id}_last"
-                val endMsg = JSONUtil.parse(data.toString()).getByPath(".$endKey")
-                if (endMsg != null) {
-                    publishingHostIds.remove(ele.id)
-                }
+                eleList.filter {
+                    val path = ".${env.envCode}_${iProject.bugattiLink.code}_${it.id}_last"
+                    JSONUtil.parse(data.toString()).getByPath(path) != null
+                }.forEach { publishingHostIds.remove(it.id) }
                 return null
             }
 

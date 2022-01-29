@@ -131,6 +131,17 @@ object BugattiHttpUtil {
     }
 
 
+    @NotNull
+    @JvmStatic
+    fun taskOfStart(
+        myProject: IdeaProject.MyProject, hostId: String,
+        env: EnvEnum, versionId: String,
+    ): String {
+        val request = BugattiTaskQueueRequest(hostId, env.envCode, myProject.bugattiLink.code, versionId, "248891")
+        return taskQueue(request)
+    }
+
+
     /**
      * 任务队列
      * @return 任务ID
@@ -139,7 +150,8 @@ object BugattiHttpUtil {
     @JvmStatic
     private fun taskQueue(request: BugattiTaskQueueRequest): String {
         val url = "$httpDomainUrl/task/newTaskQueue"
-        return HttpUtil.postJson(url, request.toJsonString(), getCookie()).body()
+        val req = mapOf("taskQueue" to request)
+        return HttpUtil.postJson(url, req.toJsonString(), getCookie()).body()
     }
 
     @JvmStatic

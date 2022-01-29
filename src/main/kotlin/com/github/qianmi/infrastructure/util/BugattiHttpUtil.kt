@@ -103,6 +103,12 @@ object BugattiHttpUtil {
         return HttpUtil.get(url, getCookie()).body().toList()
     }
 
+    @NotNull
+    @JvmStatic
+    fun getVersionList(myProject: IdeaProject.MyProject): List<BugattiProjectVersionResult> {
+        return getVersionList(myProject, EnvConfig.getInstance().env)
+    }
+
     /**
      * Returns 分支名称，版本信息
      */

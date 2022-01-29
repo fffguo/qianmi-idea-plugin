@@ -1,6 +1,7 @@
 package com.github.qianmi.infrastructure.domain.project.link
 
 import com.github.qianmi.infrastructure.domain.enums.BugattiProjectEnum
+import com.github.qianmi.infrastructure.domain.enums.EnvEnum
 import com.github.qianmi.infrastructure.storage.EnvConfig
 import com.github.qianmi.infrastructure.util.BugattiHttpUtil
 import com.intellij.openapi.project.Project
@@ -11,6 +12,7 @@ class BugattiLink(
     var code: String,
     var name: String,
 ) : BaseLink() {
+    var env: EnvEnum? = null
 
     companion object {
 
@@ -27,7 +29,11 @@ class BugattiLink(
     }
 
     override fun getBrowserUrl(project: Project): String {
-        return "${BugattiHttpUtil.httpDomainUrl}/#/list/${EnvConfig.getInstance().env.envCode}/info/${code}?txt=${name}"
+        var envCode = EnvConfig.getInstance().env.envCode
+        if (env != null) {
+            envCode = env!!.envCode
+        }
+        return "${BugattiHttpUtil.httpDomainUrl}/#/list/${envCode}/info/${code}?txt=${name}"
     }
 
     override fun getLinkName(): String {

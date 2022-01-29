@@ -2,7 +2,9 @@ package com.github.qianmi.ui
 
 import cn.hutool.core.thread.ThreadUtil
 import cn.hutool.core.util.RandomUtil
+import cn.hutool.core.util.StrUtil
 import cn.hutool.json.JSONUtil
+import com.github.qianmi.action.link.BugattiAction
 import com.github.qianmi.infrastructure.domain.enums.EnvEnum
 import com.github.qianmi.infrastructure.domain.project.IdeaProject
 import com.github.qianmi.infrastructure.domain.project.tools.ShellElement
@@ -35,9 +37,13 @@ import javax.swing.table.TableCellRenderer
 import kotlin.math.max
 
 
-class PublishPage(var project: Project) : JDialog() {
+class PublishPage : JDialog {
+    private var project: Project
 
-    private var iProject: IdeaProject.MyProject
+    //指定发布版本（从打包口子）
+    private var isPackageSource: Boolean = false
+
+    private lateinit var iProject: IdeaProject.MyProject
     private lateinit var eleList: List<ShellElement>
 
     //进度条，hostId->进度条
@@ -59,7 +65,7 @@ class PublishPage(var project: Project) : JDialog() {
 
     //发布版本
     private lateinit var publishVersionLabel: JLabel
-    private lateinit var publishVersion: JComboBox<String>
+    private lateinit var publishVersionComboBox: JComboBox<String>
 
     //发布方式
     private lateinit var publishWayLabel: JLabel
@@ -75,11 +81,19 @@ class PublishPage(var project: Project) : JDialog() {
 
     private var tableAlign = JLabel.CENTER
 
+    constructor(project: Project) {
+        this.project = project
+        this.iProject = IdeaProject.getInstance(project)
+        init()
+    }
 
-    init {
-        //容器
-        contentPane = this.contentPanel
-        modalityType = ModalityType.APPLICATION_MODAL
+    constructor(project: Project, isPackageSource: Boolean) {
+        this.project = project
+        this.isPackageSource = isPackageSource
+        init()
+    }
+
+    private fun init() {
         this.iProject = IdeaProject.getInstance(project)
 
         //环境下拉框
@@ -96,6 +110,12 @@ class PublishPage(var project: Project) : JDialog() {
         initEscEvent()
     }
 
+    init {
+        //容器
+        contentPane = this.contentPanel
+        modalityType = ModalityType.APPLICATION_MODAL
+    }
+
     private fun getTableSelectEleList(): MutableList<ShellElement> {
         val eleList = mutableListOf<ShellElement>()
         for (rowIdx in 0 until jTable.rowCount) {
@@ -109,9 +129,8 @@ class PublishPage(var project: Project) : JDialog() {
         return eleList
     }
 
-    private fun publish() {
+    fun publish(versionId: String) {
         isVisible = false
-        val versionId = getCurrentSelectVersion().id
         val env = getCurrentSelectEnv()
         val eleList = getTableSelectEleList()
         //创建webSocket链接
@@ -132,6 +151,7 @@ class PublishPage(var project: Project) : JDialog() {
                     }
                 }
                 webSocket.sendClose(WebSocket.NORMAL_CLOSURE, "ok").join()
+                this.notifyPublishEnd()
             }.start()
         }
 
@@ -144,11 +164,18 @@ class PublishPage(var project: Project) : JDialog() {
                 BugattiHttpUtil.taskOfStart(iProject, ele.id, env, versionId)
                 publishingHostIds.add(ele.id)
                 //进度条
-                createProcessIndicator(ele)
+                this.createProcessIndicator(ele)
             }
             webSocket.sendClose(WebSocket.NORMAL_CLOSURE, "ok").join()
+            notifyPublishEnd()
         }
 
+    }
+
+    private fun notifyPublishEnd() {
+        val env = getCurrentSelectEnv()
+        val bugattiLinkAction = BugattiAction.defaultAction(env, iProject.bugattiLink.code)
+        NotifyUtil.notifyInfoWithAction(project, "节点已全部发布成功", bugattiLinkAction)
     }
 
     /**
@@ -196,7 +223,7 @@ class PublishPage(var project: Project) : JDialog() {
                     .map { it.toString() }
                     .map { it.toBean<BugattiWebSocketMsgResult>() }
                     .forEach { result ->
-                        if (result != null && mapProgressIndicator[result.hostId] != null) {
+                        if (result != null && StrUtil.isNotBlank(result.hostId) && mapProgressIndicator[result.hostId] != null) {
                             mapProgressIndicator[result.hostId]!!.text = result.command?.sls
                         }
                     }
@@ -221,8 +248,15 @@ class PublishPage(var project: Project) : JDialog() {
      * 初始化 版本下拉框
      */
     private fun initPublishButton() {
-        this.publishButton.addActionListener {
-            publish()
+        if (isPackageSource) {
+            this.publishButton.text = "确定"
+            this.publishButton.addActionListener {
+                isVisible = false
+            }
+        } else {
+            this.publishButton.addActionListener {
+                publish(getCurrentSelectVersion().id)
+            }
         }
     }
 
@@ -231,11 +265,17 @@ class PublishPage(var project: Project) : JDialog() {
      * 初始化 版本下拉框
      */
     private fun initVersionComboBox() {
-        this.versionList = BugattiHttpUtil.getVersionList(this.iProject, getCurrentSelectEnv())
-        if (versionList.isNotEmpty()) {
-            versionList.forEach { publishVersion.addItem(it.version) }
-            //默认选中
-            publishVersion.selectedItem = versionList[0].version
+        if (isPackageSource) {
+            //打包时，无需操作版本
+            this.publishVersionLabel.isVisible = false
+            this.publishVersionComboBox.isVisible = false
+        } else {
+            this.versionList = BugattiHttpUtil.getVersionList(this.iProject, getCurrentSelectEnv())
+            if (versionList.isNotEmpty()) {
+                versionList.forEach { publishVersionComboBox.addItem(it.version) }
+                //默认选中
+                publishVersionComboBox.selectedItem = versionList[0].version
+            }
         }
     }
 
@@ -244,7 +284,7 @@ class PublishPage(var project: Project) : JDialog() {
     }
 
     private fun getCurrentSelectVersion(): BugattiProjectVersionResult {
-        return versionList.first { it.version == publishVersion.selectedItem as String }
+        return versionList.first { it.version == publishVersionComboBox.selectedItem as String }
     }
 
     /**

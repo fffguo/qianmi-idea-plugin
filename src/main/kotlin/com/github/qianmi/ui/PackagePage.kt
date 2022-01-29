@@ -23,6 +23,9 @@ import javax.swing.*
 class PackagePage(private var project: Project) : JDialog() {
     private var myProject: IdeaProject.MyProject
 
+    private var isPackageResult: Boolean? = null
+    private var packageVersion: String = ""
+
     //分支信息
     private lateinit var mapBetaPreBranch: Map<String, BugattiLastVersionResult>
     private lateinit var releasePreBranch: BugattiLastVersionResult
@@ -55,10 +58,6 @@ class PackagePage(private var project: Project) : JDialog() {
     private lateinit var snapshotGitBranchJLabel: JLabel
     private lateinit var snapshotGitBranchSelected: JComboBox<String>
 
-    //snapshot-构建按钮
-    private lateinit var snapshotBuildButton: JButton
-
-
     /* beta */
     private lateinit var betaContent: JPanel
 
@@ -81,10 +80,6 @@ class PackagePage(private var project: Project) : JDialog() {
     //beta-开发版本号
     private lateinit var betaSnapshotVersionJLabel: JLabel
     private lateinit var betaSnapshotVersionText: JTextField
-
-    //beta-构建按钮
-    private lateinit var betaBuildButton: JButton
-
 
     /* release */
     private lateinit var releaseContent: JPanel
@@ -109,8 +104,11 @@ class PackagePage(private var project: Project) : JDialog() {
     private lateinit var releaseSnapshotVersionJLabel: JLabel
     private lateinit var releaseSnapshotVersionText: JTextField
 
-    //release-构建按钮
-    private lateinit var releaseBuildButton: JButton
+    //构建按钮
+    private lateinit var buildButton: JButton
+
+    //构建且发布按钮
+    private lateinit var buildAndPublishButton: JButton
 
     init {
         contentPane = this.contentPanel
@@ -125,6 +123,8 @@ class PackagePage(private var project: Project) : JDialog() {
         this.initBranchHandler()
         //构建打包按钮
         this.initBuildButton()
+        //构建打包且发布按钮
+        this.initBuildAndPublishButton()
         //初始化esc退出事件
         this.initEscEvent()
     }
@@ -161,7 +161,6 @@ class PackagePage(private var project: Project) : JDialog() {
         //默认版本信息
         this.releaseVersionText.text = this.releasePreBranch.version
         this.releaseSnapshotVersionText.text = this.releasePreBranch.sVersion
-
     }
 
 
@@ -239,6 +238,8 @@ class PackagePage(private var project: Project) : JDialog() {
     private fun goPackageResultNotify(ciBuildResult: BugattiCIBuildResult) {
         val myProject = IdeaProject.getInstance(project)
         if (ciBuildResult.isSuccess()) {
+            this.isPackageResult = true
+            this.packageVersion = ciBuildResult.version
             //idea 通知
             NotifyUtil.notifyInfoWithAction(project,
                 "构建成功啦，当前版本号：${ciBuildResult.version}",
@@ -251,6 +252,7 @@ class PackagePage(private var project: Project) : JDialog() {
                             "\n变更内容：" +
                             "\n1. ")))
         } else {
+            this.isPackageResult = false
             //idea 通知
             NotifyUtil.notifyInfoWithAction(project, "构建失败，出了点问题~", BugattiAction.defaultAction())
         }
@@ -270,22 +272,47 @@ class PackagePage(private var project: Project) : JDialog() {
 
     private fun initBuildButton() {
         //构建按钮 snapshot
-        this.snapshotBuildButton.addActionListener {
-            buildButtonListener(this.snapshotGitBranchSelected, SNAPSHOT, "", "")
+        this.buildButton.addActionListener {
+            when (this.tabPanel.selectedIndex) {
+                //snapshot
+                0 -> {
+                    buildButtonListener(this.snapshotGitBranchSelected, SNAPSHOT, "", "")
+                }
+                //beta
+                1 -> {
+                    buildButtonListener(this.betaGitBranchSelected,
+                        BETA,
+                        this.betaVersionText.text,
+                        this.betaSnapshotVersionText.text)
+                }
+                //release
+                2 -> {
+                    buildButtonListener(this.releaseGitBranchSelected,
+                        BETA,
+                        this.releaseVersionText.text,
+                        this.releaseSnapshotVersionText.text)
+                }
+            }
         }
-        //构建按钮 beta
-        this.betaBuildButton.addActionListener {
-            buildButtonListener(this.betaGitBranchSelected,
-                BETA,
-                this.betaVersionText.text,
-                this.betaSnapshotVersionText.text)
-        }
-        //构建按钮 release
-        this.releaseBuildButton.addActionListener {
-            buildButtonListener(this.releaseGitBranchSelected,
-                BETA,
-                this.releaseVersionText.text,
-                this.releaseSnapshotVersionText.text)
+    }
+
+    private fun initBuildAndPublishButton() {
+        //构建按钮 snapshot
+        this.buildAndPublishButton.addActionListener {
+            val publishPage = PublishPage(this.project, true)
+            publishPage.open()
+            this.buildButton.doClick()
+
+            Thread {
+                ThreadUtil.sleep(20_000L)
+                while (this.isPackageResult == null) {
+                    ThreadUtil.sleep(1_000L)
+                }
+                if (this.isPackageResult == true) {
+                    val version = BugattiHttpUtil.getVersionList(myProject).first { it.version == packageVersion }
+                    publishPage.publish(version.id)
+                }
+            }.start()
         }
     }
 

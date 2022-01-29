@@ -11,7 +11,7 @@ class BugattiWebSocketMsgResult {
     lateinit var envName: String
 
     //节点id
-    lateinit var hostId: String
+    var hostId: String? = null
 
     //项目ID
     lateinit var projectId: String

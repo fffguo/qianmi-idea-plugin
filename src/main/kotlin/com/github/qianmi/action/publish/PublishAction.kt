@@ -5,7 +5,7 @@ import com.intellij.openapi.actionSystem.AnAction
 import com.intellij.openapi.actionSystem.AnActionEvent
 
 /**
- * 打包 action
+ * 发布 action
  */
 class PublishAction : AnAction() {
 

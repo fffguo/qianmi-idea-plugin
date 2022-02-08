@@ -16,6 +16,7 @@ functions to improve employee work efficiency.</h3>
 <h3>English:</h3>
 <ul>
 <li> Package：Support direct packaging in idea, and directly package the result callback</li>
+<li> Publish：Supports idea one-click publishing and real-time viewing of progress</li>
 <li> SSH：Support SSH connection to the corresponding test environment node directly in the terminal according to the project and environment</li>
 <li> SFTP：Support according to the project and environment, direct SFTP connection to the corresponding test environment node</li>
 <li> Remote JVM Debug：Support according to the project and environment, directly remote JVM debugging corresponding test environment node</li>

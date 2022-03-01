@@ -12,7 +12,6 @@ class GavinAdminLink(override var isSupport: Boolean) : BaseLink() {
             EnvEnum.LAKALA -> "http://10.7.65.139:8080/module/home"
             EnvEnum.TEST0 -> "http://172.21.36.4:8080/module/home"
             EnvEnum.TEST1 -> "http://172.19.66.177:8080/module/home"
-            EnvEnum.TEST2 -> "http://172.21.3.3:8080/module/home"
             EnvEnum.TEST4 -> "http://172.19.68.118:8080/module/home"
             EnvEnum.TEST5 -> "http://172.21.33.154:8080/module/home"
             EnvEnum.TEST6 -> "http://172.19.32.141:8080/module/home"

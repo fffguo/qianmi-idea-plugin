@@ -12,7 +12,6 @@ class TraceLink(override var isSupport: Boolean) : BaseLink() {
             EnvEnum.LAKALA -> ""
             EnvEnum.TEST0 -> ""
             EnvEnum.TEST1 -> "http://tracet1.dev.qianmi.com/search"
-            EnvEnum.TEST2 -> ""
             EnvEnum.TEST4 -> ""
             EnvEnum.TEST5 -> ""
             EnvEnum.TEST6 -> ""

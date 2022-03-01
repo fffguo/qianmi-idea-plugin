@@ -17,7 +17,7 @@ class GitlabLink(override var isSupport: Boolean) : BaseLink() {
 
     companion object {
 
-        private val instance = GitlabLink(true)
+        private val instance = GitlabLink(false)
 
         fun getInstance(): GitlabLink {
             return instance

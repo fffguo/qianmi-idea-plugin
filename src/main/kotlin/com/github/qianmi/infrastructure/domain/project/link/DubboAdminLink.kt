@@ -13,7 +13,6 @@ class DubboAdminLink(override var isSupport: Boolean) : BaseLink() {
             LAKALA -> "http://10.7.64.121:8080"
             TEST0 -> "http://172.19.67.104:8080"
             TEST1 -> "http://172.19.66.25:8080"
-            TEST2 -> "http://172.19.67.127:8080"
             TEST4 -> "http://172.19.68.8:8080"
             TEST5 -> "http://172.21.33.162:8080"
             TEST6 -> "http://172.19.32.74:8080"

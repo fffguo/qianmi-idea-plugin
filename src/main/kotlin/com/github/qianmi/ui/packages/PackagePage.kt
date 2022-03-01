@@ -1,4 +1,4 @@
-package com.github.qianmi.ui
+package com.github.qianmi.ui.packages
 
 import cn.hutool.core.thread.ThreadUtil
 import cn.hutool.core.util.NumberUtil
@@ -11,17 +11,17 @@ import com.github.qianmi.infrastructure.domain.vo.BugattiLastVersionResult
 import com.github.qianmi.infrastructure.util.BugattiHttpUtil
 import com.github.qianmi.infrastructure.util.GitUtil
 import com.github.qianmi.infrastructure.util.NotifyUtil
-import com.github.qianmi.ui.PackagePage.BuildType.*
+import com.github.qianmi.ui.MyJDialog
+import com.github.qianmi.ui.publish.PublishPage
 import com.intellij.openapi.progress.ProgressIndicator
 import com.intellij.openapi.progress.Task
 import com.intellij.openapi.project.Project
-import com.intellij.openapi.wm.WindowManager
-import java.awt.event.KeyEvent
 import java.util.stream.Collectors
 import javax.swing.*
 
-class PackagePage(private var project: Project) : JDialog() {
-    private var myProject: IdeaProject.MyProject
+class PackagePage(override var project: Project) : MyJDialog() {
+    //根容器
+    lateinit var contentPanel: JPanel
 
     private var isPackageResult: Boolean? = null
     private var packageVersion: String = ""
@@ -29,12 +29,6 @@ class PackagePage(private var project: Project) : JDialog() {
     //分支信息
     private lateinit var mapBetaPreBranch: Map<String, BugattiLastVersionResult>
     private lateinit var releasePreBranch: BugattiLastVersionResult
-
-    //默认文案
-    private val buildFailMsg = "提交失败！ %s"
-
-    //根容器
-    private lateinit var contentPanel: JPanel
 
     //tab容器
     private lateinit var tabPanel: JTabbedPane
@@ -111,10 +105,6 @@ class PackagePage(private var project: Project) : JDialog() {
     private lateinit var buildAndPublishButton: JButton
 
     init {
-        contentPane = this.contentPanel
-        modalityType = ModalityType.APPLICATION_MODAL
-        this.myProject = IdeaProject.getInstance(this.project)
-
         //初始化tab
         this.initSnapshot()
         this.initBeta()
@@ -125,13 +115,19 @@ class PackagePage(private var project: Project) : JDialog() {
         this.initBuildButton()
         //构建打包且发布按钮
         this.initBuildAndPublishButton()
-        //初始化esc退出事件
-        this.initEscEvent()
+    }
+
+    override fun getRootContainer(): JPanel {
+        return this.contentPanel
+    }
+
+    override fun getTitle(): String {
+        return "打包"
     }
 
     private fun initSnapshot() {
         //项目名
-        this.snapshotJenkinsText.text = myProject.projectInfo.jenkins
+        this.snapshotJenkinsText.text = this.getMyProject().projectInfo.jenkins
         //git地址
         this.snapshotGitUrlText.text = GitlabLink.getInstance().getBrowserUrl(this.project)
     }
@@ -139,11 +135,11 @@ class PackagePage(private var project: Project) : JDialog() {
 
     private fun initBeta() {
         //项目名
-        this.betaJenkinsText.text = this.myProject.projectInfo.projectName
+        this.betaJenkinsText.text = this.getMyProject().projectInfo.projectName
         //git地址
-        this.betaGitUrlText.text = this.myProject.projectInfo.git
+        this.betaGitUrlText.text = this.getMyProject().projectInfo.git
         //beta分支
-        this.mapBetaPreBranch = BugattiHttpUtil.mapLastBetaVersion(this.myProject)
+        this.mapBetaPreBranch = BugattiHttpUtil.mapLastBetaVersion(this.getMyProject())
         //版本
         updateBetaVersionInfo(GitUtil.getCurrentBranchName(project))
     }
@@ -151,12 +147,12 @@ class PackagePage(private var project: Project) : JDialog() {
 
     private fun initRelease() {
         //项目名
-        this.releaseJenkinsText.text = this.myProject.projectInfo.projectName
+        this.releaseJenkinsText.text = this.getMyProject().projectInfo.projectName
         //git地址
-        this.releaseGitUrlText.text = this.myProject.projectInfo.git
+        this.releaseGitUrlText.text = this.getMyProject().projectInfo.git
 
         //release版本
-        this.releasePreBranch = BugattiHttpUtil.getLastReleaseVersion(this.myProject)!!
+        this.releasePreBranch = BugattiHttpUtil.getLastReleaseVersion(this.getMyProject())!!
 
         //默认版本信息
         this.releaseVersionText.text = this.releasePreBranch.version
@@ -172,14 +168,17 @@ class PackagePage(private var project: Project) : JDialog() {
         val branchName = comBox.selectedItem!!.toString()
 
         val ciResult = when (buildType) {
-            SNAPSHOT -> BugattiHttpUtil.jenkinsCIBuild(this.myProject, branchName)
-            BETA, RELEASE -> BugattiHttpUtil.jenkinsCIRelease(this.myProject, branchName, version, snapshotVersion)
+            BuildType.SNAPSHOT -> BugattiHttpUtil.jenkinsCIBuild(this.getMyProject(), branchName)
+            BuildType.BETA, BuildType.RELEASE -> BugattiHttpUtil.jenkinsCIRelease(this.getMyProject(),
+                branchName,
+                version,
+                snapshotVersion)
         }
         //success
         if (ciResult.success) {
             this.goPackage(buildType, version, branchName)
         } else {
-            val message = String.format(this.buildFailMsg, ciResult.errMsg)
+            val message = String.format("提交失败！ %s", ciResult.errMsg)
             NotifyUtil.notifyInfoWithAction(project, message, BugattiAction.defaultAction())
         }
         isVisible = false
@@ -189,7 +188,7 @@ class PackagePage(private var project: Project) : JDialog() {
      * 打包进度条
      */
     private fun goPackage(buildType: BuildType, version: String, branchName: String) {
-        val myProject = this.myProject
+        val myProject = this.getMyProject()
 
         object : Task.Backgroundable(this.project, "Package: 正在打包，请稍后", false, DEAF) {
             override fun run(indicator: ProgressIndicator) {
@@ -215,10 +214,10 @@ class PackagePage(private var project: Project) : JDialog() {
 
                     //打包
                     val ciBuildResult = when (buildType) {
-                        SNAPSHOT -> {
+                        BuildType.SNAPSHOT -> {
                             BugattiHttpUtil.ciBuildResult(myProject)
                         }
-                        BETA, RELEASE -> {
+                        BuildType.BETA, BuildType.RELEASE -> {
                             BugattiHttpUtil.ciReleaseResult(myProject, version, branchName)
                         }
                     }
@@ -259,36 +258,25 @@ class PackagePage(private var project: Project) : JDialog() {
 
     }
 
-    /**
-     * 打开窗口
-     */
-    fun open() {
-        title = "打包"
-        pack()
-        //两个屏幕处理出现问题，跳到主屏幕去了
-        setLocationRelativeTo(WindowManager.getInstance().getFrame(project))
-        isVisible = true
-    }
-
     private fun initBuildButton() {
         //构建按钮 snapshot
         this.buildButton.addActionListener {
             when (this.tabPanel.selectedIndex) {
                 //snapshot
                 0 -> {
-                    buildButtonListener(this.snapshotGitBranchSelected, SNAPSHOT, "", "")
+                    buildButtonListener(this.snapshotGitBranchSelected, BuildType.SNAPSHOT, "", "")
                 }
                 //beta
                 1 -> {
                     buildButtonListener(this.betaGitBranchSelected,
-                        BETA,
+                        BuildType.BETA,
                         this.betaVersionText.text,
                         this.betaSnapshotVersionText.text)
                 }
                 //release
                 2 -> {
                     buildButtonListener(this.releaseGitBranchSelected,
-                        BETA,
+                        BuildType.BETA,
                         this.releaseVersionText.text,
                         this.releaseSnapshotVersionText.text)
                 }
@@ -299,7 +287,8 @@ class PackagePage(private var project: Project) : JDialog() {
     private fun initBuildAndPublishButton() {
         //构建按钮 snapshot
         this.buildAndPublishButton.addActionListener {
-            val publishPage = PublishPage(this.project, true)
+            val publishPage = PublishPage(this.project)
+            publishPage.handlerPackageSource()
             publishPage.open()
             this.buildButton.doClick()
 
@@ -309,20 +298,12 @@ class PackagePage(private var project: Project) : JDialog() {
                     ThreadUtil.sleep(1_000L)
                 }
                 if (this.isPackageResult == true) {
-                    val version = BugattiHttpUtil.getVersionList(myProject).first { it.version == packageVersion }
+                    val version =
+                        BugattiHttpUtil.getVersionList(this.getMyProject()).first { it.version == packageVersion }
                     publishPage.publish(version.id)
                 }
             }.start()
         }
-    }
-
-    /**
-     * esc键关闭窗口
-     */
-    private fun initEscEvent() {
-        contentPanel.registerKeyboardAction({ this.dispose() },
-            KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0),
-            JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT)
     }
 
     private fun initBranchHandler() {
@@ -364,10 +345,6 @@ class PackagePage(private var project: Project) : JDialog() {
             this.betaVersionText.text = ""
             this.betaSnapshotVersionText.text = ""
         }
-    }
-
-    enum class BuildType {
-        SNAPSHOT, BETA, RELEASE
     }
 
 }

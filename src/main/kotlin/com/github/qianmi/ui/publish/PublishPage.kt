@@ -1,4 +1,4 @@
-package com.github.qianmi.ui
+package com.github.qianmi.ui.publish
 
 import cn.hutool.core.thread.ThreadUtil
 import cn.hutool.core.util.RandomUtil
@@ -6,7 +6,6 @@ import cn.hutool.core.util.StrUtil
 import cn.hutool.json.JSONUtil
 import com.github.qianmi.action.link.BugattiAction
 import com.github.qianmi.infrastructure.domain.enums.EnvEnum
-import com.github.qianmi.infrastructure.domain.project.IdeaProject
 import com.github.qianmi.infrastructure.domain.project.tools.ShellElement
 import com.github.qianmi.infrastructure.domain.vo.BugattiProjectVersionResult
 import com.github.qianmi.infrastructure.domain.vo.BugattiWebSocketMsgResult
@@ -17,14 +16,13 @@ import com.github.qianmi.infrastructure.storage.EnvConfig
 import com.github.qianmi.infrastructure.util.BugattiHttpUtil
 import com.github.qianmi.infrastructure.util.NotifyUtil
 import com.github.qianmi.infrastructure.util.WebSocketUtil
+import com.github.qianmi.ui.MyJDialog
 import com.intellij.openapi.progress.ProgressIndicator
 import com.intellij.openapi.progress.Task
 import com.intellij.openapi.project.Project
-import com.intellij.openapi.wm.WindowManager
 import com.intellij.util.containers.toArray
 import java.awt.Component
 import java.awt.Dimension
-import java.awt.event.KeyEvent
 import java.net.URI
 import java.net.http.WebSocket
 import java.nio.ByteBuffer
@@ -37,13 +35,11 @@ import javax.swing.table.TableCellRenderer
 import kotlin.math.max
 
 
-class PublishPage : JDialog {
-    private var project: Project
+class PublishPage(override var project: Project) : MyJDialog() {
 
-    //指定发布版本（从打包口子）
-    private var isPackageSource: Boolean = false
+    //根容器
+    lateinit var contentPanel: JPanel
 
-    private lateinit var iProject: IdeaProject.MyProject
     private lateinit var eleList: List<ShellElement>
 
     //进度条，hostId->进度条
@@ -55,8 +51,6 @@ class PublishPage : JDialog {
     //版本列表
     private lateinit var versionList: List<BugattiProjectVersionResult>
 
-    //根容器
-    private lateinit var contentPanel: JPanel
 
     //环境切换
     private lateinit var envComboBox: JComboBox<String>
@@ -81,21 +75,7 @@ class PublishPage : JDialog {
 
     private var tableAlign = JLabel.CENTER
 
-    constructor(project: Project) {
-        this.project = project
-        this.iProject = IdeaProject.getInstance(project)
-        init()
-    }
-
-    constructor(project: Project, isPackageSource: Boolean) {
-        this.project = project
-        this.isPackageSource = isPackageSource
-        init()
-    }
-
-    private fun init() {
-        this.iProject = IdeaProject.getInstance(project)
-
+    init {
         //环境下拉框
         initEnvComboBox()
         //节点表格
@@ -106,14 +86,10 @@ class PublishPage : JDialog {
         initVersionComboBox()
         //发布
         initPublishButton()
-        //esc退出
-        initEscEvent()
     }
 
-    init {
-        //容器
-        contentPane = this.contentPanel
-        modalityType = ModalityType.APPLICATION_MODAL
+    override fun getTitle(): String {
+        return "发布"
     }
 
     private fun getTableSelectEleList(): MutableList<ShellElement> {
@@ -141,8 +117,8 @@ class PublishPage : JDialog {
             if (this.publishWayRadioByOrder.isSelected) {
                 eleList.forEach { ele ->
                     //安装、启动
-                    BugattiHttpUtil.taskOfInstall(iProject, ele.id, env, versionId)
-                    BugattiHttpUtil.taskOfStart(iProject, ele.id, env, versionId)
+                    BugattiHttpUtil.taskOfInstall(this.getMyProject(), ele.id, env, versionId)
+                    BugattiHttpUtil.taskOfStart(this.getMyProject(), ele.id, env, versionId)
                     publishingHostIds.add(ele.id)
                     //进度条
                     createProcessIndicator(ele)
@@ -158,8 +134,8 @@ class PublishPage : JDialog {
 
                 eleList.forEach { ele ->
                     //安装、启动
-                    BugattiHttpUtil.taskOfInstall(iProject, ele.id, env, versionId)
-                    BugattiHttpUtil.taskOfStart(iProject, ele.id, env, versionId)
+                    BugattiHttpUtil.taskOfInstall(this.getMyProject(), ele.id, env, versionId)
+                    BugattiHttpUtil.taskOfStart(this.getMyProject(), ele.id, env, versionId)
                     publishingHostIds.add(ele.id)
                     //进度条
                     this.createProcessIndicator(ele)
@@ -176,8 +152,8 @@ class PublishPage : JDialog {
 
     private fun notifyPublishEnd() {
         val env = getCurrentSelectEnv()
-        val bugattiLinkAction = BugattiAction.defaultAction(env, iProject.bugattiLink.code)
-        NotifyUtil.notifyInfoWithAction(project, "节点已全部发布成功", bugattiLinkAction)
+        val bugattiLinkAction = BugattiAction.defaultAction(env, this.getMyProject().bugattiLink.code)
+        NotifyUtil.notifyInfoWithAction(this.project, "节点已全部发布成功", bugattiLinkAction)
     }
 
     /**
@@ -195,8 +171,9 @@ class PublishPage : JDialog {
     }
 
     private fun createWebSocket(env: EnvEnum, eleList: List<ShellElement>): WebSocket {
+        val project = this.project
         val jobNo = AccountConfig.getInstance().userName.lowercase(Locale.getDefault())
-        val projectCode = iProject.bugattiLink.code
+        val projectCode = this.getMyProject().bugattiLink.code
         val randomInt = RandomUtil.randomInt(1, 999)
         val url = "${BugattiHttpUtil.wsDomainUrl}/webtask/joinProcess/${env.envCode}/$projectCode/$jobNo/$randomInt"
 
@@ -208,18 +185,13 @@ class PublishPage : JDialog {
 
             override fun onText(webSocket: WebSocket?, data: CharSequence?, last: Boolean): CompletionStage<*>? {
                 super.onText(webSocket, data, last)
-                println()
-                println(data)
-
                 val isJson = JSONUtil.isJson(data.toString())
                 if (!isJson) {
-                    println("noJson--------" + data.toString())
                     return null
                 }
-
                 //发布进度
                 eleList.asSequence()
-                    .map { "${env.envCode}_${iProject.bugattiLink.code}_${it.id}" }
+                    .map { "${env.envCode}_${getMyProject().bugattiLink.code}_${it.id}" }
                     .map { JSONUtil.parse(data.toString()).getByPath(".${it}") }
                     .filter { it != null }
                     .map { it.toString() }
@@ -232,7 +204,7 @@ class PublishPage : JDialog {
 
                 //发布结束移除任务
                 eleList.filter {
-                    val path = ".${env.envCode}_${iProject.bugattiLink.code}_${it.id}_last"
+                    val path = ".${env.envCode}_${getMyProject().bugattiLink.code}_${it.id}_last"
                     JSONUtil.parse(data.toString()).getByPath(path) != null
                 }.forEach { publishingHostIds.remove(it.id) }
                 return null
@@ -250,15 +222,25 @@ class PublishPage : JDialog {
      * 初始化 版本下拉框
      */
     private fun initPublishButton() {
-        if (isPackageSource) {
-            this.publishButton.text = "确定"
-            this.publishButton.addActionListener {
-                isVisible = false
-            }
-        } else {
-            this.publishButton.addActionListener {
-                publish(getCurrentSelectVersion().id)
-            }
+        this.publishButton.addActionListener {
+            publish(getCurrentSelectVersion().id)
+        }
+    }
+
+    fun handlerPackageSource() {
+        //打包时，无需操作版本
+        this.publishVersionLabel.isVisible = false
+        this.publishVersionComboBox.isVisible = false
+
+        //处理发布按钮
+        this.publishButton.text = "确定"
+
+        //移除按钮事件
+        this.publishButton.actionListeners.forEach {
+            this.publishButton.removeActionListener(it)
+        }
+        this.publishButton.addActionListener {
+            isVisible = false
         }
     }
 
@@ -267,17 +249,11 @@ class PublishPage : JDialog {
      * 初始化 版本下拉框
      */
     private fun initVersionComboBox() {
-        if (isPackageSource) {
-            //打包时，无需操作版本
-            this.publishVersionLabel.isVisible = false
-            this.publishVersionComboBox.isVisible = false
-        } else {
-            this.versionList = BugattiHttpUtil.getVersionList(this.iProject, getCurrentSelectEnv())
-            if (versionList.isNotEmpty()) {
-                versionList.forEach { publishVersionComboBox.addItem(it.version) }
-                //默认选中
-                publishVersionComboBox.selectedItem = versionList[0].version
-            }
+        this.versionList = BugattiHttpUtil.getVersionList(this.getMyProject(), getCurrentSelectEnv())
+        if (versionList.isNotEmpty()) {
+            versionList.forEach { publishVersionComboBox.addItem(it.version) }
+            //默认选中
+            publishVersionComboBox.selectedItem = versionList[0].version
         }
     }
 
@@ -313,7 +289,7 @@ class PublishPage : JDialog {
      * 初始化表格
      */
     private fun refreshTable() {
-        val eleList = BugattiHttpUtil.getShellElementList(this.iProject.bugattiLink.code, getCurrentSelectEnv())
+        val eleList = BugattiHttpUtil.getShellElementList(this.getMyProject().bugattiLink.code, getCurrentSelectEnv())
         this.eleList = eleList
 
         val columns = arrayOf("勾选发布", "分组", "IP", "当前版本", "标签", "状态")
@@ -354,23 +330,7 @@ class PublishPage : JDialog {
         }
     }
 
-    /**
-     * 打开窗口
-     */
-    fun open() {
-        title = "发布"
-        pack()
-        //两个屏幕处理出现问题，跳到主屏幕去了
-        setLocationRelativeTo(WindowManager.getInstance().getFrame(project))
-        isVisible = true
-    }
-
-    /**
-     * esc键关闭窗口
-     */
-    private fun initEscEvent() {
-        contentPanel.registerKeyboardAction({ this.dispose() },
-            KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0),
-            JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT)
+    override fun getRootContainer(): JPanel {
+        return contentPanel
     }
 }

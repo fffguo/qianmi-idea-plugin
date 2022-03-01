@@ -12,7 +12,6 @@ class ActiveMqLink(override var isSupport: Boolean) : BaseLink() {
             EnvEnum.LAKALA -> "http://10.7.65.210:8161/admin/topics.jsp"
             EnvEnum.TEST0 -> "http://172.19.67.50:8161/admin/topics.jsp"
             EnvEnum.TEST1 -> "http://172.21.4.29:8161/admin/topics.jsp"
-            EnvEnum.TEST2 -> "http://172.21.3.144:8161/admin/topics.jsp"
             EnvEnum.TEST4 -> "http://172.19.68.15:8161/admin/topics.jsp"
             EnvEnum.TEST5 -> "http://172.21.33.195:8161/admin/topics.jsp"
             EnvEnum.TEST6 -> "http://172.19.65.38:8161/admin/topics.jsp"

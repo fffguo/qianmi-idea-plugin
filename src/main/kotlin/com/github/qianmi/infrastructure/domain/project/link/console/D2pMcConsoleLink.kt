@@ -14,7 +14,6 @@ class D2pMcConsoleLink(override var isSupport: Boolean) : BaseLink() {
             EnvEnum.LAKALA -> ""
             EnvEnum.TEST0 -> "http://172.19.67.123:8080/#/"
             EnvEnum.TEST1 -> "http://172.21.3.4:8080/#/"
-            EnvEnum.TEST2 -> "http://172.21.34.104:8080/#/"
             EnvEnum.TEST4 -> "http://172.19.68.165:8080/#/"
             EnvEnum.TEST5 -> "http://172.19.69.87:8080/#/"
             EnvEnum.TEST6 -> "http://172.19.32.198:8080"

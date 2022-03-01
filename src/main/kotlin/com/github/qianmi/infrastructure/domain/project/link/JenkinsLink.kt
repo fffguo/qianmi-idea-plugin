@@ -17,7 +17,7 @@ class JenkinsLink(override var isSupport: Boolean, var projectName: String) : Ba
 
     companion object {
 
-        private val instance = JenkinsLink(true, "")
+        private val instance = JenkinsLink(false, "")
 
         fun getInstance(): JenkinsLink {
             return instance

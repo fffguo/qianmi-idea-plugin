@@ -1,6 +1,8 @@
 package com.github.qianmi.action.publish
 
-import com.github.qianmi.ui.PublishPage
+import com.github.qianmi.infrastructure.domain.project.IdeaProject
+import com.github.qianmi.infrastructure.extend.StringExtend.isNotBlank
+import com.github.qianmi.ui.publish.PublishPage
 import com.intellij.openapi.actionSystem.AnAction
 import com.intellij.openapi.actionSystem.AnActionEvent
 
@@ -14,7 +16,6 @@ class PublishAction : AnAction() {
     }
 
     override fun update(e: AnActionEvent) {
-        e.presentation.isEnabled = true
-//        e.presentation.isEnabled = JenkinsLink.getInstance().isSupport
+        e.presentation.isEnabled = IdeaProject.getInstance(e).projectInfo.projectId.isNotBlank()
     }
 }

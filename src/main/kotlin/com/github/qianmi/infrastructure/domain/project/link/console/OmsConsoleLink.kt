@@ -13,7 +13,6 @@ class OmsConsoleLink(override var isSupport: Boolean) : BaseLink() {
             EnvEnum.LAKALA -> ""
             EnvEnum.TEST0 -> "http://172.21.36.109:8080/#/"
             EnvEnum.TEST1 -> "http://172.21.34.139:8080/#/"
-            EnvEnum.TEST2 -> "http://172.21.34.17:8080/#/"
             EnvEnum.TEST4 -> "http://172.19.68.123:8080/#/"
             EnvEnum.TEST5 -> "http://172.21.33.20:8080/#/"
             EnvEnum.TEST6 -> "http://172.19.33.45:8080"

@@ -13,7 +13,6 @@ class RocketMqLink(override var isSupport: Boolean) : BaseLink() {
             EnvEnum.LAKALA -> "http://10.7.65.127:8080/#/topic"
             EnvEnum.TEST0 -> "http://172.19.67.236:8080/#/topic"
             EnvEnum.TEST1 -> "http://172.21.34.235:8080/#/topic"
-            EnvEnum.TEST2 -> "http://172.21.4.241:8080/#/topic"
             EnvEnum.TEST4 -> "http://172.21.36.197:8080/#/topic"
             EnvEnum.TEST5 -> "http://172.21.33.247:8080/#/topic"
             EnvEnum.TEST6 -> "http://172.19.32.145:8080/#/topic"

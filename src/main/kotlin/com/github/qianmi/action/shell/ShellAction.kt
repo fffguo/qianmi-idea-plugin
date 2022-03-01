@@ -49,6 +49,8 @@ abstract class ShellAction<T : ShellSelectedAction> : AnAction() {
     }
 
     override fun update(e: AnActionEvent) {
-        e.presentation.isEnabled = EnvConfig.getInstance().env != EnvEnum.PROD
+        e.presentation.isEnabled =
+            EnvConfig.getInstance().env != EnvEnum.PROD
+                    && IdeaProject.getInstance(e).bugattiLink.isSupport == true
     }
 }

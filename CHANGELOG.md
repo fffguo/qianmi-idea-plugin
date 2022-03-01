@@ -4,6 +4,20 @@
 
 ## [Unreleased]
 
+## [2.0.1-RELEASE]
+
+### English
+
+- Bug: Fix package project name error
+- Bug: Fixed some function buttons not working should be gray
+- Bug: Remove the Test 2 environment
+
+### Chinese
+
+- Bug: 修复打包项目名错误
+- Bug: 修复部分功能按钮不可用应该置灰
+- Bug: 移除Test2环境
+
 ## [2.0.0-RELEASE]
 
 ### English

@@ -2,6 +2,7 @@ package com.github.qianmi.infrastructure
 
 import com.github.qianmi.infrastructure.domain.enums.BugattiProjectEnum
 import com.github.qianmi.infrastructure.domain.project.IdeaProject
+import com.github.qianmi.infrastructure.extend.StringExtend.isNotBlank
 import com.github.qianmi.infrastructure.util.BugattiHttpUtil
 import com.intellij.openapi.project.Project
 
@@ -25,10 +26,12 @@ class ConfigInitService(var project: Project) {
         //获取项目信息
         myProject.projectInfo = BugattiHttpUtil.getProjectInfo(bugattiProjectEnum.code)
 
-        myProject.bugattiLink.code = bugattiProjectEnum.code
-        myProject.bugattiLink.name = bugattiProjectEnum.projectName
-        myProject.bugattiLink.isSupport = true
-
+        //bugatti
+        if (myProject.projectInfo.projectId.isNotBlank() && myProject.projectInfo.projectName.isNotBlank()) {
+            myProject.bugattiLink.isSupport = true
+            myProject.bugattiLink.code = myProject.projectInfo.projectId
+            myProject.bugattiLink.name = myProject.projectInfo.projectName
+        }
     }
 
 }

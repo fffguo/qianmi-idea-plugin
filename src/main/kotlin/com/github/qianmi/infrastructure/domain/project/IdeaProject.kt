@@ -36,17 +36,15 @@ object IdeaProject {
     }
 
 
-    class MyProject {
+    class MyProject(
         /**
          * 项目名称
          */
-        var name: String = ""
+        var name: String,
+    ) {
         var bugattiLink: BugattiLink = BugattiLink.getInstance()
         var projectInfo: BugattiProjectInfoResult = BugattiProjectInfoResult()
         var dubboInvoke: DubboAdminInvoke = DubboAdminInvoke.defaultDubboAdminInvoke()
 
-        constructor(name: String) {
-            this.name = name
-        }
     }
 }

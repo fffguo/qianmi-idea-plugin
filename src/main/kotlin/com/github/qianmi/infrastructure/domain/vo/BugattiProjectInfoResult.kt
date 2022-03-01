@@ -5,31 +5,31 @@ class BugattiProjectInfoResult {
     /**
      * 项目ID
      */
-    lateinit var projectId: String
+    var projectId: String = ""
 
     /**
      * 布加迪项目名称
      */
-    lateinit var projectName: String
+    var projectName: String = ""
 
     /**
      * git 地址
      */
-    lateinit var git: String
+    var git: String = ""
 
     /**
      * jenkins 项目名称
      */
-    lateinit var jenkins: String
+    var jenkins: String = ""
 
     /**
      * 项目描述
      */
-    lateinit var description: String
+    var description: String = ""
 
     /**
      * 模板ID
      */
-    lateinit var templateId: String
+    var templateId: String = ""
 
 }

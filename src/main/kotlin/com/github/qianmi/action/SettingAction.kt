@@ -1,6 +1,6 @@
 package com.github.qianmi.action
 
-import com.github.qianmi.ui.PluginSettingPage
+import com.github.qianmi.ui.setting.PluginSettingPage
 import com.intellij.openapi.actionSystem.AnAction
 import com.intellij.openapi.actionSystem.AnActionEvent
 import com.intellij.openapi.application.ApplicationManager

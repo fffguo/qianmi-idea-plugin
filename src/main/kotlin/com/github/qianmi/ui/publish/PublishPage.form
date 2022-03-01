@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="com.github.qianmi.ui.PublishPage">
+<form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="com.github.qianmi.ui.publish.PublishPage">
   <grid id="e5be" binding="contentPanel" layout-manager="GridLayoutManager" row-count="7" column-count="5" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
     <margin top="20" left="30" bottom="30" right="30"/>
     <constraints>

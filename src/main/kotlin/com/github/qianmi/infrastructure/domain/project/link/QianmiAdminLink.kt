@@ -12,7 +12,6 @@ class QianmiAdminLink(override var isSupport: Boolean) : BaseLink() {
             EnvEnum.LAKALA -> "http://www.1000.com.lakala.ck/#/main/"
             EnvEnum.TEST0 -> "http://web.1000.com.test0.ck/#/main/"
             EnvEnum.TEST1 -> "http://web.1000.com.test1.ck/#/main/"
-            EnvEnum.TEST2 -> "http://web.1000.com.test2.ck/#/main/"
             EnvEnum.TEST4 -> "http://web.1000.com.test4.ck/#/main/"
             EnvEnum.TEST5 -> "http://web.1000.com.test5.ck/#/main/"
             EnvEnum.TEST6 -> "http://web.1000.com.test6.ck/#/main/"

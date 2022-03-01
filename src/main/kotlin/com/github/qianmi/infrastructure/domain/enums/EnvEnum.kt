@@ -10,7 +10,6 @@ enum class EnvEnum(
     LAKALA("Lakala", "68"),
     TEST0("Test0", "17"),
     TEST1("Test1", "14"),
-    TEST2("Test2", "18"),
     TEST4("Test4", "24"),
     TEST5("Test5", "37"),
     TEST6("Test6", "69"),

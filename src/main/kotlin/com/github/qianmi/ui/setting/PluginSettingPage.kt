@@ -1,4 +1,4 @@
-package com.github.qianmi.ui
+package com.github.qianmi.ui.setting
 
 import com.github.qianmi.infrastructure.ConfigInitService
 import com.github.qianmi.infrastructure.extend.HttpExtend.isOk

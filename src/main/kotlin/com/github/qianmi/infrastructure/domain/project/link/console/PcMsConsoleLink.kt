@@ -13,7 +13,6 @@ class PcMsConsoleLink(override var isSupport: Boolean) : BaseLink() {
             EnvEnum.LAKALA -> ""
             EnvEnum.TEST0 -> "http://172.21.36.47:8080/module/home"
             EnvEnum.TEST1 -> "http://172.19.66.197:8080/module/home"
-            EnvEnum.TEST2 -> "http://172.21.3.34:8080/module/home"
             EnvEnum.TEST4 -> "http://172.19.68.29:8080/module/home"
             EnvEnum.TEST5 -> "http://172.21.33.153:8080/module/home"
             EnvEnum.TEST6 -> "http://172.19.32.192:8080"

@@ -16,11 +16,8 @@ class BugattiLink(
 
     companion object {
 
-
-        private var bugattiLink: BugattiLink = BugattiLink(false, "", "")
-
-        fun getInstance(): BugattiLink {
-            return bugattiLink
+        fun defaultInstance(): BugattiLink {
+            return BugattiLink(false, "", "")
         }
 
         fun instanceOfBugattiProject(project: BugattiProjectEnum): BugattiLink {

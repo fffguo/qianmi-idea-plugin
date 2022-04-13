@@ -42,9 +42,8 @@ object IdeaProject {
          */
         var name: String,
     ) {
-        var bugattiLink: BugattiLink = BugattiLink.getInstance()
+        var bugattiLink: BugattiLink = BugattiLink(false, "", "")
         var projectInfo: BugattiProjectInfoResult = BugattiProjectInfoResult()
-        var dubboInvoke: DubboAdminInvoke = DubboAdminInvoke.defaultDubboAdminInvoke()
-
+        var dubboInvoke: DubboAdminInvoke = DubboAdminInvoke(true)
     }
 }

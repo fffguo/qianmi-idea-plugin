@@ -16,9 +16,6 @@ class DubboAdminInvoke(
 ) {
 
     companion object {
-        fun defaultDubboAdminInvoke(): DubboAdminInvoke {
-            return DubboAdminInvoke(true)
-        }
 
         private const val formatUrl = "invoke {packageName}.{className}.{methodName} ({argJson})"
 

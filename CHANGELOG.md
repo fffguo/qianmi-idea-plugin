@@ -4,6 +4,16 @@
 
 ## [Unreleased]
 
+## [2.0.2-RELEASE]
+
+### English
+
+- Bug: Fixed an issue where shell nodes were overwritten by the last project in multiple projects
+
+### Chinese
+
+- Bug: 修复多项目时，shell节点被最后一个项目覆盖的问题
+
 ## [2.0.1-RELEASE]
 
 ### English

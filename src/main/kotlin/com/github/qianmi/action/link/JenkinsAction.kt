@@ -8,7 +8,7 @@ import com.intellij.openapi.actionSystem.AnActionEvent
 
 class JenkinsAction : BaseLinkAction() {
 
-    override fun getLinkProject(): BaseLink {
+    override fun getLinkProject(myProject: IdeaProject.MyProject): BaseLink {
         return JenkinsLink.getInstance()
     }
 

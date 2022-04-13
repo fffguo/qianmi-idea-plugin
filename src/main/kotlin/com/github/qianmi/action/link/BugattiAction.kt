@@ -3,6 +3,7 @@ package com.github.qianmi.action.link
 import com.github.qianmi.MyBundle
 import com.github.qianmi.infrastructure.domain.enums.BugattiProjectEnum
 import com.github.qianmi.infrastructure.domain.enums.EnvEnum
+import com.github.qianmi.infrastructure.domain.project.IdeaProject
 import com.github.qianmi.infrastructure.domain.project.link.BaseLink
 import com.github.qianmi.infrastructure.domain.project.link.BugattiLink
 
@@ -10,10 +11,9 @@ class BugattiAction : BaseLinkAction() {
 
     var bugattiLink: BugattiLink? = null
 
-    override fun getLinkProject(): BaseLink {
-        return BugattiLink.getInstance()
+    override fun getLinkProject(myProject: IdeaProject.MyProject): BaseLink {
+        return myProject.bugattiLink
     }
-
 
     companion object {
 

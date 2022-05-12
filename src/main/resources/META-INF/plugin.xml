@@ -18,6 +18,7 @@
         <!-- 项目级-->
         <projectService serviceImplementation="com.github.qianmi.infrastructure.ConfigInitService"/>
         <projectService serviceImplementation="com.github.qianmi.infrastructure.storage.TempConfig"/>
+        <projectService serviceImplementation="com.github.qianmi.infrastructure.storage.ProjectConfig"/>
 
         <!-- app级 配置存储-->
         <applicationService serviceImplementation="com.github.qianmi.infrastructure.storage.AccountConfig"/>
@@ -60,6 +61,18 @@
         <action id="com.github.qianmi.action.dubbo.DubboInvokeAction"
                 class="com.github.qianmi.action.dubbo.DubboInvokeAction"
                 text="Dubbo Invoke" icon="com.github.qianmi.infrastructure.QianmiIcons.dubboInvoke">
+        </action>
+
+        <action id="com.github.qianmi.action.shell.ssh.command.arthas.ArthasAction"
+                class="com.github.qianmi.action.shell.ssh.command.arthas.ArthasAction"
+                icon="com.github.qianmi.infrastructure.QianmiIcons.arthas"
+                text="部署Arthas">
+        </action>
+
+        <action id="com.github.qianmi.action.shell.ssh.command.log.TailLogAction"
+                class="com.github.qianmi.action.shell.ssh.command.log.TailLogAction"
+                icon="com.github.qianmi.infrastructure.QianmiIcons.tailLog"
+                text="查看服务器日志">
         </action>
 
         <action id="com.github.qianmi.action.link.BugattiAction"
@@ -181,6 +194,8 @@
             <reference ref="com.github.qianmi.action.shell.ftp.FtpAction"/>
             <reference ref="com.github.qianmi.action.shell.jvm.RemoteJVMAction"/>
             <reference ref="com.github.qianmi.action.dubbo.DubboInvokeAction"/>
+            <reference ref="com.github.qianmi.action.shell.ssh.command.arthas.ArthasAction"/>
+            <reference ref="com.github.qianmi.action.shell.ssh.command.log.TailLogAction"/>
         </group>
 
     </actions>

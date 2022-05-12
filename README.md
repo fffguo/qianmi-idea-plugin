@@ -6,7 +6,9 @@
 
 <!-- Plugin description -->
 
-<a href="https://github.com/fffguo/qianmi-idea-plugin">GitHub</a>
+<p><a href="https://github.com/fffguo/qianmi-idea-plugin">GitHub</a></p>
+
+<p><a href="https://github.com/fffguo/qianmi-idea-plugin/issues">常见问题</a></p>
 <p>please give me a star, thank you very much! (*╹▽╹*)</p>
 <p>如果感觉这个插件还不错，给个star以资鼓励吧~</p>
 
@@ -22,6 +24,8 @@ functions to improve employee work efficiency.</h3>
 <li> Remote JVM Debug：Support according to the project and environment, directly remote JVM debugging corresponding test environment node</li>
 <li> DubboInvoke：Support constructing Dubbo invoke command according to the selected method</li>
 <li> Link：Support one-click jump to Bugatti、Gitlab、DubboAdmin、RocketMq、ActiveMq、Trace、Gavin、QianmiAdmin、ApmDashboard、MongoDBManager、Wiki、gitBook、Jenkins、ConsoleOfPc、ConsoleOfD2pMc、ConsoleOfOms</li>
+<li> Arthas：Support one-click deployment of Arthas to the server</li>
+<li> Log：Support one-click viewing of server logs</li>
 </ul>
 
 <h3>中文：</h3>
@@ -32,6 +36,8 @@ functions to improve employee work efficiency.</h3>
 <li> SFTP：支持根据项目和环境，直接SFTP连接对应测试环境节点</li>
 <li> Remote JVM Debug：支持根据项目和环境，直接远程JVM调试对应测试环境节点</li>
 <li> DubboInvoke：支持根据选中方法，构建 Dubbo invoke 命令</li>
+<li> Arthas：支持一键部署Arthas到服务器上</li>
+<li> Log：支持一键查看服务器日志</li>
 <li> Link：支持根据项目和环境，一键跳转至Bugatti、Gitlab、DubboAdmin、RocketMq、ActiveMq、Trace、Gavin、QianmiAdmin、ApmDashboard、MongoDBManager、Wiki、gitBook、Jenkins、ConsoleOfPc、ConsoleOfD2pMc、ConsoleOfOms</li>
 </ul>
 <!-- Plugin description end -->

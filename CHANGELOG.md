@@ -4,6 +4,18 @@
 
 ## [Unreleased]
 
+## [3.0.0-RELEASE]
+
+### English
+
+- Feat: Add one-click deployment Arthas function
+- Feat: Add one-click view server log function (log command can be configured in settings)
+
+### Chinese
+
+- Feat: 增加一键部署Arthas功能
+- Feat: 增加一键查看服务器日志功能（可在设置中配置日志命令）
+
 ## [2.0.3-RELEASE]
 
 ### English

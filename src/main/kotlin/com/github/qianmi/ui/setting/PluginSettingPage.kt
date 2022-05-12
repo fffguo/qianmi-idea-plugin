@@ -3,6 +3,7 @@ package com.github.qianmi.ui.setting
 import com.github.qianmi.infrastructure.ConfigInitService
 import com.github.qianmi.infrastructure.extend.HttpExtend.isOk
 import com.github.qianmi.infrastructure.storage.AccountConfig
+import com.github.qianmi.infrastructure.storage.ProjectConfig
 import com.github.qianmi.infrastructure.storage.ShellConfig
 import com.github.qianmi.infrastructure.util.BugattiHttpUtil
 import com.github.qianmi.infrastructure.util.JMessageUtil
@@ -14,6 +15,8 @@ class PluginSettingPage(private var project: Project) : Configurable {
 
     private var accountConfig: AccountConfig = AccountConfig.getInstance()
     private var shellConfig: ShellConfig = ShellConfig.getInstance()
+    private var projectConfig: ProjectConfig = project.getService(ProjectConfig::class.java)
+
 
     //根容器
     private lateinit var contentPanel: JPanel
@@ -68,6 +71,11 @@ class PluginSettingPage(private var project: Project) : Configurable {
     private lateinit var shellDirJLabel: JLabel
     private lateinit var shellDirText: JTextField
 
+    //shell账号-日志目录
+    private lateinit var shellLogCommandPanel: JPanel
+    private lateinit var shellLogCommandJLabel: JLabel
+    private lateinit var shellLogCommandText: JTextField
+
 
     init {
         this.domainTestLink.addActionListener { testLinkListener() }
@@ -108,6 +116,7 @@ class PluginSettingPage(private var project: Project) : Configurable {
                 || shellConfig.port != this.shellPortText.text
                 || shellConfig.jvmPort != this.shellJvmPortText.text
                 || shellConfig.dir != this.shellDirText.text
+                || projectConfig.logCommand != this.shellLogCommandText.text
         return domainModified || linuxModified
     }
 
@@ -124,7 +133,7 @@ class PluginSettingPage(private var project: Project) : Configurable {
         shellConfig.port = this.shellPortText.text
         shellConfig.jvmPort = this.shellJvmPortText.text
         shellConfig.dir = this.shellDirText.text
-
+        projectConfig.logCommand = this.shellLogCommandText.text
         //清空cookie
         BugattiHttpUtil.clearCookie()
         //刷新配置
@@ -144,6 +153,7 @@ class PluginSettingPage(private var project: Project) : Configurable {
         this.shellPortText.text = shellConfig.port
         this.shellJvmPortText.text = shellConfig.jvmPort
         this.shellDirText.text = shellConfig.dir
+        this.shellLogCommandText.text = projectConfig.logCommand
     }
 
     private fun testLinkListener() {

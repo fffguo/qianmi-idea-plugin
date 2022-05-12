@@ -2,7 +2,12 @@ package com.github.qianmi.infrastructure
 
 import com.intellij.openapi.util.IconLoader
 
+/**
+ * icon生成器
+ * https://bjansen.github.io/intellij-icon-generator/
+ */
 object QianmiIcons {
+
 
     @JvmField
     val qianmi = IconLoader.getIcon("/icons/qianmi.svg", javaClass)
@@ -24,5 +29,11 @@ object QianmiIcons {
 
     @JvmField
     val remoteJvmDebug = IconLoader.getIcon("/icons/remoteJvmDebug.svg", javaClass)
+
+    @JvmField
+    val arthas = IconLoader.getIcon("/icons/arthas.svg", javaClass)
+
+    @JvmField
+    val tailLog = IconLoader.getIcon("/icons/tailLog.svg", javaClass)
 
 }

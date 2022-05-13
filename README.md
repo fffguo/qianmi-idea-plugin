@@ -59,4 +59,11 @@ functions to improve employee work efficiency.</h3>
 ---
 Plugin based on the [IntelliJ Platform Plugin Template][template].
 
+## Develop
+- JDK 11+
+- Grade JVM 11+
+- IntelliJ IDEA 2022.1+
+- Kotlin SDK
+
+
 [template]: https://github.com/JetBrains/intellij-platform-plugin-template

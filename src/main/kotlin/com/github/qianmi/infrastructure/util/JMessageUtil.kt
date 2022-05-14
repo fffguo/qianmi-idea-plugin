@@ -1,19 +1,17 @@
 package com.github.qianmi.infrastructure.util
 
-import com.intellij.ui.mac.MacMessages
+import com.intellij.openapi.project.Project
+import com.intellij.openapi.ui.Messages
 
 object JMessageUtil {
 
     @JvmStatic
-    private val jMessage = MacMessages.getInstance()
-
-    @JvmStatic
-    fun showError(title: String, message: String) {
-        jMessage.showErrorDialog(title, message, "确定", null)
+    fun showError(project: Project?, title: String, message: String) {
+        Messages.showErrorDialog(project, message, title)
     }
 
     @JvmStatic
-    fun showTrue(title: String, message: String) {
-        jMessage.showOkMessageDialog(title, message, "确定", null)
+    fun showTrue(project: Project?, title: String, message: String) {
+        Messages.showInfoMessage(project, message, title)
     }
 }

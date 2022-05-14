@@ -12,8 +12,9 @@
         <!-- 通知 groupId -->
         <notificationGroup id="qianmi-idea-plugin" displayType="BALLOON"/>
         <!-- 项目配置 -->
-        <projectConfigurable id="com.github.qianmi.ui.setting.PluginSettingPage"
-                             instance="com.github.qianmi.ui.setting.PluginSettingPage" displayName="千米网"/>
+        <projectConfigurable id="com.github.qianmi.ui.setting.PluginSetting"
+                             instance="com.github.qianmi.ui.setting.PluginSetting"
+                             displayName="千米网" nonDefaultProject="false" parentId="other"/>
 
         <!-- 项目级-->
         <projectService serviceImplementation="com.github.qianmi.infrastructure.ConfigInitService"/>

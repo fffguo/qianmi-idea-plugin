@@ -1,6 +1,6 @@
 package com.github.qianmi.action
 
-import com.github.qianmi.ui.setting.PluginSettingPage
+import com.github.qianmi.ui.setting.PluginSetting
 import com.intellij.openapi.actionSystem.AnAction
 import com.intellij.openapi.actionSystem.AnActionEvent
 import com.intellij.openapi.application.ApplicationManager
@@ -15,7 +15,7 @@ class SettingAction : AnAction() {
     override fun actionPerformed(e: AnActionEvent) {
 
         ApplicationManager.getApplication().invokeLater({
-            ShowSettingsUtil.getInstance().showSettingsDialog(e.project, PluginSettingPage::class.java)
+            ShowSettingsUtil.getInstance().showSettingsDialog(e.project, PluginSetting::class.java)
         }, ModalityState.defaultModalityState())
     }
 

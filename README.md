@@ -60,10 +60,16 @@ functions to improve employee work efficiency.</h3>
 Plugin based on the [IntelliJ Platform Plugin Template][template].
 
 ## Develop
+
 - JDK 11+
 - Grade JVM 11+
 - IntelliJ IDEA 2022.1+
 - Kotlin SDK
 
+## Doc
+
+- [idea plugin 官方文档](https://plugins.jetbrains.com/docs/intellij/welcome.html)
+- [Icon 生成器](https://bjansen.github.io/intellij-icon-generator/)
+- [issues 搜索](https://youtrack.jetbrains.com/issues)
 
 [template]: https://github.com/JetBrains/intellij-platform-plugin-template

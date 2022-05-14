@@ -4,6 +4,22 @@
 
 ## [Unreleased]
 
+## [3.1.0-RELEASE]
+
+### English
+
+- Fix: Fixed an error when executing arthas/log for the first time
+- Feat：Set module style changes
+- Refactor：Refactored code and remove outdated api
+- Platform：Upgrade the plug-in development platform to 2022.1 and make corresponding adaptations
+
+### Chinese
+
+- Fix: 修复第一次执行arthas/log时，报错问题
+- Feat：设置模块样式变更
+- Refactor：重构代码，移除过期api
+- Platform：升级插件开发平台到2022.1，并做相应适配
+
 ## [3.0.0-RELEASE]
 
 ### English

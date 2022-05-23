@@ -61,10 +61,39 @@ Plugin based on the [IntelliJ Platform Plugin Template][template].
 
 ## Develop
 
+> 我跑路了，有兴趣的小伙伴可以继续提交pr，欢迎！
+> 有疑问的地方可以在github上提issue，或者直接私聊我也可。
+> 邮箱：595726017@qq.com
+> 微信:l595726017
+
+### 环境
+
 - JDK 11+
 - Grade JVM 11+
 - IntelliJ IDEA 2022.1+
 - Kotlin SDK
+
+### 未实现功能
+
+- 环境切换目前是写死的，没有根据当前用户刷新
+- qianmi-link功能目前都是写死的，如果改成可配置的就好了。因为有些链接在其他业务线根本用不到，展示的很多余，而且link展示的并不完全
+
+### 你有项目想要插件支持？(例如云小店)
+
+- com.github.qianmi.infrastructure.domain.enums.BugattiProjectEnum 添加枚举即可
+- 项目名：当前idea打开的项目名
+- code: 布加迪的项目code,在bugatti打开项目，url上就有code
+
+### 支持新版本idea兼容
+
+- "gradle.properties"的 "pluginSinceBuild"/"pluginUntilBuild" 配置了该插件能使用的版本，按照对应格式，更新支持的idea版本号即可
+- 打包可以本地打包，grade > intellij > buildPlugin
+- 输出文件再 build/libs 中
+
+### 升级版本号
+
+- "gradle.properties" 的 "pluginVersion" 配置了版本号
+- "CHANGELOG.md" 根据以往历史填写变更记录，先英文后中文（idea插件官方要求英文必须在前）
 
 ## Doc
 

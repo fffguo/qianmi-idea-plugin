@@ -59,7 +59,45 @@ functions to improve employee work efficiency.</h3>
 ---
 Plugin based on the [IntelliJ Platform Plugin Template][template].
 
-## Develop
+## 插件预览
+
+### 1. 配置设置
+
+![配置设置](https://raw.githubusercontent.com/fffguo/picture-warehouse/main/github/qianmi-idea-plugin-preview-1.gif)
+
+### 2. 打包
+
+![打包](https://raw.githubusercontent.com/fffguo/picture-warehouse/main/github/qianmi-idea-plugin-preview-2.gif)
+
+### 3. 发布
+
+![发布](https://raw.githubusercontent.com/fffguo/picture-warehouse/main/github/qianmi-idea-plugin-preview-3.gif)
+
+### 4. SSH终端
+
+![SSH](https://raw.githubusercontent.com/fffguo/picture-warehouse/main/github/qianmi-idea-plugin-preview-4.gif)
+
+### 5. SFTP
+
+![SFTP](https://raw.githubusercontent.com/fffguo/picture-warehouse/main/github/qianmi-idea-plugin-preview-5.gif)
+
+### 6. Dubbo Invoke 调用
+
+![Dubbo Invoke 调用](https://raw.githubusercontent.com/fffguo/picture-warehouse/main/github/qianmi-idea-plugin-preview-6.gif)
+
+### 7. Arthas一键部署
+
+![Arthas一键部署](https://raw.githubusercontent.com/fffguo/picture-warehouse/main/github/qianmi-idea-plugin-preview-7.gif)
+
+### 8. 远程JVM调试
+
+![远程JVM调试](https://raw.githubusercontent.com/fffguo/picture-warehouse/main/github/qianmi-idea-plugin-preview-8.gif)
+
+### 9. 一键查看服务器日志
+
+![一键查看服务器日志](https://raw.githubusercontent.com/fffguo/picture-warehouse/main/github/qianmi-idea-plugin-preview-9.gif)
+
+## 开发者事项
 
 > 我跑路了，有兴趣的小伙伴可以继续提交pr，欢迎！
 > 有疑问的地方可以在github上提issue，或者直接私聊我也可。
@@ -84,13 +122,14 @@ Plugin based on the [IntelliJ Platform Plugin Template][template].
 - 项目名：当前idea打开的项目名
 - code: 布加迪的项目code,在bugatti打开项目，url上就有code
 
-### 支持新版本idea兼容
+### 我的IDEA升级了新版本，插件不能用了？
 
-- "gradle.properties"的 "pluginSinceBuild"/"pluginUntilBuild" 配置了该插件能使用的版本，按照对应格式，更新支持的idea版本号即可
+- "gradle.properties"的 "pluginSinceBuild"/"pluginUntilBuild" 配置了该插件能使用的idea版本，按照对应格式，更新支持的idea版本号即可
+- 新版本idea的api会有些变更，条件允许最好也同步更新idea的新api
 - 打包可以本地打包，grade > intellij > buildPlugin
 - 输出文件再 build/libs 中
 
-### 升级版本号
+### 如何升级插件版本号？
 
 - "gradle.properties" 的 "pluginVersion" 配置了版本号
 - "CHANGELOG.md" 根据以往历史填写变更记录，先英文后中文（idea插件官方要求英文必须在前）

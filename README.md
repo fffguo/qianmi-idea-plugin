@@ -40,7 +40,6 @@ functions to improve employee work efficiency.</h3>
 <li> Log：支持一键查看服务器日志</li>
 <li> Link：支持根据项目和环境，一键跳转至Bugatti、Gitlab、DubboAdmin、RocketMq、ActiveMq、Trace、Gavin、QianmiAdmin、ApmDashboard、MongoDBManager、Wiki、gitBook、Jenkins、ConsoleOfPc、ConsoleOfD2pMc、ConsoleOfOms</li>
 </ul>
-<!-- Plugin description end -->
 
 ## Installation
 
@@ -59,21 +58,21 @@ functions to improve employee work efficiency.</h3>
 ---
 Plugin based on the [IntelliJ Platform Plugin Template][template].
 
-## 插件预览
+## Plugin preview（插件预览）
 
-### 1. 配置设置
+### 1. Configuration settings（配置设置）
 
 ![配置设置](https://raw.githubusercontent.com/fffguo/picture-warehouse/main/github/qianmi-idea-plugin-preview-1.gif)
 
-### 2. 打包
+### 2. package（打包）
 
 ![打包](https://raw.githubusercontent.com/fffguo/picture-warehouse/main/github/qianmi-idea-plugin-preview-2.gif)
 
-### 3. 发布
+### 3. public（发布）
 
 ![发布](https://raw.githubusercontent.com/fffguo/picture-warehouse/main/github/qianmi-idea-plugin-preview-3.gif)
 
-### 4. SSH终端
+### 4. （SSH Terminal）SSH终端
 
 ![SSH](https://raw.githubusercontent.com/fffguo/picture-warehouse/main/github/qianmi-idea-plugin-preview-4.gif)
 
@@ -81,21 +80,23 @@ Plugin based on the [IntelliJ Platform Plugin Template][template].
 
 ![SFTP](https://raw.githubusercontent.com/fffguo/picture-warehouse/main/github/qianmi-idea-plugin-preview-5.gif)
 
-### 6. Dubbo Invoke 调用
+### 6. Dubbo Invoke call（Dubbo Invoke 调用）
 
 ![Dubbo Invoke 调用](https://raw.githubusercontent.com/fffguo/picture-warehouse/main/github/qianmi-idea-plugin-preview-6.gif)
 
-### 7. Arthas一键部署
+### 7. Arthas one-click deployment（Arthas一键部署）
 
 ![Arthas一键部署](https://raw.githubusercontent.com/fffguo/picture-warehouse/main/github/qianmi-idea-plugin-preview-7.gif)
 
-### 8. 远程JVM调试
+### 8. Remote JVM debugging（远程JVM调试）
 
 ![远程JVM调试](https://raw.githubusercontent.com/fffguo/picture-warehouse/main/github/qianmi-idea-plugin-preview-8.gif)
 
-### 9. 一键查看服务器日志
+### 9. View server logs with one click（一键查看服务器日志）
 
 ![一键查看服务器日志](https://raw.githubusercontent.com/fffguo/picture-warehouse/main/github/qianmi-idea-plugin-preview-9.gif)
+
+<!-- Plugin description end -->
 
 ## 开发者事项
 
@@ -127,7 +128,7 @@ Plugin based on the [IntelliJ Platform Plugin Template][template].
 - "gradle.properties"的 "pluginSinceBuild"/"pluginUntilBuild" 配置了该插件能使用的idea版本，按照对应格式，更新支持的idea版本号即可
 - 新版本idea的api会有些变更，条件允许最好也同步更新idea的新api
 - 打包可以本地打包，grade > intellij > buildPlugin
-- 输出文件再 build/libs 中
+- 输出文件再 build/distributions 中
 
 ### 如何升级插件版本号？
 

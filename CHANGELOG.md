@@ -4,6 +4,16 @@
 
 ## [Unreleased]
 
+## [3.1.1-RELEASE]
+
+### English
+
+- doc: Add plugin gif description
+
+### Chinese
+
+- doc: 增加插件gif描述
+
 ## [3.1.0-RELEASE]
 
 ### English

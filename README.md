@@ -103,7 +103,7 @@ Plugin based on the [IntelliJ Platform Plugin Template][template].
 > 我跑路了，有兴趣的小伙伴可以继续提交pr，欢迎！
 > 有疑问的地方可以在github上提issue，或者直接私聊我也可。
 > 邮箱：595726017@qq.com
-> 微信:l595726017
+> 微信: 18912950023
 
 ### 环境
 

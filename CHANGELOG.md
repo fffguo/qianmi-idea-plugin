@@ -9,10 +9,12 @@
 ### English
 
 - version: IDEA-2022.2 version supported
+- version: jdk upgrade 17
 
 ### Chinese
 
 - version: IDEA-2022.2版本被支持
+- version: jdk升级17
 
 ## [3.1.1-RELEASE]
 

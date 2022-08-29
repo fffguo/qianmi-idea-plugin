@@ -4,6 +4,16 @@
 
 ## [Unreleased]
 
+## [3.1.2-RELEASE]
+
+### English
+
+- version: IDEA-2022.2 version supported
+
+### Chinese
+
+- version: IDEA-2022.2版本被支持
+
 ## [3.1.1-RELEASE]
 
 ### English

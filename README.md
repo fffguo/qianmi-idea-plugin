@@ -107,9 +107,9 @@ Plugin based on the [IntelliJ Platform Plugin Template][template].
 
 ### 环境
 
-- JDK 11+
-- Grade JVM 11+
-- IntelliJ IDEA 2022.1+
+- JDK 17+
+- Grade JVM 17+
+- IntelliJ IDEA 2020.3-2022.2
 - Kotlin SDK
 
 ### 未实现功能
